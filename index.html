@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>תכל'ס | אבחון עסקי במחיר השקה</title>
+<meta name="description" content="אבחון עסקי בשתי פגישות ותוכנית עבודה כתובה לעסק. מבצע השקה: 500 ש&quot;ח במקום 3,000 ש&quot;ח, ל-10 העסקים הראשונים.">
+<meta property="og:title" content="תכל'ס | אבחון עסקי במחיר השקה">
+<meta property="og:description" content="אבחון עסקי בשתי פגישות ותוכנית עבודה כתובה לעסק. 500 ש&quot;ח במקום 3,000 ש&quot;ח, ל-10 העסקים הראשונים.">
+<meta name="theme-color" content="#161615">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap">
+<style>
+:root {
+  --bg: #161615;
+  --bg-alt: #2A2926;
+  --bg-deep: #10100F;
+  --text: #F5F0E6;
+  --text-2: #BDB5A6;
+  --line: #3B3934;
+  --gold: #C9974A;
+  --gold-light: #EBCB85;
+  --gold-mid: #DEB267;
+  --gold-grad: linear-gradient(90deg, #EBCB85, #DEB267, #C9974A, #A27138);
+  --cta: #F2C76E;
+  --cta-hover: #EBCB85;
+  --cta-text: #161615;
+  --radius: 14px;
+  --font: "Heebo", "Arial Hebrew", Arial, sans-serif;
+  --read: 720px;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 17px; line-height: 1.7; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; border-radius: 6px; }
+.wrap { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: max(20px, env(safe-area-inset-left, 0px)); }
+.read { max-width: var(--read); margin-inline: auto; }
+section { padding-block: 64px; position: relative; }
+section + section::before { content: ""; position: absolute; top: 0; inset-inline: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--line) 20%, var(--gold) 50%, var(--line) 80%, transparent); opacity: .55; }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h2 { font-size: clamp(26px, 4.2vw, 38px); font-weight: 900; }
+h3 { font-size: 20px; font-weight: 700; }
+p { margin: 0; }
+.stack { display: grid; gap: 18px; }
+.gold { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hook { color: var(--gold-mid); font-weight: 700; font-size: 15px; letter-spacing: .02em; }
+.muted { color: var(--text-2); }
+strong { font-weight: 700; color: #fff; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--cta); color: var(--cta-text); font-weight: 900; font-size: 18px; text-decoration: none; padding: 16px 28px; border-radius: 12px; border: 0; cursor: pointer; font-family: inherit; box-shadow: 0 10px 30px -12px rgba(242,199,110,.55); transition: background .2s, transform .2s, box-shadow .2s; }
+.btn:hover { background: var(--cta-hover); transform: translateY(-1px); box-shadow: 0 14px 34px -12px rgba(242,199,110,.7); }
+.btn:active { transform: translateY(0); }
+.btn .ar { font-size: 20px; line-height: 1; }
+.cta-row { display: grid; justify-items: center; gap: 10px; margin-top: 34px; text-align: center; }
+.cta-row .small { font-size: 14px; color: var(--text-2); }
+
+/* header */
+.top { padding-block: 18px; border-bottom: 1px solid var(--bg-alt); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.logo { font-weight: 900; font-size: 30px; line-height: 1; }
+.brand { display: block; line-height: 0; }
+.brand img { height: 64px; width: auto; }
+.btn-sm { font-size: 15px; padding: 10px 18px; box-shadow: none; }
+.flogo { width: 150px; height: auto; margin: 0 auto 14px; }
+
+/* hero */
+.hero { padding-block: 48px 64px; overflow: hidden; }
+.hero::after { content: ""; position: absolute; inset: -20% -10% auto auto; width: 60vw; height: 60vw; max-width: 640px; max-height: 640px; background: radial-gradient(closest-side, rgba(201,151,74,.16), transparent 70%); pointer-events: none; }
+.hero .wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: start; position: relative; z-index: 1; }
+.hero h1 { font-size: clamp(34px, 5.4vw, 56px); font-weight: 900; line-height: 1.12; margin-bottom: 24px; }
+.hero .txt { display: grid; gap: 16px; color: #E4DACB; }
+.hero h1 .pre { display: block; font-size: 16px; font-weight: 500; color: var(--gold-mid); margin-bottom: 14px; letter-spacing: .01em; }
+.hero .lead { font-size: 20px; color: var(--text); font-weight: 500; }
+.hero .side { display: grid; gap: 18px; }
+.portrait { aspect-ratio: 16 / 9; border-radius: var(--radius); background: radial-gradient(120% 90% at 30% 20%, #2F2D29, #1C1B19); border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; }
+.portrait .mono { font-weight: 900; font-size: 64px; letter-spacing: .04em; }
+.offer { background: linear-gradient(180deg, rgba(42,41,38,.92), rgba(30,29,27,.92)); border: 1px solid rgba(201,151,74,.55); border-radius: var(--radius); padding: 22px; display: grid; gap: 10px; backdrop-filter: blur(6px); }
+.offer .lbl { color: var(--gold-mid); font-weight: 700; font-size: 14px; }
+.offer .what { font-size: 17px; font-weight: 500; }
+.price { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.price .now { font-size: 40px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+.price .was { color: #8F887B; text-decoration: line-through; font-size: 18px; }
+.offer .btn { width: 100%; margin-top: 6px; }
+.offer .seats { text-align: center; font-size: 14px; color: var(--text-2); }
+
+/* lists */
+.pillars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; margin-top: 10px; }
+.pillar { padding-block: 16px; border-top: 1px solid var(--line); }
+.pillar b { display: block; color: var(--gold-light); font-size: 18px; margin-bottom: 2px; }
+.pillar.self { grid-column: 1 / -1; }
+.bad { display: grid; gap: 14px; margin-top: 8px; }
+.bad div { background: var(--bg-alt); border-radius: 12px; padding: 18px 20px; border-inline-start: 3px solid var(--gold); }
+.bad b { display: block; font-size: 18px; color: #fff; margin-bottom: 2px; }
+.quote { font-size: clamp(22px, 3.4vw, 30px); font-weight: 900; line-height: 1.35; padding-block: 8px; }
+.check { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.check li { position: relative; padding-inline-start: 30px; }
+.check li::before { content: ""; position: absolute; inset-inline-start: 0; top: .55em; width: 14px; height: 14px; border-radius: 50%; background: var(--gold-grad); }
+.creds li::before { border-radius: 3px; transform: rotate(45deg); width: 10px; height: 10px; top: .7em; inset-inline-start: 3px; }
+
+/* picker */
+.picker { background: var(--bg-alt); border: 1px solid rgba(201,151,74,.45); border-radius: var(--radius); padding: 22px; display: grid; gap: 14px; }
+.picker h3 .hint { margin-inline-start: 6px; -webkit-text-fill-color: var(--text-2); }
+.groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.grp { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px 8px; margin: 0; min-width: 0; display: grid; gap: 2px; align-content: start; }
+.grp legend { color: var(--gold-light); font-weight: 900; font-size: 16px; padding-inline: 6px; }
+.grp legend small, .row small { color: var(--text-2); font-weight: 400; }
+.row { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; padding: 8px 4px; border-radius: 8px; cursor: pointer; font-size: 15.5px; line-height: 1.55; transition: background .2s; }
+.row:hover { background: rgba(201,151,74,.08); }
+.row input { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; margin: 2px 0 0; border: 1.5px solid #6E675C; border-radius: 5px; background: var(--bg); cursor: pointer; display: grid; place-items: center; }
+.row input:checked { background: var(--gold); border-color: var(--gold); }
+.row input:checked::after { content: ""; width: 10px; height: 5px; border-left: 2px solid #161615; border-bottom: 2px solid #161615; transform: rotate(-45deg); margin-top: -3px; }
+.row:has(input:checked) { background: rgba(201,151,74,.12); color: #fff; }
+.pick-res { border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 12px; }
+.pick-res .btn { justify-self: start; }
+
+/* stats */
+.stats { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.stats li { background: var(--bg-alt); border-radius: 12px; padding: 14px 18px; }
+.stats b { color: var(--gold-light); font-size: 20px; font-weight: 900; margin-inline-end: 4px; }
+.src { font-size: 13px; color: #8F887B; }
+
+/* cases */
+.cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 8px; }
+.case { background: var(--bg-alt); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: grid; gap: 12px; align-content: start; }
+.case h3 { font-size: 21px; line-height: 1.3; }
+.case p { font-size: 16px; color: #E4DACB; }
+.case b { color: #fff; }
+.case .after { border-top: 1px solid var(--line); padding-top: 12px; }
+.case .after b { color: var(--gold-light); }
+
+/* bonuses */
+.bonuses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.bonus { border: 1px solid rgba(201,151,74,.45); border-radius: var(--radius); padding: 20px; display: grid; gap: 8px; align-content: start; background: linear-gradient(180deg, rgba(42,41,38,.7), rgba(22,22,21,.7)); }
+.bn { color: var(--gold-mid); font-weight: 700; font-size: 14px; }
+.val { color: var(--text-2); font-size: 14px; }
+.total { font-size: 20px; font-weight: 700; text-align: center; margin-top: 6px; }
+
+/* about */
+.about { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 40px; align-items: start; }
+.about .portrait { aspect-ratio: 1; }
+.about .portrait .mono { font-size: 54px; }
+.role { color: var(--gold-mid); font-weight: 700; font-size: 18px; }
+
+/* phases */
+.phases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 8px; }
+.phase { background: var(--bg-alt); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: grid; gap: 10px; align-content: start; }
+.badge { color: var(--gold-mid); font-weight: 700; font-size: 14px; }
+.phase h3 { font-size: 24px; }
+.goal { border-top: 1px solid var(--line); padding-top: 10px; color: #E4DACB; }
+.follow { margin-top: 18px; border: 1px dashed rgba(201,151,74,.6); border-radius: var(--radius); padding: 22px 24px; display: grid; gap: 8px; }
+.follow h3 { color: var(--gold-light); }
+
+/* testimonials */
+.tgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 8px; }
+.tcard { background: var(--bg-alt); border-radius: var(--radius); padding: 24px; display: grid; gap: 14px; align-content: space-between; border: 1px solid var(--line); }
+.tcard p { color: #E4DACB; }
+.tcard p::before { content: "״"; display: block; font-size: 44px; line-height: .6; height: 22px; color: var(--gold); font-weight: 900; }
+.tcard .who { font-weight: 700; color: var(--gold-light); }
+.tcard.wide { grid-column: 1 / -1; }
+
+/* urgency */
+.urgency { background: var(--bg-deep); text-align: center; }
+.urgency .quote { max-width: 760px; margin-inline: auto; }
+
+/* pricing */
+.pricebox { background: linear-gradient(180deg, #2A2926, #1E1D1B); border: 1px solid rgba(201,151,74,.6); border-radius: 18px; padding: 32px; display: grid; gap: 18px; max-width: 560px; margin-inline: auto; text-align: center; }
+.pricebox .check { text-align: right; max-width: 360px; margin-inline: auto; }
+.pricebox .price { justify-content: center; }
+.pricebox .price .now { font-size: 52px; }
+
+/* faq */
+.faq { display: grid; gap: 12px; }
+.faq details { background: var(--bg-alt); border-radius: 12px; padding: 4px 20px; border: 1px solid var(--line); }
+.faq summary { cursor: pointer; font-weight: 700; font-size: 18px; padding-block: 16px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--gold-light); font-size: 24px; line-height: 1; }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding-bottom: 18px; color: #E4DACB; }
+
+/* form */
+.formbox { background: var(--bg-alt); border: 1px solid rgba(201,151,74,.5); border-radius: 18px; padding: 28px; max-width: 640px; margin-inline: auto; }
+.steps { display: flex; gap: 8px; margin-bottom: 22px; }
+.steps span { flex: 1; height: 5px; border-radius: 3px; background: var(--line); transition: background .3s; }
+.steps span.on { background: var(--gold-grad); }
+.step { display: none; gap: 20px; }
+.step.active { display: grid; }
+.steptitle { font-weight: 900; font-size: 20px; }
+.field { display: grid; gap: 8px; }
+.field > label, .field > .q { font-weight: 700; }
+.field input[type=text], .field input[type=tel], .field textarea { width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 13px 14px; font: inherit; font-size: 17px; }
+.field textarea { min-height: 92px; resize: vertical; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,151,74,.25); }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opts label { position: relative; }
+.opts input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.opts span { display: inline-block; padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 15.5px; background: var(--bg); transition: border-color .2s, background .2s, color .2s; cursor: pointer; }
+.opts input:checked + span { border-color: var(--gold); background: rgba(201,151,74,.16); color: #fff; }
+.opts input:focus-visible + span { outline: 2px solid var(--gold-light); outline-offset: 2px; }
+.hint { font-size: 14px; color: var(--text-2); font-weight: 400; }
+.nav { display: flex; gap: 12px; justify-content: space-between; align-items: center; margin-top: 4px; }
+.back { background: none; border: 0; color: var(--text-2); font: inherit; cursor: pointer; padding: 10px 4px; text-decoration: underline; }
+.err { color: #F2B8A0; font-size: 15px; min-height: 1.2em; }
+.scarcity { font-size: 14px; color: var(--text-2); text-align: center; margin-top: 14px; }
+.thanks { display: none; text-align: center; gap: 14px; padding-block: 20px; }
+.thanks.show { display: grid; }
+
+footer { padding-block: 36px 110px; border-top: 1px solid var(--bg-alt); color: var(--text-2); font-size: 15px; text-align: center; }
+footer .logo { font-size: 24px; margin-bottom: 8px; display: inline-block; }
+.ltr { direction: ltr; unicode-bidi: isolate; }
+
+/* sticky mobile cta */
+.sticky { position: fixed; inset-inline: 0; bottom: 0; z-index: 20; padding: 10px max(16px, env(safe-area-inset-left, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)); background: rgba(16,16,15,.94); border-top: 1px solid var(--line); backdrop-filter: blur(8px); display: none; transform: translateY(110%); transition: transform .3s; }
+.sticky.show { transform: translateY(0); }
+.sticky .btn { width: 100%; font-size: 17px; padding: 14px; }
+
+/* reveal */
+.rv { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s ease; }
+.js .rv.pre { opacity: 0; transform: translateY(16px); }
+
+@media (max-width: 900px) {
+  .cases { grid-template-columns: minmax(0, 1fr); }
+  .hero .wrap { display: flex; flex-direction: column; gap: 28px; }
+  .hero .wrap > div:first-child { display: contents; }
+  .hero h1 { order: 1; margin-bottom: 0; }
+  .hero .side { order: 2; grid-template-columns: minmax(0, 1fr); }
+  .hero .txt { order: 3; }
+  .hero .side .portrait { display: none; }
+  .about { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .about .portrait { max-width: 220px; }
+}
+@media (max-width: 720px) {
+  section { padding-block: 52px; }
+  .pillars, .phases, .tgrid, .bonuses, .groups { grid-template-columns: minmax(0, 1fr); }
+  .picker { padding: 18px 14px; }
+  .tcard.wide { grid-column: auto; }
+  .brand img { height: 50px; }
+  .top .btn-sm { display: none; }
+  .top .wrap { justify-content: center; }
+  .formbox, .pricebox { padding: 22px 18px; }
+  .sticky { display: block; }
+  .btn { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rv, .js .rv.pre { opacity: 1; transform: none; transition: none; }
+  .btn, .sticky { transition: none; }
+}
+
+.area { background: var(--bg-alt); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 18px; }
+/* v4: header bsd, selectable area cards, 3-col phases */
+.bsd { font-size: 13px; color: var(--text-2); margin-inline-start: auto; margin-inline-end: 16px; }
+.areas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.area.row { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; background: var(--bg-alt); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 16px; cursor: pointer; transition: border-color .2s, background .2s; }
+.area.row:hover { border-color: rgba(201,151,74,.6); }
+.area.row:has(input:checked) { border-color: var(--gold); background: rgba(201,151,74,.10); }
+.area.row input { margin-top: 4px; }
+.abody { display: grid; gap: 6px; }
+.abody b { color: var(--gold-light); font-size: 18px; }
+.abody .ain { color: var(--text); font-size: 15.5px; line-height: 1.55; }
+.abody small { color: var(--text-2); font-size: 14px; line-height: 1.55; }
+.phases.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 900px) { .areas, .phases.three { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 720px) { .bsd { position: absolute; top: 8px; inset-inline-start: 16px; margin: 0; font-size: 12px; } .top { position: relative; } }
+.tcard .tt{font-size:18px;color:var(--gold-light);margin:0 0 10px;line-height:1.4}
+.portrait svg{display:block;width:62%;height:62%;margin:auto}
+.exp{margin:0;padding-inline-start:20px;display:grid;gap:6px}
+.exp li::marker{color:var(--gold)}
+.stats{display:grid;gap:14px;align-content:start;background:radial-gradient(120% 90% at 30% 20%,#2F2D29,#1C1B19);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px}
+.stats div{display:grid;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.stats div:last-child{border-bottom:0;padding-bottom:0}
+.stats b{font-size:clamp(30px,4vw,40px);font-weight:900;line-height:1.1;background:linear-gradient(135deg,#EBCB85,#A27138);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stats span{font-size:14.5px;color:var(--text-2)}
+.about{grid-template-columns:minmax(0,1fr)!important}
+.exp{gap:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a href="#top" class="brand"><img src="assets/logo-h.png" alt="תכל'ס: ייעוץ וליווי לבעלי עסקים. בהירות. כיוון. סדר." width="720" height="247"></a>
+    <span class="bsd">בס"ד</span>
+    <a class="btn btn-sm" href="#form">בואו נדבר על העסק שלכם</a>
+  </div>
+</header>
+
+<main>
+  <!-- 1. hero -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div>
+        <h1><span class="pre">אחרי שנים של עבודה בתחום הניהול והייעוץ, אני משיק את תכל'ס</span>סדר בכל העסק. <span class="gold">מתחילים ממה שהכי בוער אצלכם.</span></h1>
+        <div class="txt">
+          <p class="lead">ייעוץ וליווי לבעלי עסקים שרוצים לפתח את העסק ולהצמיח אותו — עם הסתכלות על השיווק, המכירות, הכסף, הניהול וגם על האדם שמחזיק את הכול.</p>
+          <p>לפעמים חסרים לקוחות. לפעמים עובדים הרבה ומרוויחים מעט. לפעמים הכול תלוי בכם, ולפעמים יש כל כך הרבה משימות ורעיונות שקשה לבחור במה להתחיל.</p>
+          <p>בתכל'ס מסתכלים יחד על התמונה הרחבה, בוחרים במה לטפל קודם ומתקדמים צעד אחר צעד.</p>
+        </div>
+      </div>
+      <div class="side">
+        
+        <div class="offer">
+          <span class="lbl">מתחילים באבחון עסקי</span>
+          <span class="what">שתי פגישות ותוכנית עבודה כתובה ל־90 יום.</span>
+          <div class="price"><span class="now">500 ש"ח</span><span class="was">3,000 ש"ח</span></div>
+          <span class="seats">לרגל ההשקה, ל־10 העסקים הראשונים, בתמורה למשוב ולשילוב העבודה בתיק העבודות שלי.</span>
+          <a class="btn" href="#form">בואו נדבר על העסק שלכם <span class="ar" aria-hidden="true">←</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. who leads the business -->
+  <section>
+    <div class="wrap read stack rv">
+      <h2>אתם יודעים לעשות את העבודה. <span class="gold">אבל מי עוזר לכם להוביל את העסק?</span></h2>
+      <p>אתם נותנים שירות, משווקים, מוכרים, גובים, מקבלים החלטות ומטפלים במה שדחוף.</p>
+      <p>ובתוך כל זה צריך גם לחשוב קדימה: מה כדאי לפתח? מה צריך לשנות? אילו תהליכים אפשר לייעל או להפוך לאוטומטיים? ואיפה נכון להשקיע את הזמן והכסף?</p>
+      <p>גם כשיש הרבה ידע ורצון, קשה לראות את התמונה כשנמצאים בתוך העבודה היומיומית.</p>
+      <p class="quote">כאן תכל'ס נכנסת: <span class="gold">מישהו שיושב איתכם על העסק, מחבר בין החלקים ועוזר להפוך החלטות לעבודה מעשית.</span></p>
+    </div>
+  </section>
+
+  <!-- 3. areas -->
+  <section id="burning">
+    <div class="wrap stack rv" style="max-width:1040px">
+      <h2>במה אפשר לעבוד יחד?</h2>
+      <p class="muted">כל עסק צריך משהו אחר. אלה התחומים שבהם הליווי יכול לגעת — בהתאם למה שחשוב לעסק שלכם עכשיו.</p>
+      <div class="areas" id="areas">
+        <div class="area"><span class="abody"><b>שיווק ולקוחות</b><span class="ain">להבין למי אתם פונים, מה אתם מציעים ואיך מגיעים לקהל המתאים.</span><small>דיוק מסרים והצעת הערך, בחירת ערוצי שיווק, שיתופי פעולה, רשימת תפוצה, דפי נחיתה ונוכחות דיגיטלית.</small></span></div>
+        <div class="area"><span class="abody"><b>מכירות ותמחור</b><span class="ain">לבנות הצעה ברורה ולשפר את הדרך מפנייה ראשונה ללקוח משלם.</span><small>תמחור שירותים, בניית חבילות, שיחות מכירה, מענה לשאלות על המחיר ומעקב מסודר אחרי מתעניינים.</small></span></div>
+        <div class="area"><span class="abody"><b>פיתוח העסק, מוצרים ותוכן</b><span class="ain">לבחור מה נכון לפתח ואיך להפוך רעיון לשירות או למוצר שאפשר להציע.</span><small>שירות חדש, קורס, סדנה או מוצר דיגיטלי; ארגון הידע, בניית התוכן ותכנון שלבי ההקמה וההשקה.</small></span></div>
+        <div class="area"><span class="abody"><b>כסף, ניהול ומערכות</b><span class="ain">להבין מה קורה בעסק ולבנות שגרת עבודה מסודרת ויעילה.</span><small>מעקב אחר הכנסות והוצאות, בחינת כדאיות השירותים, תזרים וגבייה, תוכניות עבודה, בחירת מערכות ואוטומציות שמפחיתות עבודה ידנית.</small></span></div>
+        <div class="area"><span class="abody"><b>עובדים, תפקידים ונהלים</b><span class="ain">לבנות עבודה מסודרת גם כשהעסק כולל אנשים נוספים.</span><small>הגדרות תפקיד, חלוקת אחריות, גיוס והדרכה, תיאום בין עובדים ונהלים שמפחיתים את התלות בכם.</small></span></div>
+        <div class="area"><span class="abody"><b>אתם כבעלי העסק</b><span class="ain">לעבוד גם על מה שמשפיע על היכולת שלכם להוביל, להחליט ולפעול.</span><small>עומס, קושי בהחלטות, דחיינות, פחד ממכירה או מחשיפה, ביטחון בתמחור, הצבת גבולות והעברת אחריות.</small></span></div>
+      </div>
+      <p class="quote" style="font-size:clamp(20px,3vw,26px)">לא עובדים על הכול בבת אחת. <span class="gold">בוחרים במה להתמקד לפי מה שהעסק ואתם צריכים עכשיו.</span></p>
+    </div>
+  </section>
+
+  <!-- 4. how the accompaniment works -->
+  <section>
+    <div class="wrap read stack rv">
+      <h2>איך נראה הליווי בתכל'ס?</h2>
+      <p>הליווי מחבר בין חשיבה, קבלת החלטות ועבודה על העסק בפועל.</p>
+      <p>המטרה היא שתדעו במה להתמקד, תקבלו החלטות ותתקדמו בצורה מסודרת משבוע לשבוע.</p>
+      <p>בכל שלב בוחנים מה קורה, מגדירים יעד ועובדים על מה שיקדם אותו: הצעת שירות, תמחור, תהליך מכירה, תוכנית שיווק, מערכת ניהול או חלוקת תפקידים.</p>
+      <div class="phases three">
+        <div class="phase"><h3>פגישת ייעוץ שבועית</h3><p>זמן קבוע לעצור, לחשוב, לקבל החלטות ולבנות יחד את מה שצריך.</p></div>
+        <div class="phase"><h3>שיחת מעקב שבועית</h3><p>בודקים מה התקדם, איפה נתקעתם ומה צריך להתאים לקראת ההמשך.</p></div>
+        <div class="phase"><h3>תוכנית עבודה שמתעדכנת עם ההתקדמות</h3><p>משימות ברורות, סדרי עדיפויות ומעקב אחר הביצוע — בהתאם למה שקורה בעסק.</p></div>
+      </div>
+      <p>אני מביא הסתכלות רחבה, ניסיון ניהולי וכלים לעבודה עם אנשים. אתם מביאים את ההיכרות עם העסק ואת העשייה בין הפגישות.</p>
+      <p class="quote" style="font-size:clamp(20px,3vw,26px)">אני מלווה, ואתם מיישמים. <span class="gold">בונים יחד, בודקים מה עובד ומתקדמים בהתאם.</span></p>
+      <div class="cta-row"><a class="btn" href="#form">בואו נדבר על העסק שלכם <span class="ar" aria-hidden="true">←</span></a><span class="small">מתחילים בשיחה קצרה לבדיקת התאמה.</span></div>
+    </div>
+  </section>
+
+  <!-- 5. about -->
+  <section>
+    <div class="wrap read rv">
+      <div class="about">
+         <div class="stack">
+          <h2>נעים להכיר, אברהם גוטפרב</h2>
+          <p class="role">יועץ עסקי וארגוני ומאמן עסקי.</p>
+          <p>אחרי שנים של עבודה בתחום הניהול והייעוץ, אני משיק את תכל'ס.</p>
+          <ul class="exp">
+            <li><strong>ניהלתי מסגרת בבריאות הנפש עם קרוב ל־40 עובדים.</strong> סידרתי את התקציב ואת המעקב אחרי ההוצאות, כתבתי נהלים לצוות, הכנסתי דיווח יומי ובניתי תוכנית עבודה לכל דייר.</li>
+            <li><strong>ניהלתי משרד של מכללה עם קרוב ל־200 תלמידים במחזור.</strong> בנינו רשימת תפוצה של יותר מ־20,000 איש, הפקנו וובינרים עם מעל 1,000 משתתפים, שדרגנו את האתר וסידרנו את הרישום והגבייה.</li>
+            <li><strong>ניהלתי מכון טיפולי עם קרוב ל־20 מטפלים ו־300 מטופלים.</strong> הגדרנו תפקידים, כתבנו נהלים, בנינו חבילות ותמחור, תהליך מכירה ומערכת לניהול פניות.</li>
+            <li>ייעצתי לעסקים בתחומים שונים.</li>
+          </ul>
+          <p>לצד הניהול והייעוץ, אני גם מאמן עסקי. לכן בעבודה איתי מסתכלים לא רק על העסק, אלא גם עליכם: על העומס, על קבלת ההחלטות ועל הביטחון להוביל.</p>
+          <p>בכל מקום חיברתי בין האנשים, המספרים ותהליכי העבודה: להבין מה צריך להשתנות, לבנות דרך פעולה ולהוביל אותה בשטח.</p>
+          <p><strong>את הניסיון הזה אני מביא לתכל'ס — כדי לעזור לכם לעשות סדר, לפתח את העסק ולהתקדם עם כיוון ברור.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. diagnosis -->
+  <section>
+    <div class="wrap read stack rv">
+      <h2>ומאיפה מתחילים? <span class="gold">מאבחון תכל'ס</span></h2>
+      <p>לפני שמחליטים על מה לעבוד, צריך להבין את המצב.</p>
+      <p>האבחון הוא תהליך ממוקד של שתי פגישות: בונים תמונת מצב של העסק ושלכם כבעלי העסק, מזהים את הנושאים המרכזיים ובוחרים כיוון להמשך.</p>
+      <div class="phases">
+        <div class="phase">
+          <span class="badge">פגישה ראשונה</span>
+          <h3>תמונת מצב</h3>
+          <p>עוברים יחד על העסק: מה עובד, מה קשה, לאן אתם רוצים להגיע ומה עומד בדרך.</p>
+          <p>מסתכלים על התחומים העסקיים וגם על הזמן, העומס, ההחלטות והיכולת שלכם לקדם שינוי.</p>
+        </div>
+        <div class="phase">
+          <span class="badge">פגישה שנייה</span>
+          <h3>כיוון ותוכנית עבודה</h3>
+          <p>עוברים על הממצאים, בוחרים סדרי עדיפויות ובונים תוכנית פעולה ל־90 יום.</p>
+        </div>
+      </div>
+      <p class="goal"><strong>בסיום תקבלו תוכנית כתובה: מה מקדמים, באיזה סדר, אילו צעדים נדרשים ועד מתי.</strong></p>
+      <p>התוכנית משמשת בסיס להמשך העבודה. אפשר ליישם אותה באופן עצמאי, ואפשר להמשיך איתי לליווי.</p>
+      <p><strong>אין חובה להמשיך לליווי לאחר האבחון.</strong></p>
+    </div>
+  </section>
+
+  <!-- 8. bonuses -->
+  <section>
+    <div class="wrap read stack rv">
+      <h2>כלולים במחיר ההשקה: <span class="gold">ארבעה כלים להמשך העבודה</span></h2>
+      <div class="bonuses">
+        <div class="bonus"><h3>מחשבון עלויות וכדאיות</h3><p>גיליון לבדיקת עלות שעת העבודה וכדאיות השירותים שלכם, כבסיס להחלטות תמחור.</p><span class="val">שווי 350 ש"ח</span></div>
+        <div class="bonus"><h3>תבנית מעקב פניות</h3><p>מקום מסודר לתעד כל פנייה: מה נאמר, באיזה שלב היא נמצאת ומתי חוזרים למתעניין.</p><span class="val">שווי 450 ש"ח</span></div>
+        <div class="bonus"><h3>צ'קליסט: 10 נהלים בסיסיים</h3><p>עשרה נהלים לבחירה ולהתאמה לעסק שלכם, כדי להגדיר איך העבודה צריכה להתבצע.</p><span class="val">שווי 250 ש"ח</span></div>
+        <div class="bonus"><h3>בדיקת מסרים אישית</h3><p>מעבר על הפרופיל או על דף העסק שלכם, עם הערות ממוקדות לחידוד המסר וההצעה.</p><span class="val">שווי 500 ש"ח</span></div>
+      </div>
+      <p class="total">שווי הבונוסים: 1,550 ש"ח — <span class="gold">כלולים במחיר ההשקה.</span></p>
+    </div>
+  </section>
+
+  <!-- 9. launch offer -->
+  <section>
+    <div class="wrap rv">
+      <div class="pricebox">
+        <h2 style="font-size:clamp(24px,3.6vw,32px)">לרגל ההשקה: אבחון תכל'ס</h2>
+        <p><strong>שתי פגישות בזום, תוכנית עבודה כתובה ל־90 יום וארבעה בונוסים.</strong></p>
+        <div class="price"><span class="now gold">500 ש"ח</span><span class="was">3,000 ש"ח</span></div>
+        <p class="muted">ל־10 העסקים הראשונים בלבד, בתמורה למשוב ולשילוב העבודה בתיק העבודות שלי.</p>
+        <div class="follow" style="margin-top:4px;text-align:right">
+          <h3>ולמי שממשיך לליווי</h3>
+          <p><strong>250 ש"ח לפגישת ייעוץ שבועית, כולל שיחת המעקב השבועית.</strong></p>
+          <p class="muted">מסגרת הליווי והיעדים נקבעים יחד, בהתאם לצורך שעולה באבחון.</p>
+        </div>
+        <a class="btn" href="#form">בואו נדבר על העסק שלכם <span class="ar" aria-hidden="true">←</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. form -->
+  <section id="form">
+    <div class="wrap read rv">
+      <div class="stack" style="text-align:center;margin-bottom:26px">
+        <h2>בואו נדבר תכל'ס על העסק שלכם</h2>
+        <p class="muted">השאירו פרטים, ואחזור אליכם לשיחה קצרה לבדיקת התאמה.</p>
+      </div>
+      <div class="formbox">
+        <form id="lead" novalidate>
+          <div class="step active" data-step="1">
+            <div class="field"><label for="f-name">שם מלא</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+            <div class="field"><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" required></div>
+            <div class="field"><label for="f-what">מה העסק עושה?</label><input id="f-what" name="q1_what" type="text" placeholder="בשורה אחת."></div>
+            <div class="field"><label for="f-stuck">מה הכי בוער אצלכם בעסק כרגע?</label><textarea id="f-stuck" name="q9_stuck"></textarea></div>
+            <p class="err" data-err="1" role="alert"></p>
+            <div class="nav"><span></span><button class="btn" type="submit">בואו נדבר על העסק שלכם <span class="ar" aria-hidden="true">←</span></button></div>
+          </div>
+        </form>
+
+        <div class="thanks" id="thanks" role="status">
+          <span class="logo gold" style="justify-self:center">תכל'ס</span>
+          <h3>תודה, הפרטים התקבלו.</h3>
+          <p class="muted">אחזור אליכם בהקדם לשיחה קצרה על העסק שלכם.</p>
+        </div>
+      </div>
+      <p class="scarcity">רק לאחר השיחה מחליטים ומשלמים. מילוי הטופס אינו מחייב בתשלום.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img class="flogo" src="assets/logo-v.png" alt="תכל'ס: ייעוץ וליווי לבעלי עסקים. בהירות. כיוון. סדר." width="420" height="465" loading="lazy">
+    <p><strong>תכל'ס | בהירות. כיוון. סדר.</strong></p>
+    <p>אברהם גוטפרב</p>
+    <p>טלפון: <span class="ltr">054-8412271</span></p>
+    <p>אימייל: <span class="ltr">t0548412271@gmail.com</span></p>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky"><a class="btn" href="#form">בואו נדבר על העסק שלכם <span class="ar" aria-hidden="true">←</span></a></div>
+
+<script>
+(function () {
+  // Where form submissions go. Filled in when the Google Sheet is connected.
+  var ENDPOINT = "";
+
+  document.documentElement.classList.add("js");
+
+  // reveal on scroll (content stays visible if observers are unavailable)
+  var els = document.querySelectorAll(".rv");
+  if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.remove("pre"); io.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    els.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top > innerHeight) { el.classList.add("pre"); io.observe(el); }
+    });
+  }
+
+  // sticky cta: show after hero, hide near the form
+  var sticky = document.getElementById("sticky");
+  var hero = document.querySelector(".hero");
+  var formSec = document.getElementById("form");
+  function onScroll() {
+    var pastHero = hero.getBoundingClientRect().bottom < 0;
+    var fr = formSec.getBoundingClientRect();
+    var atForm = fr.top < innerHeight && fr.bottom > 0;
+    sticky.classList.toggle("show", pastHero && !atForm);
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // "where are you stuck" picker: answer the reader and carry the choice into the form
+  var areas = document.getElementById("areas");
+  var res = document.getElementById("pickRes");
+  var areasField = document.getElementById("f-areas");
+  if (res && areasField) areas.addEventListener("change", function (e) {
+    var row = e.target.closest(".row");
+    if (row) row.classList.toggle("on", e.target.checked);
+    var picked = [].map.call(areas.querySelectorAll("input:checked"), function (i) { return i.value; });
+    areasField.value = picked.join(", ");
+    if (!picked.length) { res.hidden = true; return; }
+    var msg;
+    if (picked.length <= 2) {
+      msg = "<p><strong>מעולה, מכאן נתחיל.</strong> באבחון נבדוק מה גורם לזה, ומה עוד בעסק משפיע על זה.</p>";
+    } else {
+      msg = "<p><strong>סימנתם " + picked.length + " תחומים.</strong> לא צריך לתקן הכול בבת אחת. באבחון נמצא את התחום שמוביל את כל השאר, ונבנה תוכנית רק למה שבאמת צריך.</p>";
+    }
+    res.innerHTML = msg + '<a class="btn" href="#form">אני רוצה לבדוק את העסק שלי <span class="ar" aria-hidden="true">←</span></a>';
+    res.hidden = false;
+  });
+
+  // multi-step form
+  var form = document.getElementById("lead");
+  var steps = form.querySelectorAll(".step");
+  var bars = form.querySelectorAll(".steps span");
+  var cur = 1;
+  function show(n) {
+    cur = n;
+    steps.forEach(function (s) { s.classList.toggle("active", +s.dataset.step === n); });
+    bars.forEach(function (b, i) { b.classList.toggle("on", i < n); });
+    var first = form.querySelector('.step[data-step="' + n + '"] input, .step[data-step="' + n + '"] textarea');
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 250);
+  }
+  function err(n, msg) { form.querySelector('[data-err="' + n + '"]').textContent = msg || ""; }
+  function validStep(n) {
+    if (n === 1) {
+      var name = form.name.value.trim();
+      var phone = form.phone.value.replace(/[^\d+]/g, "");
+      if (!name) { err(1, "כתבו שם מלא."); form.name.focus(); return false; }
+      if (phone.length < 9) { err(1, "כתבו מספר טלפון תקין, כדי שאוכל לחזור אליכם."); form.phone.focus(); return false; }
+    }
+    err(n, "");
+    return true;
+  }
+  form.addEventListener("click", function (e) {
+    if (e.target.closest("[data-next]")) { if (validStep(cur)) show(cur + 1); }
+    if (e.target.closest("[data-prev]")) show(cur - 1);
+  });
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!validStep(1)) { show(1); return; }
+    var data = {};
+    new FormData(form).forEach(function (v, k) { data[k] = data[k] ? data[k] + ", " + v : v; });
+    data.submittedAt = new Date().toISOString();
+    var btn = form.querySelector('[type="submit"]');
+    btn.disabled = true;
+    function done() { form.style.display = "none"; document.getElementById("thanks").classList.add("show"); }
+    if (!ENDPOINT) { console.info("[tachles] form not connected yet", data); done(); return; }
+    fetch(ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) })
+      .then(done)
+      .catch(function () { btn.disabled = false; err(1, "משהו השתבש בשליחה. נסו שוב, או התקשרו ל-054-8412271."); });
+  });
+})();
+</script>
+</body>
+</html>
