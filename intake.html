@@ -54,6 +54,13 @@ textarea { min-height: 130px; resize: vertical; }
 .err { color: #E59A7F; font-size: 15px; margin-top: 10px; min-height: 20px; }
 .count { color: var(--text-2); font-size: 14px; white-space: nowrap; }
 .done { text-align: center; }
+.box { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; margin-top: 16px; }
+.box-h { color: var(--gold-light); font-weight: 900; font-size: 18px; margin-bottom: 6px; }
+.intro .box p { font-size: 16px; margin: 0 0 10px; }
+.box ul { margin: 0 0 10px; padding-inline-start: 20px; font-size: 16px; line-height: 1.8; }
+.box b { color: #fff; }
+.link-btn { display: inline-block; background: transparent; color: var(--cta); border: 1.5px solid var(--cta); border-radius: 10px; padding: 10px 18px; font-weight: 900; font-size: 16px; text-decoration: none; }
+.link-btn:hover { background: var(--cta); color: var(--cta-text); }
 .done .big { font-size: 56px; margin-bottom: 10px; color: var(--gold-light); }
 @media (max-width: 480px) { .scale { grid-template-columns: repeat(5, 1fr); } .opt { font-size: 16px; } }
 </style>
@@ -67,6 +74,7 @@ textarea { min-height: 130px; resize: vertical; }
 <script>
 var ENDPOINT = "https://script.google.com/macros/s/AKfycbyfNqdF4XrlUemWKVc1dCUyYaRAJHCGYlocfxmfi8ynfTGb0HX-zDVBTXCJJVT_FTpltg/exec";
 var STORE = "tachles_intake_v1";
+var BOOKING = "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0Z8QkDStwgzYPi7FypJwQZTmtDefZPw0qpfch7VmXg7U6czbh9n_4SfCTJ7gET4DgXTbbc8pRI";
 
 // type: text | tel | email | long | one | multi | scale. opt: optional. show: function(answers) -> bool
 var S = [
@@ -158,7 +166,12 @@ function welcome() {
   card.innerHTML = '<div class="card intro"><div class="kicker">שאלון הכר את העסק</div><h1>לפני שנשב יחד על העסק</h1>' +
     '<p>השאלון עוזר לי להגיע לפגישה הראשונה כשאני כבר מכיר את העסק שלך: מה יש, מה עוצר, ולאן רוצים להגיע.</p>' +
     '<p>שבעה פרקים קצרים, רוב השאלות בלחיצה אחת. בערך 15–20 דקות. התשובות נשמרות בדפדפן, אז אפשר לעצור ולחזור.</p>' +
-    '<p style="color:var(--text-2);font-size:15px">התשובות נשארות ביני לבינך ומשמשות רק להכנה לליווי.</p></div>';
+    '<p style="color:var(--text-2);font-size:15px">התשובות נשארות ביני לבינך ומשמשות רק להכנה לליווי.</p>' +
+    '<div class="box"><div class="box-h">קביעת פגישת האבחון</div><p>פגישה של שעה בגוגל מיט. בוחרים זמן נוח, והקישור לפגישה מגיע במייל.</p>' +
+    '<a class="link-btn" href="' + BOOKING + '" target="_blank" rel="noopener">לבחירת זמן לפגישה ←</a></div>' +
+    '<div class="box"><div class="box-h">תשלום: 500 ש"ח, מחיר השקה</div><p>שתי פגישות ותוכנית עבודה כתובה. אפשר לשלם באחת הדרכים:</p>' +
+    '<ul><li><b>פייבוקס:</b> <span dir="ltr">053-2481888</span></li><li><b>העברה בנקאית:</b> בנק פאג"י (52), סניף 179, חשבון 646393, על שם אברהם גוטפרב</li></ul>' +
+    '<p style="color:var(--text-2);font-size:15px;margin:0">אשמח לאישור תשלום לפני הפגישה.</p></div></div>';
   nextB.textContent = resume ? "להמשיך מאיפה שעצרתי" : "מתחילים"; nextB.disabled = false; backB.style.visibility = "hidden"; countEl.textContent = "";
 }
 
