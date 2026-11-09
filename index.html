@@ -483,7 +483,7 @@ footer .logo { font-size: 24px; margin-bottom: 8px; display: inline-block; }
 <script>
 (function () {
   // Where form submissions go. Filled in when the Google Sheet is connected.
-  var ENDPOINT = "";
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbyfNqdF4XrlUemWKVc1dCUyYaRAJHCGYlocfxmfi8ynfTGb0HX-zDVBTXCJJVT_FTpltg/exec";
 
   document.documentElement.classList.add("js");
 
@@ -570,9 +570,12 @@ footer .logo { font-size: 24px; margin-bottom: 8px; display: inline-block; }
     btn.disabled = true;
     function done() { form.style.display = "none"; document.getElementById("thanks").classList.add("show"); }
     if (!ENDPOINT) { console.info("[tachles] form not connected yet", data); done(); return; }
-    fetch(ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) })
-      .then(done)
-      .catch(function () { btn.disabled = false; err(1, "משהו השתבש בשליחה. נסו שוב, או התקשרו ל-054-8412271."); });
+    var shown = false;
+    function finish() { if (!shown) { shown = true; done(); } }
+    var slow = setTimeout(finish, 2500);
+    fetch(ENDPOINT, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) })
+      .then(function () { clearTimeout(slow); finish(); })
+      .catch(function () { clearTimeout(slow); if (shown) return; btn.disabled = false; err(1, "משהו השתבש בשליחה. נסו שוב, או התקשרו ל-054-8412271."); });
   });
 })();
 </script>
