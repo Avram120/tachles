@@ -163,7 +163,8 @@ function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&
 function welcome() {
   pos = -1; secEl.textContent = ""; bar.style.width = "0";
   var resume = Object.keys(A).length > 0;
-  card.innerHTML = '<div class="card intro"><div class="kicker">שאלון הכר את העסק</div><h1>לפני שנשב יחד על העסק</h1>' +
+  card.innerHTML = '<div class="card intro"><div class="kicker">ברוך הבא לתכל\'ס</div><h1>מזל טוב! נראה שעשית את הצעד הנכון</h1>' +
+    '<p>החלטת לעצור רגע, להרים את הראש מהשוטף ולשבת על העסק עצמו. זה בדיוק הצעד שרוב בעלי העסקים דוחים ל"מחר", ואתה עשית אותו היום. אני שמח מאוד שאנחנו יוצאים לדרך יחד.</p>' +
     '<p>השאלון עוזר לי להגיע לפגישה הראשונה כשאני כבר מכיר את העסק שלך: מה יש, מה עוצר, ולאן רוצים להגיע.</p>' +
     '<p>שבעה פרקים קצרים, רוב השאלות בלחיצה אחת. בערך 15–20 דקות. התשובות נשמרות בדפדפן, אז אפשר לעצור ולחזור.</p>' +
     '<p style="color:var(--text-2);font-size:15px">התשובות נשארות ביני לבינך ומשמשות רק להכנה לליווי.</p>' +
@@ -255,7 +256,7 @@ function submit() {
 function finish() {
   try { localStorage.removeItem(STORE); } catch (e) {}
   bar.style.width = "100%"; secEl.textContent = ""; nav.style.display = "none";
-  card.innerHTML = '<div class="card done"><div class="big">✓</div><h1>תודה, ' + esc((A.name || "").split(" ")[0]) + '!</h1><p class="hint" style="font-size:18px">התשובות הגיעו אליי. אני עובר עליהן לפני הפגישה, כדי שנוכל להתחיל ישר ממה שהכי בוער.</p><p class="hint">בוא נדבר תכל\'ס.<br>אברהם גוטפרב</p></div>';
+  card.innerHTML = '<div class="card done"><div class="big">✓</div><h1>כל הכבוד, ' + esc((A.name || "").split(" ")[0]) + '!</h1><p class="hint" style="font-size:18px">עשית עכשיו את מה שרוב בעלי העסקים לא מוצאים לו זמן: עצרת והסתכלת על העסק שלך מבחוץ. התשובות הגיעו אליי, ואני עובר עליהן לפני הפגישה, כדי שנוכל להתחיל ישר ממה שהכי בוער.</p><p class="hint">בוא נדבר תכל\'ס.<br>אברהם גוטפרב</p></div>';
 }
 
 nextB.onclick = function () { go(1); };
