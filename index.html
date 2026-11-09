@@ -84,7 +84,7 @@ strong { font-weight: 700; color: #fff; }
 .offer .what { font-size: 17px; font-weight: 500; }
 .price { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .price .now { font-size: 40px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
-.price .was { color: #8F887B; text-decoration: line-through; font-size: 18px; }
+.price .was { color: #A8A194; text-decoration: line-through; font-size: 18px; }
 .offer .btn { width: 100%; margin-top: 6px; }
 .offer .seats { text-align: center; font-size: 14px; color: var(--text-2); }
 
@@ -122,7 +122,7 @@ strong { font-weight: 700; color: #fff; }
 .stats { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 .stats li { background: var(--bg-alt); border-radius: 12px; padding: 14px 18px; }
 .stats b { color: var(--gold-light); font-size: 20px; font-weight: 900; margin-inline-end: 4px; }
-.src { font-size: 13px; color: #8F887B; }
+.src { font-size: 13px; color: #A8A194; }
 
 /* cases */
 .cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 8px; }
@@ -192,7 +192,7 @@ strong { font-weight: 700; color: #fff; }
 .steptitle { font-weight: 900; font-size: 20px; }
 .field { display: grid; gap: 8px; }
 .field > label, .field > .q { font-weight: 700; }
-.field input[type=text], .field input[type=tel], .field textarea { width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 13px 14px; font: inherit; font-size: 17px; }
+.field input[type=text], .field input[type=tel], .field input[type=email], .field textarea { width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 13px 14px; font: inherit; font-size: 17px; }
 .field textarea { min-height: 92px; resize: vertical; }
 .field input:focus, .field textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,151,74,.25); }
 .opts { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -277,9 +277,21 @@ footer .logo { font-size: 24px; margin-bottom: 8px; display: inline-block; }
 .stats span{font-size:14.5px;color:var(--text-2)}
 .about{grid-template-columns:minmax(0,1fr)!important}
 .exp{gap:12px}
+/* privacy + accessibility (2026-11-09) */
+.skip{position:absolute;top:-60px;inset-inline-start:16px;z-index:50;background:var(--cta);color:var(--cta-text);font-weight:700;padding:10px 16px;border-radius:10px;text-decoration:none}
+.skip:focus{top:12px}
+.req{color:var(--text-2);font-weight:400;font-size:14px}
+.consent{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;font-size:15.5px;line-height:1.55;cursor:pointer}
+.consent input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--gold);cursor:pointer}
+.pnote{font-size:14px;color:var(--text-2);line-height:1.6}
+.pnote a,.legal a{color:var(--gold-light)}
+.legal{margin-top:14px;display:flex;gap:8px 18px;justify-content:center;flex-wrap:wrap;font-size:14px}
+footer a{color:inherit}
+@media (forced-colors: active){.gold,.stats b{color:CanvasText;background:none;-webkit-text-fill-color:CanvasText}}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">דלגו לתוכן</a>
 <header class="top">
   <div class="wrap">
     <a href="#top" class="brand"><img src="assets/logo-h.png" alt="תכל'ס: ייעוץ וליווי לבעלי עסקים. בהירות. כיוון. סדר." width="720" height="247"></a>
@@ -288,7 +300,7 @@ footer .logo { font-size: 24px; margin-bottom: 8px; display: inline-block; }
   </div>
 </header>
 
-<main>
+<main id="main" tabindex="-1">
   <!-- 1. hero -->
   <section class="hero" id="top">
     <div class="wrap">
@@ -448,11 +460,14 @@ footer .logo { font-size: 24px; margin-bottom: 8px; display: inline-block; }
       <div class="formbox">
         <form id="lead" novalidate>
           <div class="step active" data-step="1">
-            <div class="field"><label for="f-name">שם מלא</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
-            <div class="field"><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" required></div>
+            <div class="field"><label for="f-name">שם מלא <span class="req">(חובה)</span></label><input id="f-name" name="name" type="text" autocomplete="name" required aria-required="true" aria-describedby="err1"></div>
+            <div class="field"><label for="f-phone">טלפון <span class="req">(חובה)</span></label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" required aria-required="true" aria-describedby="err1"></div>
             <div class="field"><label for="f-what">מה העסק עושה?</label><input id="f-what" name="q1_what" type="text" placeholder="בשורה אחת."></div>
             <div class="field"><label for="f-stuck">מה הכי בוער אצלכם בעסק כרגע?</label><textarea id="f-stuck" name="q9_stuck"></textarea></div>
-            <p class="err" data-err="1" role="alert"></p>
+            <div class="field"><label for="f-email">אימייל <span class="req">(לא חובה. נדרש רק אם תרצו לקבל עדכונים)</span></label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" dir="ltr" style="text-align:right" aria-describedby="err1"></div>
+            <label class="consent"><input type="checkbox" id="f-consent" name="marketing_consent" value="כן"><span>אשמח לקבל מתכל'ס עדכונים, תכנים והצעות במייל. אפשר להסיר בכל עת. <span class="req">(לא חובה)</span></span></label>
+            <p class="pnote">הפרטים ישמשו לחזרה אליכם בנוגע לפנייה ולבדיקת התאמה. הם לא יימכרו ולא יועברו לאחרים לשימושם. פרטים נוספים ב<a href="privacy.html">מדיניות הפרטיות</a>.</p>
+            <p class="err" id="err1" data-err="1" role="alert"></p>
             <div class="nav"><span></span><button class="btn" type="submit">בואו נדבר על העסק שלכם <span class="ar" aria-hidden="true">←</span></button></div>
           </div>
         </form>
@@ -473,8 +488,9 @@ footer .logo { font-size: 24px; margin-bottom: 8px; display: inline-block; }
     <img class="flogo" src="assets/logo-v.png" alt="תכל'ס: ייעוץ וליווי לבעלי עסקים. בהירות. כיוון. סדר." width="420" height="465" loading="lazy">
     <p><strong>תכל'ס | בהירות. כיוון. סדר.</strong></p>
     <p>אברהם גוטפרב</p>
-    <p>טלפון: <span class="ltr">054-8412271</span></p>
-    <p>אימייל: <span class="ltr">t0548412271@gmail.com</span></p>
+    <p>טלפון: <a class="ltr" href="tel:+972548412271">054-8412271</a></p>
+    <p>אימייל: <a class="ltr" href="mailto:t0548412271@gmail.com">t0548412271@gmail.com</a></p>
+    <nav class="legal" aria-label="מידע משפטי"><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav>
   </div>
 </footer>
 
@@ -552,6 +568,9 @@ footer .logo { font-size: 24px; margin-bottom: 8px; display: inline-block; }
       var phone = form.phone.value.replace(/[^\d+]/g, "");
       if (!name) { err(1, "כתבו שם מלא."); form.name.focus(); return false; }
       if (phone.length < 9) { err(1, "כתבו מספר טלפון תקין, כדי שאוכל לחזור אליכם."); form.phone.focus(); return false; }
+      var email = form.email.value.trim();
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err(1, "כתובת האימייל לא תקינה."); form.email.focus(); return false; }
+      if (document.getElementById("f-consent").checked && !email) { err(1, "כדי לקבל עדכונים במייל, כתבו כתובת אימייל."); form.email.focus(); return false; }
     }
     err(n, "");
     return true;
@@ -565,6 +584,7 @@ footer .logo { font-size: 24px; margin-bottom: 8px; display: inline-block; }
     if (!validStep(1)) { show(1); return; }
     var data = {};
     new FormData(form).forEach(function (v, k) { data[k] = data[k] ? data[k] + ", " + v : v; });
+    data.marketing_consent = document.getElementById("f-consent").checked ? "כן" : "לא";
     data.submittedAt = new Date().toISOString();
     var btn = form.querySelector('[type="submit"]');
     btn.disabled = true;
