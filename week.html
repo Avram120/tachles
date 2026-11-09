@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>תכל'ס השבוע</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap">
+<style>
+:root {
+  --bg: #161615; --bg-alt: #2A2926; --bg-3: #34302a; --line: #3B3934; --text: #F5F0E6; --text-2: #BFB6A5;
+  --gold: #C9974A; --gold-light: #EBCB85; --gold-mid: #DEB267; --cta: #F2C76E; --cta-text: #161615;
+  --ok: #8FBF7F; --font: "Heebo", "Arial Hebrew", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); }
+body { min-height: 100vh; display: flex; flex-direction: column; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+header img { height: 32px; }
+header .who { font-size: 14px; color: var(--gold-mid); font-weight: 700; text-align: left; }
+#saved { font-size: 13px; color: var(--text-2); font-weight: 400; display: block; min-height: 18px; }
+.progress { height: 4px; background: var(--bg-alt); }
+.progress > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #A27138, #C9974A, #EBCB85); transition: width .35s; }
+main { flex: 1; display: flex; justify-content: center; padding: 26px 16px 110px; }
+.card { width: 100%; max-width: 660px; animation: in .3s ease; }
+@keyframes in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.kicker { color: var(--gold-mid); font-weight: 700; font-size: 14px; margin-bottom: 8px; }
+h1 { font-size: clamp(26px, 5vw, 36px); font-weight: 900; line-height: 1.2; margin: 0 0 12px; }
+h2 { font-size: clamp(20px, 4vw, 26px); font-weight: 900; line-height: 1.3; margin: 0 0 8px; }
+h3 { font-size: 17px; font-weight: 700; margin: 0 0 10px; color: var(--gold-light); }
+p { line-height: 1.65; }
+.hint { color: var(--text-2); font-size: 16px; line-height: 1.6; margin: 0 0 20px; }
+textarea, input[type=text], select {
+  width: 100%; background: var(--bg-alt); color: var(--text); border: 1.5px solid var(--line); border-radius: 12px;
+  padding: 13px 15px; font: 400 17px/1.5 var(--font); outline: none;
+}
+textarea { min-height: 220px; resize: vertical; }
+textarea:focus, input:focus, select:focus { border-color: var(--gold); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 12px; padding: 14px 22px;
+  font: 700 17px/1.2 var(--font); cursor: pointer; text-decoration: none; }
+.btn.main { background: var(--cta); color: var(--cta-text); }
+.btn.main:disabled { opacity: .45; cursor: default; }
+.btn.ghost { background: transparent; color: var(--text); border: 1.5px solid var(--line); }
+.btn.ghost:hover { border-color: var(--gold); }
+.btn.small { padding: 9px 14px; font-size: 15px; border-radius: 10px; }
+.nav { position: fixed; inset: auto 0 0 0; background: rgba(22,22,21,.96); border-top: 1px solid var(--line); padding: 12px 16px;
+  display: flex; justify-content: center; gap: 10px; }
+.nav .in { width: 100%; max-width: 660px; display: flex; justify-content: space-between; gap: 10px; }
+.q { margin: 0 0 18px; }
+.q .lbl { font-weight: 700; font-size: 16px; margin-bottom: 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { background: var(--bg-alt); color: var(--text); border: 1.5px solid var(--line); border-radius: 999px; padding: 9px 16px;
+  font: 500 16px/1.2 var(--font); cursor: pointer; }
+.chip:hover { border-color: var(--gold); }
+.chip.on { background: var(--bg-3); border-color: var(--cta); color: var(--cta); }
+.item-title { background: var(--bg-alt); border-right: 4px solid var(--gold); border-radius: 10px; padding: 14px 16px; font-size: 19px; font-weight: 700; margin: 0 0 22px; }
+.pick { display: flex; align-items: center; gap: 12px; width: 100%; text-align: right; background: var(--bg-alt); color: var(--text);
+  border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; margin: 0 0 8px; font: 500 17px/1.4 var(--font); cursor: pointer; }
+.pick .mk { flex: none; width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--gold); display: grid; place-items: center; }
+.pick.on { border-color: var(--cta); background: var(--bg-3); }
+.pick.on .mk::after { content: ""; width: 10px; height: 10px; border-radius: 2px; background: var(--cta); }
+.pick .why { margin-inline-start: auto; font-size: 13px; color: var(--text-2); white-space: nowrap; }
+.task { background: var(--bg-alt); border: 1.5px solid var(--line); border-radius: 14px; padding: 16px; margin: 0 0 12px; }
+.task.done { border-color: #4d6b45; }
+.task .top { display: flex; gap: 12px; align-items: flex-start; }
+.task .check { flex: none; width: 30px; height: 30px; border-radius: 8px; border: 2px solid var(--gold); background: transparent; color: var(--bg);
+  font-size: 20px; font-weight: 900; cursor: pointer; display: grid; place-items: center; }
+.task.done .check { background: var(--ok); border-color: var(--ok); }
+.task .t { font-size: 19px; font-weight: 700; line-height: 1.35; }
+.task.done .t { text-decoration: line-through; color: var(--text-2); }
+.task .meta { color: var(--text-2); font-size: 15px; margin-top: 4px; line-height: 1.5; }
+.task .meta b { color: var(--gold-light); font-weight: 500; }
+.task .acts { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; padding-inline-start: 42px; }
+.plan { background: var(--bg-alt); border: 1.5px solid var(--line); border-radius: 14px; padding: 16px; margin: 0 0 14px; }
+.plan .row { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.plan label { font-size: 14px; color: var(--text-2); display: block; margin-bottom: 4px; }
+@media (min-width: 560px) { .plan .row { grid-template-columns: 2fr 1fr; } }
+.count { display: flex; align-items: center; gap: 12px; margin: 4px 0 18px; }
+.count .bar { flex: 1; height: 8px; background: var(--bg-alt); border-radius: 99px; overflow: hidden; }
+.count .bar i { display: block; height: 100%; background: var(--ok); transition: width .3s; }
+.count span { font-weight: 700; white-space: nowrap; }
+.box { border: 1px dashed var(--line); border-radius: 14px; padding: 14px 16px; margin: 18px 0; }
+.box ul { margin: 0; padding-inline-start: 20px; color: var(--text-2); line-height: 1.7; }
+.note { background: #2c2618; border: 1px solid #5a4625; border-radius: 12px; padding: 12px 14px; font-size: 15px; line-height: 1.6; color: var(--gold-light); margin: 0 0 18px; }
+.center { text-align: center; }
+.big { font-size: 46px; color: var(--cta); }
+.link-out { direction: ltr; text-align: left; font-size: 13px; color: var(--text-2); word-break: break-all; background: var(--bg-alt); border-radius: 8px; padding: 8px 10px; margin: 8px 0 12px; }
+.row-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.err { color: #E9A08F; }
+.spin { width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--gold); animation: sp 1s linear infinite; margin: 40px auto 16px; }
+@keyframes sp { to { transform: rotate(360deg); } }
+footer { text-align: center; color: var(--text-2); font-size: 13px; padding: 18px 16px 90px; }
+footer a { color: var(--text-2); }
+</style>
+</head>
+<body>
+<header>
+  <img src="assets/logo-h.png" alt="תכל'ס">
+  <div class="who"><span id="who">תכל'ס השבוע</span><span id="saved"></span></div>
+</header>
+<div class="progress"><i id="bar"></i></div>
+<main><div id="app" class="card"><div class="spin"></div><p class="hint center">טוען את הלוח שלך...</p></div></main>
+<div class="nav" id="nav" hidden><div class="in"><button class="btn ghost" id="back">חזרה</button><button class="btn main" id="next">המשך</button></div></div>
+<footer>תכל'ס · ייעוץ וליווי לבעלי עסקים · <a href="privacy.html">מדיניות פרטיות</a></footer>
+
+<script>
+"use strict";
+var ENDPOINT = "https://script.google.com/macros/s/AKfycbyfNqdF4XrlUemWKVc1dCUyYaRAJHCGYlocfxmfi8ynfTGb0HX-zDVBTXCJJVT_FTpltg/exec";
+var DAYS = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
+var Q = [
+  { k: "impact", lbl: "כמה זה יקדם את העסק?", o: [["high", "הרבה"], ["unsure", "לא בטוח"], ["low", "קצת"]] },
+  { k: "urgent", lbl: "מה יקרה אם זה לא ייעשה השבוע?", o: [["yes", "משהו ייפגע"], ["no", "לא נורא"]] },
+  { k: "time", lbl: "כמה זמן זה ייקח?", o: [["short", "עד שעה"], ["mid", "כמה שעות"], ["long", "יותר מיום"]] },
+  { k: "dep", lbl: "זה תלוי רק בי?", o: [["me", "כן, רק בי"], ["others", "תלוי גם במישהו אחר"]] }
+];
+
+var app = document.getElementById("app"), nav = document.getElementById("nav"), nextB = document.getElementById("next"),
+    backB = document.getElementById("back"), bar = document.getElementById("bar"), savedEl = document.getElementById("saved");
+
+var ID = "", KEY = "", NAME = "", PROGRAM = false;
+var S = null;            // הלוח: { v, weekNo, current, history }
+var W = null;            // אשף שבוע חדש בזמן מילוי
+var showLink = false;
+
+/* ---------- עזרים ---------- */
+function el(tag, attrs, kids) {
+  var e = document.createElement(tag);
+  if (attrs) for (var a in attrs) {
+    if (a === "text") e.textContent = attrs[a];
+    else if (a === "cls") e.className = attrs[a];
+    else if (a.indexOf("on") === 0) e[a] = attrs[a];
+    else e.setAttribute(a, attrs[a]);
+  }
+  (kids || []).forEach(function (k) { if (k) e.appendChild(typeof k === "string" ? document.createTextNode(k) : k); });
+  return e;
+}
+function clear() { app.innerHTML = ""; app.style.animation = "none"; void app.offsetWidth; app.style.animation = ""; window.scrollTo(0, 0); }
+function iso(d) { return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+function fromIso(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+function dayLabel(s) { var d = fromIso(s); return "יום " + DAYS[d.getDay()] + " " + d.getDate() + "." + (d.getMonth() + 1); }
+function short(s) { var d = fromIso(s); return d.getDate() + "." + (d.getMonth() + 1); }
+function addDays(s, n) { var d = fromIso(s); d.setDate(d.getDate() + n); return iso(d); }
+function setNav(back, next, nextTxt) {
+  nav.hidden = !next && !back;
+  backB.style.visibility = back ? "visible" : "hidden"; backB.onclick = back;
+  nextB.style.display = next ? "" : "none"; nextB.onclick = next; nextB.textContent = nextTxt || "המשך"; nextB.disabled = false;
+}
+function progress(p) { bar.style.width = (p || 0) + "%"; }
+function b64u(buf) { var s = ""; new Uint8Array(buf).forEach(function (c) { s += String.fromCharCode(c); }); return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
+function unb64u(s) { s = s.replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+/* ---------- הצפנה (רק למי שלא בליווי) ---------- */
+function cryptoKey() { return crypto.subtle.importKey("raw", unb64u(KEY), "AES-GCM", false, ["encrypt", "decrypt"]); }
+function encrypt(text) {
+  var iv = crypto.getRandomValues(new Uint8Array(12));
+  return cryptoKey().then(function (k) { return crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, k, new TextEncoder().encode(text)); })
+    .then(function (ct) { return "E:" + b64u(iv) + "." + b64u(ct); });
+}
+function decrypt(blob) {
+  var p = blob.slice(2).split(".");
+  return cryptoKey().then(function (k) { return crypto.subtle.decrypt({ name: "AES-GCM", iv: unb64u(p[0]) }, k, unb64u(p[1])); })
+    .then(function (pt) { return new TextDecoder().decode(pt); });
+}
+function newKey() { KEY = b64u(crypto.getRandomValues(new Uint8Array(16))); rememberKey(); }
+function rememberKey() { lsSet("tw-key-" + ID, KEY); history.replaceState(null, "", "#" + ID + "." + KEY); }
+function personalLink() { return location.origin + location.pathname + "#" + ID + (PROGRAM ? "" : "." + KEY); }
+
+/* ---------- שרת ---------- */
+function api(body) {
+  body.form = "week"; body.id = ID;
+  return fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) })
+    .then(function (r) { return r.json(); });
+}
+var saveTimer = null, saving = false, again = false;
+function save() {
+  savedEl.textContent = "שומר...";
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(doSave, 700);
+}
+function doSave() {
+  if (saving) { again = true; return; }
+  saving = true;
+  var json = JSON.stringify(S);
+  var p = PROGRAM ? Promise.resolve(json) : encrypt(json);
+  p.then(function (data) { return api({ action: "save", data: data, summary: PROGRAM ? summary() : "" }); })
+    .then(function (r) {
+      saving = false;
+      if (r.ok) { savedEl.textContent = "נשמר ✓"; }
+      else if (r.err === "mustencrypt" || r.err === "mustplain") {
+        // מצב הליווי השתנה בזמן שהדף היה פתוח
+        PROGRAM = !!r.program; if (!PROGRAM && !KEY) newKey(); doSave(); return;
+      } else { savedEl.textContent = "השמירה לא הצליחה"; }
+      if (again) { again = false; doSave(); }
+    })
+    .catch(function () { saving = false; savedEl.textContent = "אין חיבור - ננסה שוב"; setTimeout(doSave, 5000); });
+}
+function summary() {
+  var c = S.current; if (!c) return "";
+  var done = c.tasks.filter(function (t) { return t.done; }).length;
+  var s = "שבוע " + S.weekNo + " (" + short(c.start) + "-" + short(addDays(c.start, 6)) + ") · " + done + " מתוך " + c.tasks.length + " בוצעו · ";
+  s += c.tasks.map(function (t) { return (t.done ? "✓ " : "✗ ") + t.t; }).join(" · ");
+  if (c.later.length) s += " · נדחו: " + c.later.join(", ");
+  return s;
+}
+
+/* ---------- טעינה ---------- */
+function boot() {
+  var h = location.hash.replace(/^#/, "").split(".");
+  ID = (h[0] || "").toLowerCase(); KEY = h[1] || lsGet("tw-key-" + (h[0] || "").toLowerCase()) || "";
+  if (!/^[a-f0-9]{40}$/.test(ID)) return fail("הקישור לא שלם", "נראה שחסר חלק מהקישור. פתחו שוב את הקישור המלא ששלחתי לכם.");
+  if (!window.crypto || !crypto.subtle) return fail("הדפדפן לא נתמך", "פתחו את הקישור בדפדפן מעודכן (כרום, אדג' או ספארי).");
+  api({ action: "load" }).then(function (r) {
+    if (!r.ok) return fail("הקישור לא פעיל", "הקישור הזה לא מוכר או שעדיין לא הופעל. אם קיבלתם אותו ממני, כתבו לי ואסדר.");
+    NAME = r.name; PROGRAM = r.program;
+    document.getElementById("who").textContent = "תכל'ס השבוע · " + NAME;
+    var data = r.data || "";
+    if (data.indexOf("E:") === 0) {
+      if (!KEY) return locked();
+      rememberKey();
+      return decrypt(data).then(function (t) {
+        S = JSON.parse(t);
+        if (PROGRAM) save(); // הצטרף לליווי - שומר מעכשיו בגלוי
+        start();
+      }, function () { locked(); });
+    }
+    if (data) { S = JSON.parse(data); if (!PROGRAM) { if (!KEY) newKey(); else rememberKey(); save(); } }
+    else { S = { v: 1, weekNo: 0, current: null, history: [] }; if (!PROGRAM) { if (!KEY) newKey(); else rememberKey(); showLink = true; } }
+    start();
+  }).catch(function () { fail("אין חיבור", "לא הצלחנו להתחבר. בדקו את החיבור לאינטרנט ונסו לרענן את הדף."); });
+}
+function fail(t, msg) {
+  clear(); setNav(null, null); progress(0);
+  app.appendChild(el("h1", { text: t })); app.appendChild(el("p", { cls: "hint", text: msg }));
+}
+function locked() {
+  clear(); setNav(null, null);
+  app.appendChild(el("div", { cls: "kicker", text: "הלוח שלך נעול" }));
+  app.appendChild(el("h1", { text: "כדי לפתוח את הלוח במכשיר הזה, צריך את הקישור האישי שלך" }));
+  app.appendChild(el("p", { cls: "hint", text: "הלוח שלך שמור מוצפן, וגם אני לא יכול לקרוא אותו. המפתח נמצא רק בקישור האישי ששלחתם לעצמכם בפעם הראשונה (בוואטסאפ או במייל). פתחו אותו משם, והלוח יופיע." }));
+  app.appendChild(el("p", { cls: "hint", text: "לא מוצאים את הקישור? כתבו לי ואפתח לכם לוח חדש." }));
+}
+function start() {
+  if (S.current) board(); else wizardStart();
+}
+
+/* ---------- אשף: פתיחת שבוע ---------- */
+function wizardStart() {
+  var carry = [];
+  if (S.current) {
+    S.current.tasks.forEach(function (t) { if (!t.done) carry.push(t.t); });
+    S.current.later.forEach(function (t) { carry.push(t); });
+  }
+  W = { text: carry.join("\n"), items: [], ans: {}, pick: [], plan: {} };
+  stepDump();
+}
+function stepDump() {
+  clear(); progress(10);
+  app.appendChild(el("div", { cls: "kicker", text: "שבוע חדש · שלב 1 מתוך 4" }));
+  app.appendChild(el("h1", { text: "מה מעסיק אותך השבוע?" }));
+  app.appendChild(el("p", { cls: "hint", text: "תוציאו הכל מהראש: משימות, רעיונות, דברים שתקועים. שורה לכל דבר. לא צריך לסדר ולא לבחור - זה יבוא בשלב הבא." + (W.text ? "\nמה שלא הושלם ומה שנדחה בשבוע שעבר כבר מחכה כאן." : "") }));
+  var ta = el("textarea", { placeholder: "לסגור מחירון חדש\nלחזור ל-5 פניות פתוחות\nלכתוב נוהל קבלת לקוח\nאתר חדש" });
+  ta.value = W.text;
+  ta.oninput = function () { W.text = ta.value; nextB.disabled = lines().length < 1; };
+  app.appendChild(ta);
+  if (showLink) app.appendChild(linkBox(true));
+  setNav(S.current ? function () { W = null; board(); } : null, function () {
+    W.items = lines(); W.qi = 0; stepAsk();
+  }, "המשך");
+  nextB.disabled = lines().length < 1;
+  setTimeout(function () { ta.focus(); }, 50);
+}
+function lines() {
+  var seen = {};
+  return W.text.split("\n").map(function (s) { return s.replace(/^[\s\-•*\d.)]+/, "").trim(); })
+    .filter(function (s) { if (!s || seen[s]) return false; seen[s] = 1; return true; }).slice(0, 25);
+}
+function stepAsk() {
+  if (W.items.length <= 3 && W.qi === 0 && !W.forceAsk) {
+    // עד 3 דברים - אין מה לבחור, כולם נכנסים לשבוע
+    W.pick = W.items.slice(); return stepPlan();
+  }
+  var i = W.qi, item = W.items[i]; W.ans[item] = W.ans[item] || {};
+  var a = W.ans[item];
+  clear(); progress(15 + 45 * (i / W.items.length));
+  app.appendChild(el("div", { cls: "kicker", text: "שלב 2 מתוך 4 · " + (i + 1) + " מתוך " + W.items.length }));
+  app.appendChild(el("div", { cls: "item-title", text: item }));
+  Q.forEach(function (q) {
+    var chips = el("div", { cls: "chips" });
+    q.o.forEach(function (o) {
+      chips.appendChild(el("button", { cls: "chip" + (a[q.k] === o[0] ? " on" : ""), type: "button", text: o[1], onclick: function () {
+        a[q.k] = o[0]; stepAsk();
+        if (Q.every(function (x) { return a[x.k]; })) setTimeout(function () { if (W && W.qi === i) goNextItem(); }, 350);
+      } }));
+    });
+    app.appendChild(el("div", { cls: "q" }, [el("div", { cls: "lbl", text: q.lbl }), chips]));
+  });
+  setNav(function () { if (W.qi > 0) { W.qi--; stepAsk(); } else stepDump(); }, goNextItem, i === W.items.length - 1 ? "לבחירת המשימות" : "הבא");
+  nextB.disabled = !Q.every(function (x) { return a[x.k]; });
+}
+function goNextItem() {
+  if (W.qi < W.items.length - 1) { W.qi++; stepAsk(); }
+  else { W.pick = rank().slice(0, 3); stepPick(); }
+}
+function score(item) {
+  var a = W.ans[item] || {};
+  var s = { high: 6, unsure: 3, low: 2 }[a.impact] || 0;
+  s += a.urgent === "yes" ? 2 : 0;
+  s += { short: 0.5, mid: 0, long: -0.5 }[a.time] || 0;
+  s += a.dep === "others" ? -0.5 : 0;
+  return s;
+}
+function rank() {
+  return W.items.map(function (t, i) { return { t: t, s: score(t), i: i }; })
+    .sort(function (x, y) { return y.s - x.s || x.i - y.i; }).map(function (x) { return x.t; });
+}
+function why(item) {
+  var a = W.ans[item] || {}, w = [];
+  if (a.impact === "high") w.push("מקדם הרבה");
+  if (a.urgent === "yes") w.push("דחוף");
+  if (a.time === "short") w.push("קצר");
+  if (a.dep === "others") w.push("תלוי באחרים");
+  return w.join(" · ");
+}
+function stepPick() {
+  clear(); progress(65);
+  app.appendChild(el("div", { cls: "kicker", text: "שלב 3 מתוך 4" }));
+  app.appendChild(el("h1", { text: "3 המשימות של השבוע" }));
+  app.appendChild(el("p", { cls: "hint", text: "לפי התשובות שלכם, אלה 3 המשימות שהכי שווה להתמקד בהן עכשיו. אפשר להחליף - מסמנים ומבטלים. כל מה שלא נבחר עובר ל\"נדחה לשבוע הבא\"." }));
+  rank().forEach(function (t) {
+    var on = W.pick.indexOf(t) > -1;
+    app.appendChild(el("button", { cls: "pick" + (on ? " on" : ""), type: "button", onclick: function () {
+      var k = W.pick.indexOf(t);
+      if (k > -1) W.pick.splice(k, 1); else if (W.pick.length < 3) W.pick.push(t);
+      stepPick();
+    } }, [el("span", { cls: "mk" }), el("span", { text: t }), el("span", { cls: "why", text: why(t) })]));
+  });
+  if (W.pick.length >= 3) app.appendChild(el("p", { cls: "hint", text: "בחרתם 3. כדי להחליף, בטלו קודם אחת." }));
+  setNav(function () { W.qi = W.items.length - 1; W.forceAsk = true; stepAsk(); }, stepPlan, "המשך");
+  nextB.disabled = W.pick.length < 1;
+}
+function stepPlan() {
+  clear(); progress(85);
+  var today = iso(new Date());
+  app.appendChild(el("div", { cls: "kicker", text: "שלב 4 מתוך 4" }));
+  app.appendChild(el("h1", { text: "צעד ראשון ומועד" }));
+  app.appendChild(el("p", { cls: "hint", text: "לכל משימה: מה הדבר הראשון והקטן שעושים, ועד איזה יום. צעד ראשון טוב הוא כזה שאפשר להתחיל בו היום." }));
+  W.pick.forEach(function (t, n) {
+    var p = W.plan[t] = W.plan[t] || { step: "", due: addDays(today, Math.min(n * 2 + 1, 5)) };
+    var inp = el("input", { type: "text", placeholder: "למשל: לרשום 3 חבילות על דף", maxlength: "140" });
+    inp.value = p.step; inp.oninput = function () { p.step = inp.value; check(); };
+    var sel = el("select");
+    for (var d = 0; d < 7; d++) {
+      var v = addDays(today, d);
+      if (fromIso(v).getDay() === 6) continue; // בלי שבת
+      var o = el("option", { value: v, text: (d === 0 ? "היום, " : "") + dayLabel(v) }); if (v === p.due) o.selected = true; sel.appendChild(o);
+    }
+    if (!sel.value || [].every.call(sel.options, function (o) { return o.value !== p.due; })) p.due = sel.value;
+    sel.onchange = function () { p.due = sel.value; };
+    app.appendChild(el("div", { cls: "plan" }, [
+      el("h3", { text: (n + 1) + ". " + t }),
+      el("div", { cls: "row" }, [el("div", null, [el("label", { text: "צעד ראשון" }), inp]), el("div", null, [el("label", { text: "עד" }), sel])])
+    ]));
+  });
+  function check() { nextB.disabled = !W.pick.every(function (t) { return W.plan[t].step.trim(); }); }
+  setNav(function () { if (W.items.length <= 3 && !W.forceAsk) stepDump(); else stepPick(); }, finishWeek, "יוצאים לדרך");
+  check();
+}
+function finishWeek() {
+  if (S.current) S.history.push({ start: S.current.start, done: S.current.tasks.filter(function (t) { return t.done; }).length, total: S.current.tasks.length });
+  S.history = S.history.slice(-26);
+  S.weekNo = (S.weekNo || 0) + 1;
+  S.current = {
+    start: iso(new Date()),
+    tasks: W.pick.map(function (t) { return { t: t, step: W.plan[t].step.trim(), due: W.plan[t].due, done: false }; }),
+    later: W.items.filter(function (t) { return W.pick.indexOf(t) < 0; })
+  };
+  W = null; save(); board(true);
+}
+
+/* ---------- הלוח השבועי ---------- */
+function calLink(t) {
+  var d = fromIso(t.due), e = new Date(d); e.setDate(e.getDate() + 1);
+  var f = function (x) { return iso(x).replace(/-/g, ""); };
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(t.t) +
+    "&details=" + encodeURIComponent("צעד ראשון: " + t.step + "\n\nמתוך תכל'ס השבוע") + "&dates=" + f(d) + "/" + f(e);
+}
+function board(fresh) {
+  clear(); progress(100); setNav(null, null);
+  var c = S.current;
+  var done = c.tasks.filter(function (t) { return t.done; }).length;
+  app.appendChild(el("div", { cls: "kicker", text: "שבוע " + S.weekNo + " · " + short(c.start) + "-" + short(addDays(c.start, 6)) }));
+  app.appendChild(el("h1", { text: done === c.tasks.length ? "כל המשימות של השבוע בוצעו 👏" : fresh ? "השבוע שלך מוכן" : "השבוע שלך" }));
+  if (PROGRAM) app.appendChild(el("div", { cls: "note", text: "אתם בתוכנית הליווי, ולכן אברהם רואה את הלוח הזה כדי להכין איתכם את שיחת המעקב." }));
+  app.appendChild(el("div", { cls: "count" }, [
+    el("div", { cls: "bar" }, [el("i", { style: "width:" + Math.round(100 * done / c.tasks.length) + "%" })]),
+    el("span", { text: done + " מתוך " + c.tasks.length + " בוצעו השבוע" })
+  ]));
+  c.tasks.forEach(function (t) {
+    app.appendChild(el("div", { cls: "task" + (t.done ? " done" : "") }, [
+      el("div", { cls: "top" }, [
+        el("button", { cls: "check", type: "button", "aria-label": t.done ? "בטל סימון" : "סמן כבוצע", text: t.done ? "✓" : "", onclick: function () { t.done = !t.done; save(); board(); } }),
+        el("div", null, [el("div", { cls: "t", text: t.t }),
+          el("div", { cls: "meta" }, ["צעד ראשון: ", el("b", { text: t.step })]),
+          el("div", { cls: "meta", text: "עד " + dayLabel(t.due) })])
+      ]),
+      t.done ? null : el("div", { cls: "acts" }, [el("a", { cls: "btn ghost small", href: calLink(t), target: "_blank", rel: "noopener", text: "📅 הוסף ליומן Google" })])
+    ]));
+  });
+  if (c.later.length) {
+    var ul = el("ul"); c.later.forEach(function (t) { ul.appendChild(el("li", { text: t })); });
+    app.appendChild(el("div", { cls: "box" }, [el("h3", { text: "נדחה לשבוע הבא" }), ul]));
+  }
+  var weekOver = fromIso(addDays(c.start, 6)) < fromIso(iso(new Date()));
+  app.appendChild(el("div", { cls: "box" }, [
+    el("h3", { text: weekOver ? "השבוע הסתיים" : "בסוף השבוע" }),
+    el("p", { cls: "hint", style: "margin:0 0 12px", text: "פותחים שבוע חדש: מה שלא בוצע ומה שנדחה חוזר לרשימה, ובוחרים שוב 3." }),
+    el("button", { cls: "btn " + (weekOver ? "main" : "ghost"), type: "button", text: "מתחילים שבוע חדש", onclick: function () { wizardStart(); } })
+  ]));
+  if (S.history.length) {
+    var h = S.history.slice(-4).map(function (x) { return short(x.start) + ": " + x.done + "/" + x.total; }).join(" · ");
+    app.appendChild(el("p", { cls: "hint", text: "שבועות קודמים: " + h }));
+  }
+  if (!PROGRAM) app.appendChild(linkBox(fresh || showLink));
+}
+function linkBox(first) {
+  var link = personalLink();
+  var box = el("div", { cls: first ? "note" : "box" });
+  box.appendChild(el("h3", { text: first ? "חשוב: שלחו לעצמכם את הקישור האישי" : "הקישור האישי שלכם" }));
+  box.appendChild(el("p", { cls: "hint", style: "margin:0;color:inherit", text: "הלוח שלכם נשמר מוצפן, וגם אני לא יכול לקרוא אותו. המפתח נמצא רק בקישור הזה. שלחו אותו לעצמכם פעם אחת - כך תוכלו להיכנס מכל מחשב או טלפון. לא לשלוח לאחרים." }));
+  box.appendChild(el("div", { cls: "link-out", text: link }));
+  var copyB = el("button", { cls: "btn ghost small", type: "button", text: "העתקת הקישור", onclick: function () {
+    (navigator.clipboard ? navigator.clipboard.writeText(link) : Promise.reject()).then(function () { copyB.textContent = "הועתק ✓"; }, function () { copyB.textContent = "סמנו והעתיקו ידנית"; });
+  } });
+  box.appendChild(el("div", { cls: "row-btns" }, [
+    copyB,
+    el("a", { cls: "btn ghost small", href: "https://wa.me/?text=" + encodeURIComponent("הקישור שלי לתכל'ס השבוע: " + link), target: "_blank", rel: "noopener", text: "שליחה לעצמי בוואטסאפ" }),
+    el("a", { cls: "btn ghost small", href: "mailto:?subject=" + encodeURIComponent("הקישור שלי לתכל'ס השבוע") + "&body=" + encodeURIComponent(link), text: "שליחה לעצמי במייל" })
+  ]));
+  showLink = false;
+  return box;
+}
+
+window.addEventListener("hashchange", function () { location.reload(); });
+boot();
+</script>
+</body>
+</html>
