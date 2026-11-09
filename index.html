@@ -138,6 +138,9 @@ strong { font-weight: 700; color: #fff; }
 .bonus { border: 1px solid rgba(201,151,74,.45); border-radius: var(--radius); padding: 20px; display: grid; gap: 8px; align-content: start; background: linear-gradient(180deg, rgba(42,41,38,.7), rgba(22,22,21,.7)); }
 .bn { color: var(--gold-mid); font-weight: 700; font-size: 14px; }
 .val { color: var(--text-2); font-size: 14px; }
+.bonus.feature { grid-column: 1 / -1; padding: 26px 24px; border-color: var(--gold, #C9974A); background: linear-gradient(180deg, rgba(201,151,74,.14), rgba(22,22,21,.75)); }
+.bonus.feature .lead { font-size: clamp(20px,3vw,24px); font-weight: 800; }
+.bonus.feature ul { margin: 0; padding-inline-start: 22px; display: grid; gap: 6px; }
 .total { font-size: 20px; font-weight: 700; text-align: center; margin-top: 6px; }
 
 /* about */
@@ -430,8 +433,21 @@ footer a{color:inherit}
   <!-- 8. bonuses -->
   <section>
     <div class="wrap read stack rv">
-      <h2>כלולים במחיר ההשקה: <span class="gold">שני כלים להמשך העבודה</span></h2>
+      <h2>כלולים במחיר ההשקה: <span class="gold">שלושה כלים להמשך העבודה</span></h2>
       <div class="bonuses">
+        <div class="bonus feature">
+          <p class="lead">פחות עומס בראש. יותר התקדמות בעסק.</p>
+          <p>בונוס להשקה: גישה ל״תכל׳ס השבוע״ — כלי דיגיטלי שיעזור לכם להפוך את תוכנית העבודה לצעדים שבועיים.</p>
+          <p>מכניסים את המשימות והרעיונות שמעסיקים אתכם, עונים על כמה שאלות קצרות ומגדירים:</p>
+          <ul>
+            <li>שלוש משימות מרכזיות לשבוע הקרוב.</li>
+            <li>צעד ראשון ומועד לביצוע בכל משימה.</li>
+            <li>מה אפשר לדחות כדי להתמקד במה שחשוב עכשיו.</li>
+          </ul>
+          <p>במהלך השבוע מסמנים מה בוצע, ובשבוע הבא מעדכנים וממשיכים להתקדם.</p>
+          <p><strong>כדי שתוכנית העבודה שלכם תיכנס גם ליומן.</strong></p>
+          <span class="val">כלול במחיר ההשקה.</span>
+        </div>
         <div class="bonus"><h3>צ'קליסט: 10 נהלים בסיסיים</h3><p>עשרה נהלים לבחירה ולהתאמה לעסק שלכם, כדי להגדיר איך העבודה צריכה להתבצע.</p><span class="val">שווי 250 ש"ח</span></div>
         <div class="bonus"><h3>בדיקת מסרים אישית</h3><p>מעבר על הפרופיל או על דף העסק שלכם, עם הערות ממוקדות לחידוד המסר וההצעה.</p><span class="val">שווי 500 ש"ח</span></div>
       </div>
@@ -444,7 +460,7 @@ footer a{color:inherit}
     <div class="wrap rv">
       <div class="pricebox">
         <h2 style="font-size:clamp(24px,3.6vw,32px)">לרגל ההשקה: אבחון תכל'ס</h2>
-        <p><strong>שאלון דיגיטלי, שתי פגישות בזום, תוכנית עבודה כתובה ל־90 יום ושני בונוסים.</strong></p>
+        <p><strong>שאלון דיגיטלי, שתי פגישות בזום, תוכנית עבודה כתובה ל־90 יום ושלושה בונוסים.</strong></p>
         <div class="price"><span class="now gold">500 ש"ח</span><span class="was">3,000 ש"ח</span></div>
         <p class="muted">ל־10 העסקים הראשונים בלבד, בתמורה למשוב ולשילוב העבודה בתיק העבודות שלי.</p>
         <a class="btn" href="#form">בואו נדבר על העסק שלכם <span class="ar" aria-hidden="true">←</span></a>
