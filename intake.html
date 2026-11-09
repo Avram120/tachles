@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>תכל'ס | שאלון הכר את העסק</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap">
+<style>
+:root {
+  --bg: #161615; --bg-alt: #2A2926; --line: #3B3934; --text: #F5F0E6; --text-2: #BFB6A5;
+  --gold: #C9974A; --gold-light: #EBCB85; --gold-mid: #DEB267; --cta: #F2C76E; --cta-text: #161615;
+  --font: "Heebo", "Arial Hebrew", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); }
+body { min-height: 100vh; display: flex; flex-direction: column; }
+header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+header img { height: 34px; }
+header .sec { font-size: 14px; color: var(--gold-mid); font-weight: 700; }
+.progress { height: 4px; background: var(--bg-alt); }
+.progress > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #A27138, #C9974A, #EBCB85); transition: width .35s; margin-inline-start: auto; }
+main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 28px 18px 120px; }
+.card { width: 100%; max-width: 640px; animation: in .35s ease; }
+@keyframes in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.kicker { color: var(--gold-mid); font-weight: 700; font-size: 14px; margin-bottom: 10px; }
+h1 { font-size: clamp(26px, 5vw, 38px); font-weight: 900; line-height: 1.2; margin: 0 0 14px; }
+h2 { font-size: clamp(21px, 4.2vw, 28px); font-weight: 900; line-height: 1.3; margin: 0 0 8px; }
+.hint { color: var(--text-2); font-size: 16px; line-height: 1.6; margin: 0 0 22px; }
+.intro p { font-size: 18px; line-height: 1.7; color: var(--text); margin: 0 0 14px; }
+.opts { display: grid; gap: 10px; }
+.opt { display: flex; align-items: center; gap: 12px; width: 100%; text-align: right; background: var(--bg-alt); color: var(--text); border: 1.5px solid var(--line); border-radius: 12px; padding: 14px 16px; font: 500 17px/1.4 var(--font); cursor: pointer; transition: border-color .15s, background .15s; }
+.opt:hover { border-color: var(--gold); }
+.opt .mk { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--gold); display: grid; place-items: center; }
+.opt.multi .mk { border-radius: 6px; }
+.opt.on { border-color: var(--cta); background: #34302a; }
+.opt.on .mk::after { content: ""; width: 10px; height: 10px; border-radius: inherit; background: var(--cta); }
+.opt.multi.on .mk::after { border-radius: 2px; }
+input[type=text], input[type=tel], input[type=email], textarea { width: 100%; background: var(--bg-alt); color: var(--text); border: 1.5px solid var(--line); border-radius: 12px; padding: 14px 16px; font: 500 18px/1.5 var(--font); outline: none; }
+input:focus, textarea:focus { border-color: var(--gold); }
+textarea { min-height: 130px; resize: vertical; }
+.other { margin-top: 10px; }
+.scale { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; direction: ltr; }
+.scale button { aspect-ratio: 1; border-radius: 10px; border: 1.5px solid var(--line); background: var(--bg-alt); color: var(--text); font: 700 17px var(--font); cursor: pointer; }
+.scale button.on { background: var(--cta); color: var(--cta-text); border-color: var(--cta); }
+.scale-l { display: flex; justify-content: space-between; color: var(--text-2); font-size: 14px; margin-top: 8px; }
+.nav { position: fixed; inset-inline: 0; bottom: 0; background: rgba(22,22,21,.96); border-top: 1px solid var(--line); padding: 14px 18px; display: flex; gap: 12px; justify-content: center; }
+.nav .in { width: 100%; max-width: 640px; display: flex; gap: 12px; align-items: center; }
+.btn { background: var(--cta); color: var(--cta-text); border: 0; border-radius: 12px; padding: 14px 26px; font: 900 18px var(--font); cursor: pointer; flex: 1; }
+.btn:disabled { opacity: .4; cursor: default; }
+.back { background: none; border: 1.5px solid var(--line); color: var(--text-2); border-radius: 12px; padding: 14px 18px; font: 700 16px var(--font); cursor: pointer; }
+.err { color: #E59A7F; font-size: 15px; margin-top: 10px; min-height: 20px; }
+.count { color: var(--text-2); font-size: 14px; white-space: nowrap; }
+.done { text-align: center; }
+.done .big { font-size: 56px; margin-bottom: 10px; color: var(--gold-light); }
+@media (max-width: 480px) { .scale { grid-template-columns: repeat(5, 1fr); } .opt { font-size: 16px; } }
+</style>
+</head>
+<body>
+<header><img src="assets/logo-h.png" alt="תכל'ס"><span class="sec" id="sec"></span></header>
+<div class="progress"><i id="bar"></i></div>
+<main><div class="card" id="card"></div></main>
+<div class="nav" id="nav"><div class="in"><button class="back" id="back">חזרה</button><button class="btn" id="next">המשך</button><span class="count" id="count"></span></div></div>
+
+<script>
+var ENDPOINT = "https://script.google.com/macros/s/AKfycbyfNqdF4XrlUemWKVc1dCUyYaRAJHCGYlocfxmfi8ynfTGb0HX-zDVBTXCJJVT_FTpltg/exec";
+var STORE = "tachles_intake_v1";
+
+// type: text | tel | email | long | one | multi | scale. opt: optional. show: function(answers) -> bool
+var S = [
+ { sec: "רקע", intro: "נתחיל בהיכרות קצרה עם העסק. שאלות קלות, כדי להיכנס למים." , q: [
+  { id: "name", t: "text", label: "שם מלא" },
+  { id: "phone", t: "tel", label: "טלפון" },
+  { id: "email", t: "email", label: "מייל" },
+  { id: "biz_what", t: "text", label: "מה העסק עושה?", hint: "בשורה אחת, כאילו אתה מסביר למישהו שלא מהתחום." },
+  { id: "biz_sells", t: "long", label: "מה אתה מוכר?", hint: "פרט את השירותים או המוצרים העיקריים. לא את המקצוע, אלא את מה שהלקוח קונה." },
+  { id: "team", t: "one", label: "מי עובד בעסק?", o: ["רק אני", "אני ועוד אחד", "אני ועוד 2–4", "אני ועוד 5–10", "יותר מ-10"] },
+  { id: "years", t: "one", label: "כמה שנים העסק פעיל?", o: ["עד שנה", "1–3", "3–7", "7–15", "מעל 15"] },
+  { id: "only_income", t: "one", label: "האם זה מקור ההכנסה היחיד שלך?", o: ["כן", "לא", "חלקי"] },
+  { id: "other_job", t: "text", label: "מה העיסוק הנוסף, ובאיזה היקף?", hint: "למשל: שכיר במשרה מלאה בחינוך, או שתי משמרות בשבוע בקליניקה של מישהו אחר.", show: function (a) { return a.only_income && a.only_income !== "כן"; } },
+  { id: "other_job_link", t: "one", label: "האם העיסוק הנוסף קשור לעסק שלך?", o: ["באותו תחום", "בתחום אחר לגמרי", "אני פוגש שם אנשים שיכולים להיות לקוחות"], show: function (a) { return a.only_income && a.only_income !== "כן"; } },
+  { id: "partner", t: "one", label: "יש לך שותף בעסק?", o: ["אין", "שותף אחד", "יותר מאחד"] },
+  { id: "online", t: "multi", label: "איפה העסק נמצא ברשת?", hint: "סמן הכול. אם יש קישור, אפשר להוסיף בשדה למטה.", o: ["אתר", "דף נחיתה", "פייסבוק", "אינסטגרם", "לינקדאין", "יוטיוב", "טיקטוק", "גוגל עסקים", "אין נוכחות"], other: "קישור (לא חובה)" },
+  { id: "systems", t: "multi", label: "באילו מערכות אתה משתמש?", hint: "סמן הכול.", o: ["CRM", "מערכת דיוור", "מערכת סליקה וגבייה", "תוכנת הנהלת חשבונות", "ניהול יומן ותורים", "ניהול משימות", "כלי AI", "אין, הכול ידני"], other: "אחר (פרט)" },
+  { id: "paying_for", t: "multi", label: "על מה אתה משלם היום באופן קבוע, מעבר לזה?", hint: "סמן הכול.", o: ["פרסום ממומן", "אנשי מקצוע חיצוניים (שיווק, עיצוב, תוכן)", "ייעוץ או ליווי", "הדרכות וקורסים", "שיתופי פעולה", "אין"], other: "אחר (פרט)" }
+ ]},
+ { sec: "הזמן שלך", intro: "כמה שעות באמת יש, ולאן הן הולכות.", q: [
+  { id: "hours_total", t: "one", label: "כמה שעות בשבוע אתה עובד בפועל, כולל ערבים?", o: ["עד 20", "20–35", "35–50", "50–60", "מעל 60"] },
+  { id: "hours_paid", t: "one", label: "מתוכן, כמה שעות אתה מול לקוח ומקבל עליהן תשלום?", o: ["עד 10", "10–20", "20–30", "מעל 30", "לא יודע"] },
+  { id: "hours_admin", t: "one", label: "כמה שעות הולכות להצעות מחיר, התכתבויות, נסיעות וחשבוניות?", o: ["עד 5", "5–10", "10–20", "מעל 20", "לא יודע"] },
+  { id: "on_business", t: "one", label: "יש לי שעות קבועות שבהן אני עובד על העסק, ולא בתוכו", o: ["נכון", "חלקית", "לא נכון"] },
+  { id: "unsure_day", t: "one", label: "אני מגיע לסוף היום ולא בטוח מה הספקתי", o: ["לעיתים קרובות", "לפעמים", "כמעט אף פעם"] },
+  { id: "time_eaters", t: "text", label: "מה עוד אוכל לך זמן שלא הופיע כאן?", opt: true }
+ ]},
+ { sec: "כסף", intro: "כמה נכנס, כמה נשאר ומתי הכסף זז. כל הסכומים בטווחים. גם \"לא יודע\" היא תשובה חשובה.", q: [
+  { id: "revenue", t: "one", label: "מחזור חודשי ממוצע בשנה האחרונה", o: ["עד 10,000", "10–25 אלף", "25–50 אלף", "50–100 אלף", "מעל 100 אלף"] },
+  { id: "revenue_trend", t: "one", label: "לעומת שנה שעברה", o: ["גדל משמעותית", "גדל מעט", "דומה", "ירד", "לא יודע"] },
+  { id: "fixed_costs", t: "one", label: "הוצאות קבועות חודשיות", o: ["עד 2,000", "2–5 אלף", "5–12 אלף", "מעל 12 אלף", "לא יודע"] },
+  { id: "draw", t: "one", label: "כמה אתה מושך לעצמך בחודש?", o: ["עד 5,000", "5–10 אלף", "10–20 אלף", "מעל 20 אלף", "לא יודע"] },
+  { id: "hourly_profit", t: "one", label: "אני יודע כמה אני מרוויח בפועל על שעת עבודה", o: ["במדויק", "בערך", "לא יודע"] },
+  { id: "tracking", t: "one", label: "איך אתה עוקב אחרי הכנסות והוצאות?", o: ["מערכת מסודרת", "אקסל", "רואה חשבון בלבד", "לא עוקב"] },
+  { id: "forecast", t: "one", label: "אני יודע מראש כמה ייכנס בחודש הבא", o: ["יודע", "בערך", "לא יודע"] },
+  { id: "receivables", t: "one", label: "כסף שלקוחות חייבים ועוד לא שילמו", o: ["אין", "מעט", "סכום משמעותי", "לא יודע"] },
+  { id: "seasonality", t: "one", label: "הפער בין החודש החזק לחלש גדול מאוד", o: ["נכון", "חלקית", "לא נכון"] },
+  { id: "salary", t: "one", label: "אני מושך לעצמי שכר קבוע, בנפרד מהרווח של העסק", o: ["כן", "חלקית", "לא"] },
+  { id: "reserve", t: "one", label: "העסק צובר רזרבה כספית, ולא רק מגלגל", o: ["כן", "חלקית", "לא"] },
+  { id: "credit_days", t: "one", label: "ימי האשראי שאני נותן ללקוחות אינם ארוכים מאלה שאני מקבל מספקים", o: ["כן", "לא", "אין לי ספקים", "לא יודע"] },
+  { id: "payment_reminder", t: "long", label: "מה קורה לך כשצריך להזכיר ללקוח לשלם?", opt: true }
+ ]},
+ { sec: "שיווק ומכירות", intro: "מאיפה מגיעים הלקוחות, ומה קורה מהרגע שמישהו פונה.", q: [
+  { id: "lead_sources", t: "multi", label: "מאיפה מגיעים רוב הלקוחות שלך?", hint: "סמן הכול.", o: ["המלצות ומפה לאוזן", "רשתות חברתיות", "פרסום ממומן", "שיתופי פעולה", "אתר וגוגל", "לקוחות חוזרים", "לא יודע"], other: "אחר (פרט)" },
+  { id: "leads_month", t: "one", label: "כמה פניות חדשות מגיעות בחודש?", o: ["עד 5", "5–15", "15–30", "מעל 30", "לא יודע"] },
+  { id: "close_rate", t: "one", label: "מתוך כל 10 פניות, כמה הופכות ללקוחות?", o: ["1–2", "3–5", "6–8", "9–10", "לא יודע"] },
+  { id: "why_me", t: "one", label: "אני יודע להסביר בשני משפטים למה לבחור דווקא בי", o: ["נכון", "חלקית", "לא נכון"] },
+  { id: "followup", t: "one", label: "יש לי תהליך קבוע למעקב אחרי פניות שעוד לא סגרו", o: ["כן", "חלקית", "לא"] },
+  { id: "price_now", t: "text", label: "מה המחיר של השירות העיקרי, ומתי העלית מחיר לאחרונה?" }
+ ]},
+ { sec: "משאבים", intro: "על מה אפשר להישען. לפעמים יש בעסק יותר ממה שנראה מבפנים.", q: [
+  { id: "assets", t: "multi", label: "מה כבר יש לך שאפשר להישען עליו?", hint: "סמן הכול.", o: ["קהל עוקבים או רשימת תפוצה", "לקוחות מרוצים שימליצו", "ידע או תוכן מוכן (הרצאות, חומרים)", "אנשים שעוזרים לי (משפחה, עובד, פרילנסר)", "קשרים בקהילה ובציבור", "תקציב להשקעה בעסק", "זמן פנוי"], other: "אחר (פרט)" },
+  { id: "strength", t: "text", label: "במה אתה הכי חזק בעסק?", hint: "הדבר שלקוחות אומרים עליך, או שאתה עושה בלי מאמץ." },
+  { id: "time_for_change", t: "one", label: "כמה שעות בשבוע תוכל להקדיש לעבודה על העסק בתקופה הקרובה?", o: ["עד 2", "2–4", "4–8", "מעל 8"] },
+  { id: "budget", t: "one", label: "כמה תוכל להשקיע בצמיחה בשלושת החודשים הקרובים, מעבר לליווי?", o: ["0", "עד 2,000", "2–5 אלף", "מעל 5 אלף", "תלוי במה"] }
+ ]},
+ { sec: "חסמים", intro: "מה עוצר אותך. גם הדברים המעשיים, וגם מה שקורה בראש.", q: [
+  { id: "blockers", t: "multi", label: "מה עוצר אותך היום?", hint: "סמן הכול.", o: ["אין לי זמן", "לא ברור מה לעשות קודם", "אין מספיק לקוחות", "המחיר נמוך מדי", "קשה לי למכור", "פחד להעלות מחיר", "קשה לי לשחרר משימות", "אין מערכות וסדר", "חוסר ביטחון", "עניין עם שותף או במשפחה"], other: "אחר (פרט)" },
+  { id: "tried", t: "long", label: "מה ניסית בעבר, ולא עבד?", opt: true },
+  { id: "if_away", t: "text", label: "אם תצא לשבוע ותעביר את העסק למישהו אחר, מה ייתקע?" },
+  { id: "readiness", t: "scale", label: "כמה אתה מוכן לשינוי עכשיו?", lo: "לא בטוח", hi: "מוכן לגמרי" }
+ ]},
+ { sec: "המצב הרצוי", intro: "לאן רוצים להגיע. ככל שתהיה ספציפי יותר, התוכנית תהיה מדויקת יותר.", q: [
+  { id: "goal_revenue", t: "one", label: "בעוד שנה, איזה מחזור חודשי היית רוצה?", o: ["עד 25 אלף", "25–50 אלף", "50–100 אלף", "מעל 100 אלף", "עוד לא חשבתי"] },
+  { id: "goal_hours", t: "one", label: "וכמה שעות בשבוע היית רוצה לעבוד?", o: ["עד 25", "25–35", "35–45", "מעל 45"] },
+  { id: "good_week", t: "long", label: "איך נראה שבוע טוב בעסק שלך בעוד שנה?", hint: "מה אתה עושה, מה כבר לא עליך, ומה יש לך יותר." },
+  { id: "one_change", t: "long", label: "אם רק דבר אחד ישתנה בעסק בשלושת החודשים הקרובים, מה הוא?" },
+  { id: "success", t: "text", label: "איך תדע שהליווי הצליח?" },
+  { id: "anything_else", t: "long", label: "יש עוד משהו שחשוב שאדע לפני הפגישה?", opt: true }
+ ]}
+];
+
+// flatten
+var Q = [], A = {}, pos = -1;
+S.forEach(function (s, si) { Q.push({ intro: true, si: si }); s.q.forEach(function (q) { q.si = si; Q.push(q); }); });
+var savedPos = 0;
+try { var saved = JSON.parse(localStorage.getItem(STORE) || "null"); if (saved && saved.A) { A = saved.A; savedPos = Math.max(0, Math.min(Q.length - 1, saved.pos || 0)); } } catch (e) {}
+function save() { try { localStorage.setItem(STORE, JSON.stringify({ A: A, pos: pos })); } catch (e) {} }
+function visible(i) { var q = Q[i]; return !q.show || q.show(A); }
+function realQs() { return Q.filter(function (q, i) { return !q.intro && visible(i); }); }
+
+var card = document.getElementById("card"), nextB = document.getElementById("next"), backB = document.getElementById("back");
+var bar = document.getElementById("bar"), secEl = document.getElementById("sec"), countEl = document.getElementById("count"), nav = document.getElementById("nav");
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+function welcome() {
+  pos = -1; secEl.textContent = ""; bar.style.width = "0";
+  var resume = Object.keys(A).length > 0;
+  card.innerHTML = '<div class="card intro"><div class="kicker">שאלון הכר את העסק</div><h1>לפני שנשב יחד על העסק</h1>' +
+    '<p>השאלון עוזר לי להגיע לפגישה הראשונה כשאני כבר מכיר את העסק שלך: מה יש, מה עוצר, ולאן רוצים להגיע.</p>' +
+    '<p>שבעה פרקים קצרים, רוב השאלות בלחיצה אחת. בערך 15–20 דקות. התשובות נשמרות בדפדפן, אז אפשר לעצור ולחזור.</p>' +
+    '<p style="color:var(--text-2);font-size:15px">התשובות נשארות ביני לבינך ומשמשות רק להכנה לליווי.</p></div>';
+  nextB.textContent = resume ? "להמשיך מאיפה שעצרתי" : "מתחילים"; nextB.disabled = false; backB.style.visibility = "hidden"; countEl.textContent = "";
+}
+
+function render() {
+  var q = Q[pos], s = S[q.si];
+  secEl.textContent = (q.si + 1) + "/" + S.length + " · " + s.sec;
+  var all = realQs(), idx = all.indexOf(q);
+  bar.style.width = (idx < 0 ? (all.indexOf(Q[pos + 1]) ) : idx) / all.length * 100 + "%";
+  backB.style.visibility = "visible"; document.getElementById("err") && (document.getElementById("err").textContent = "");
+  if (q.intro) {
+    card.innerHTML = '<div class="card intro"><div class="kicker">פרק ' + (q.si + 1) + ' מתוך ' + S.length + '</div><h1>' + esc(s.sec) + '</h1><p>' + esc(s.intro) + '</p></div>';
+    nextB.textContent = "קדימה"; nextB.disabled = false; countEl.textContent = ""; return;
+  }
+  countEl.textContent = (idx + 1) + "/" + all.length;
+  nextB.textContent = idx === all.length - 1 ? "שליחה" : "המשך";
+  var v = A[q.id], h = '<div class="card"><h2>' + esc(q.label) + (q.opt ? ' <span style="font-weight:500;font-size:15px;color:var(--text-2)">(לא חובה)</span>' : '') + '</h2>' + (q.hint ? '<p class="hint">' + esc(q.hint) + '</p>' : '<div style="height:14px"></div>');
+  if (q.t === "one" || q.t === "multi") {
+    var sel = q.t === "multi" ? ((v && v.sel) || []) : [v];
+    h += '<div class="opts">' + q.o.map(function (o, i) { return '<button type="button" class="opt ' + (q.t === "multi" ? "multi " : "") + (sel.indexOf(o) > -1 ? "on" : "") + '" data-i="' + i + '"><span class="mk"></span>' + esc(o) + '</button>'; }).join("") + '</div>';
+    if (q.other) h += '<input type="text" class="other" id="oth" placeholder="' + esc(q.other) + '" value="' + esc((v && v.other) || "") + '">';
+  } else if (q.t === "scale") {
+    h += '<div class="scale">' + [1,2,3,4,5,6,7,8,9,10].map(function (n) { return '<button type="button" data-n="' + n + '" class="' + (v == n ? "on" : "") + '">' + n + '</button>'; }).join("") + '</div><div class="scale-l"><span>' + esc(q.lo) + '</span><span>' + esc(q.hi) + '</span></div>';
+  } else if (q.t === "long") {
+    h += '<textarea id="inp">' + esc(v || "") + '</textarea>';
+  } else {
+    h += '<input id="inp" type="' + (q.t === "tel" ? "tel" : q.t === "email" ? "email" : "text") + '" value="' + esc(v || "") + '" autocomplete="' + (q.id === "name" ? "name" : q.t === "tel" ? "tel" : q.t === "email" ? "email" : "off") + '">';
+  }
+  h += '<div class="err" id="err"></div></div>';
+  card.innerHTML = h;
+  var inp = document.getElementById("inp"); if (inp) { inp.focus(); inp.addEventListener("keydown", function (e) { if (e.key === "Enter" && q.t !== "long") { e.preventDefault(); go(1); } }); }
+  card.querySelectorAll(".opt").forEach(function (b) { b.onclick = function () {
+    var o = q.o[+b.dataset.i];
+    if (q.t === "one") { A[q.id] = o; save(); card.querySelectorAll(".opt").forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on"); setTimeout(function () { go(1); }, 260); }
+    else { var cur = (A[q.id] && A[q.id].sel) || []; var k = cur.indexOf(o); if (k > -1) cur.splice(k, 1); else cur.push(o); A[q.id] = { sel: cur, other: (document.getElementById("oth") || {}).value || "" }; save(); b.classList.toggle("on"); }
+  }; });
+  card.querySelectorAll(".scale button").forEach(function (b) { b.onclick = function () { A[q.id] = +b.dataset.n; save(); card.querySelectorAll(".scale button").forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on"); setTimeout(function () { go(1); }, 260); }; });
+}
+
+function collect() {
+  var q = Q[pos]; if (!q || q.intro) return true;
+  var err = document.getElementById("err");
+  if (q.t === "multi") {
+    var oth = document.getElementById("oth"), cur = (A[q.id] && A[q.id].sel) || [];
+    A[q.id] = { sel: cur, other: oth ? oth.value.trim() : "" };
+    if (!cur.length && !A[q.id].other && !q.opt) { err.textContent = "אפשר לסמן כמה תשובות"; return false; }
+  } else if (q.t === "one" || q.t === "scale") {
+    if (A[q.id] == null && !q.opt) { err.textContent = "צריך לבחור תשובה"; return false; }
+  } else {
+    var val = document.getElementById("inp").value.trim();
+    if (!val && !q.opt) { err.textContent = "השדה הזה חשוב לי"; return false; }
+    if (q.t === "email" && val && !/^\S+@\S+\.\S+$/.test(val)) { err.textContent = "נראה שחסר משהו בכתובת המייל"; return false; }
+    if (q.t === "tel" && val.replace(/\D/g, "").length < 9) { err.textContent = "מספר הטלפון קצר מדי"; return false; }
+    A[q.id] = val;
+  }
+  save(); return true;
+}
+
+function go(dir) {
+  if (pos === -1 && dir > 0) { pos = visible(savedPos) ? savedPos : 0; render(); return; }
+  if (dir > 0 && !collect()) return;
+  var i = pos;
+  do { i += dir; } while (i >= 0 && i < Q.length && !visible(i));
+  if (i < 0) { welcome(); return; }
+  if (i >= Q.length) { submit(); return; }
+  pos = i; save(); render(); window.scrollTo(0, 0);
+}
+
+function fmt(q) {
+  var v = A[q.id]; if (v == null) return "";
+  if (q.t === "multi") return v.sel.join(", ") + (v.other ? (v.sel.length ? " | " : "") + v.other : "");
+  return String(v);
+}
+
+function submit() {
+  var rows = []; Q.forEach(function (q, i) { if (!q.intro) rows.push([S[q.si].sec + " · " + q.label, visible(i) ? fmt(q) : ""]); });
+  var payload = { form: "intake", name: A.name || "", phone: A.phone || "", email: A.email || "", answers: rows };
+  nextB.disabled = true; nextB.textContent = "שולח...";
+  fetch(ENDPOINT, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) })
+    .then(finish, finish);
+}
+function finish() {
+  try { localStorage.removeItem(STORE); } catch (e) {}
+  bar.style.width = "100%"; secEl.textContent = ""; nav.style.display = "none";
+  card.innerHTML = '<div class="card done"><div class="big">✓</div><h1>תודה, ' + esc((A.name || "").split(" ")[0]) + '!</h1><p class="hint" style="font-size:18px">התשובות הגיעו אליי. אני עובר עליהן לפני הפגישה, כדי שנוכל להתחיל ישר ממה שהכי בוער.</p><p class="hint">בוא נדבר תכל\'ס.<br>אברהם גוטפרב</p></div>';
+}
+
+nextB.onclick = function () { go(1); };
+backB.onclick = function () { if (pos >= 0) { collect(); } go(-1); };
+welcome();
+</script>
+</body>
+</html>
