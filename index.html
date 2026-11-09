@@ -287,6 +287,9 @@ footer .logo { font-size: 24px; margin-bottom: 8px; display: inline-block; }
 .pnote a,.legal a{color:var(--gold-light)}
 .legal{margin-top:14px;display:flex;gap:8px 18px;justify-content:center;flex-wrap:wrap;font-size:14px}
 footer a{color:inherit}
+.cookie{position:fixed;inset-inline:0;bottom:0;z-index:30;background:#10100F;border-top:1px solid var(--gold);padding:12px max(16px,env(safe-area-inset-left,0px)) calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:12px 18px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:15px;color:var(--text)}
+.cookie a{color:var(--gold-light)}
+.cookie .btn{font-size:15px;padding:8px 20px;box-shadow:none}
 @media (forced-colors: active){.gold,.stats b{color:CanvasText;background:none;-webkit-text-fill-color:CanvasText}}
 </style>
 </head>
@@ -494,6 +497,8 @@ footer a{color:inherit}
   </div>
 </footer>
 
+<div class="cookie" id="cookie" role="region" aria-label="הודעה על עוגיות" hidden><p>האתר משתמש בעוגיות ובפיקסל של מטא כדי למדוד ולשפר את הפרסום. <a href="privacy.html#cookies">פרטים במדיניות הפרטיות</a></p><button class="btn" type="button" id="cookieOk">הבנתי</button></div>
+
 <div class="sticky" id="sticky"><a class="btn" href="#form">בואו נדבר על העסק שלכם <span class="ar" aria-hidden="true">←</span></a></div>
 
 <script>
@@ -501,7 +506,26 @@ footer a{color:inherit}
   // Where form submissions go. Filled in when the Google Sheet is connected.
   var ENDPOINT = "https://script.google.com/macros/s/AKfycbyfNqdF4XrlUemWKVc1dCUyYaRAJHCGYlocfxmfi8ynfTGb0HX-zDVBTXCJJVT_FTpltg/exec";
 
+  // Meta pixel. Stays off until an ID is filled in. Then also update the cookies section in privacy.html.
+  var PIXEL_ID = "";
+
   document.documentElement.classList.add("js");
+
+  if (PIXEL_ID) {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq("init", PIXEL_ID);
+    fbq("track", "PageView");
+    var seen = false;
+    try { seen = localStorage.getItem("tachles-cookie-ok") === "1"; } catch (e) {}
+    if (!seen) {
+      var bar = document.getElementById("cookie");
+      bar.hidden = false;
+      document.getElementById("cookieOk").addEventListener("click", function () {
+        bar.hidden = true;
+        try { localStorage.setItem("tachles-cookie-ok", "1"); } catch (e) {}
+      });
+    }
+  }
 
   // reveal on scroll (content stays visible if observers are unavailable)
   var els = document.querySelectorAll(".rv");
@@ -588,7 +612,10 @@ footer a{color:inherit}
     data.submittedAt = new Date().toISOString();
     var btn = form.querySelector('[type="submit"]');
     btn.disabled = true;
-    function done() { form.style.display = "none"; document.getElementById("thanks").classList.add("show"); }
+    function done() {
+      form.style.display = "none"; document.getElementById("thanks").classList.add("show");
+      if (window.fbq) fbq("track", "Lead");
+    }
     if (!ENDPOINT) { console.info("[tachles] form not connected yet", data); done(); return; }
     var shown = false;
     function finish() { if (!shown) { shown = true; done(); } }
