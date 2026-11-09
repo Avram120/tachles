@@ -28,7 +28,7 @@ main { flex: 1; display: flex; align-items: center; justify-content: center; pad
 .kicker { color: var(--gold-mid); font-weight: 700; font-size: 14px; margin-bottom: 10px; }
 h1 { font-size: clamp(26px, 5vw, 38px); font-weight: 900; line-height: 1.2; margin: 0 0 14px; }
 h2 { font-size: clamp(21px, 4.2vw, 28px); font-weight: 900; line-height: 1.3; margin: 0 0 8px; }
-.hint { color: var(--text-2); font-size: 16px; line-height: 1.6; margin: 0 0 22px; }
+.hint { color: var(--text-2); font-size: 16px; line-height: 1.6; margin: 0 0 22px; white-space: pre-line; }
 .intro p { font-size: 18px; line-height: 1.7; color: var(--text); margin: 0 0 14px; }
 .opts { display: grid; gap: 10px; }
 .opt { display: flex; align-items: center; gap: 12px; width: 100%; text-align: right; background: var(--bg-alt); color: var(--text); border: 1.5px solid var(--line); border-radius: 12px; padding: 14px 16px; font: 500 17px/1.4 var(--font); cursor: pointer; transition: border-color .15s, background .15s; }
@@ -87,7 +87,7 @@ var S = [
   { id: "training", t: "long", label: "מה ההכשרה המקצועית שלך, או איך הגעת לתחום?", hint: "ספר את הסיפור שלך. יש מי שלמד את המקצוע, ויש מי שהגיע אליו מניסיון חיים או מעבודה בתחום. הכול רלוונטי. למשל: \"עובדת סוציאלית, תואר שני בטיפול משפחתי\", \"התחלתי לעזור למשפחות בקהילה, ומשם זה הפך לעיסוק\"." },
   { id: "experience", t: "one", label: "כמה שנות ניסיון יש לך בתחום?", hint: "כולל ניסיון לפני שפתחת את העסק.", o: ["עד 2", "2–5", "5–10", "מעל 10"] },
   { id: "team", t: "one", label: "מי עובד בעסק?", o: ["רק אני", "אני ועוד אחד", "אני ועוד 2–4", "אני ועוד 5–10", "יותר מ-10"] },
-  { id: "team_training", t: "long", label: "מה ההכשרה של מי שנותן את השירות בעסק, מלבדך?", hint: "למשל: \"שתי מטפלות רגשיות עם תעודה\", \"מדריך אחד בהכשרה\".", show: function (a) { return a.team && a.team !== "רק אני"; } },
+  { id: "team_training", t: "long", label: "ספר בקצרה על מי שעובד איתך בעסק", hint: "שורה לכל אחד: מה התפקיד שלו, ואם רלוונטי, גם ההכשרה. למשל:\nשרה: מזכירה, אחראית על תורים וגבייה.\nדוד: מטפל רגשי, תעודה בטיפול באמנות.", show: function (a) { return a.team && a.team !== "רק אני"; } },
   { id: "years", t: "one", label: "כמה שנים העסק פעיל?", o: ["עד שנה", "1–3", "3–7", "7–15", "מעל 15"] },
   { id: "only_income", t: "one", label: "האם זה מקור ההכנסה היחיד שלך?", o: ["כן", "לא", "חלקי"] },
   { id: "other_job", t: "text", label: "מה העיסוק הנוסף, ובאיזה היקף?", hint: "למשל: שכיר במשרה מלאה בחינוך, או שתי משמרות בשבוע בקליניקה של מישהו אחר.", show: function (a) { return a.only_income && a.only_income !== "כן"; } },
