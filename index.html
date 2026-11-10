@@ -382,6 +382,99 @@ footer .logo { font-size: 24px; margin-bottom: 8px; display: inline-block; }
 .stats span{font-size:14.5px;color:var(--text-2)}
 .about{grid-template-columns:minmax(0,1fr)!important}
 .exp{gap:12px}
+.bx-mob { display: none; }
+.bx-mob .bx-dev { transform: none; }
+.bx-later.frz-m { background: #EAF0F2; color: #3d5a66; }
+.bx-later.frz-m span { color: #3d5a66; }
+@media (max-width: 620px) { .bx-feature.wide .bx-lap { display: none; } .bx-mob { display: flex; justify-content: center; width: 100%; } }
+/* reading rhythm (2026-11-10) */
+section { padding-block: 84px; }
+section.band { background: linear-gradient(180deg, #1D1C1A, #191817); }
+.read p { line-height: 1.8; }
+.read p.quote { line-height: 1.4; }
+.hl { color: var(--gold-light); font-weight: 700; }
+.pains { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.pains li { position: relative; padding-inline-start: 20px; }
+.pains li::before { content: ""; position: absolute; inset-inline-start: 0; top: .72em; width: 10px; height: 2px; background: var(--gold); }
+.pains b { color: var(--text); }
+.qs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; border-inline-start: 3px solid var(--gold); padding-inline-start: 16px; }
+.qs li { font-size: 18px; font-weight: 700; color: var(--text); }
+@media (max-width: 720px) { section { padding-block: 60px; } }
+/* calmer look (2026-11-10) */
+.timeline { display: grid; gap: 0; border-inline-start: 2px solid var(--line); margin-inline-start: 8px; }
+.timeline .phase { background: none; border: 0; border-radius: 0; padding: 4px 26px 26px 0; position: relative; gap: 8px; }
+.timeline .phase::before { content: ""; position: absolute; inset-inline-start: -8px; top: 8px; width: 14px; height: 14px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px var(--bg); }
+.timeline .phase h3 { font-size: 22px; }
+.timeline .phase p { color: #E4DACB; }
+.hl { color: inherit; font-weight: 700; }
+.qs { border-inline-start: 0; padding-inline-start: 0; }
+.qs li { font-size: 17px; }
+#areas .area::before { display: none; }
+#areas .area:hover { transform: none; box-shadow: none; border-color: var(--line); }
+.about .score div { background: none; border: 0; padding: 6px 4px; }
+.about .score { border-block: 1px solid var(--line); padding-block: 10px; }
+/* scroll-linked lines + lit emphasis (2026-11-10) */
+.sprog { position: fixed; top: 0; inset-inline: 0; height: 3px; z-index: 60; pointer-events: none; }
+.sprog span { display: block; height: 100%; background: var(--gold-grad); transform: scaleX(0); transform-origin: right; }
+section + section::before { transition: transform 1.4s cubic-bezier(.2,.7,.2,1); }
+.js section.unseen::before { transform: scaleX(0); }
+.timeline { position: relative; }
+.timeline::after { content: ""; position: absolute; inset-inline-start: -2px; top: 0; width: 2px; height: var(--fill, 0%); background: var(--gold-grad); }
+.timeline .phase::before { transition: transform .4s ease, background .4s ease; }
+.timeline .phase.on::before { transform: scale(1.35); }
+.js .rv .gold { transition: -webkit-text-fill-color 1.1s ease .2s; }
+.js .rv:not(.lit) .gold { -webkit-text-fill-color: #F5F0E6; }
+@media (prefers-reduced-motion: reduce) { .js section.unseen::before { transform: none; } .js .rv:not(.lit) .gold { -webkit-text-fill-color: transparent; } .timeline::after { height: 100%; } }
+.timeline .phase p { color: var(--text-2); }
+.timeline .phase p b { color: var(--text); font-weight: 700; transition: color 1s ease .3s; }
+.js .rv:not(.lit) .timeline .phase p b { color: var(--text-2); }
+/* Yahav-style chunking (2026-11-10) */
+.diag { max-width: 980px; }
+.diag .timeline .phase { display: grid; grid-template-columns: 200px minmax(0, 1fr); grid-template-rows: auto 1fr; column-gap: 28px; row-gap: 4px; background: #1C1B19; border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; margin: 0 26px 14px 0; }
+.diag .timeline .phase::before { inset-inline-start: -35px; top: 28px; }
+.diag .timeline .phase .badge { grid-column: 1; }
+.diag .timeline .phase h3 { grid-column: 1; grid-row: 2; align-self: start; }
+.diag .timeline .phase .ptext { grid-column: 2; grid-row: 1 / span 2; display: grid; gap: 10px; }
+.diag .timeline .phase .ptext p { color: #E4DACB; }
+.diag .timeline { border-inline-start: 2px solid var(--line); }
+@media (max-width: 720px) { .diag .timeline .phase { grid-template-columns: minmax(0, 1fr); margin-inline-start: 18px; padding: 18px; } .diag .timeline .phase h3, .diag .timeline .phase .ptext { grid-column: 1; grid-row: auto; } .diag .timeline .phase::before { inset-inline-start: -27px; } }
+.read p.quote { border: 1px solid rgba(201,151,74,.55); border-radius: 18px; padding: 26px 28px; text-align: center; background: radial-gradient(120% 120% at 50% 0%, rgba(201,151,74,.10), rgba(0,0,0,0) 70%); }
+/* clearer area frames + scroll "open" emphasis (2026-11-10) */
+#areas .area { border: 1px solid rgba(201,151,74,.45); background: #22211E; border-radius: 16px; padding: 20px; }
+#areas .abody b { display: block; padding-bottom: 10px; margin-bottom: 4px; position: relative; }
+#areas .abody b::after { content: ""; position: absolute; bottom: 0; right: 0; width: 100%; height: 2px; background: var(--gold-grad); transform-origin: right; transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+.js .rv:not(.lit) #areas .abody b::after { transform: scaleX(0); }
+#areas .area:nth-child(2) .abody b::after { transition-delay: .15s; } #areas .area:nth-child(3) .abody b::after { transition-delay: .3s; }
+#areas .area:nth-child(4) .abody b::after { transition-delay: .45s; } #areas .area:nth-child(5) .abody b::after { transition-delay: .6s; } #areas .area:nth-child(6) .abody b::after { transition-delay: .75s; }
+.read p.quote { transition: transform .9s cubic-bezier(.2,.7,.2,1), box-shadow 1.2s ease, border-color 1.2s ease; }
+.js .rv:not(.lit) p.quote { transform: scale(.94); border-color: rgba(201,151,74,.15); }
+.js .rv.lit p.quote { animation: qglow 2.2s ease .3s 1; }
+@keyframes qglow { 0% { box-shadow: 0 0 0 rgba(201,151,74,0); } 40% { box-shadow: 0 0 38px rgba(201,151,74,.35); } 100% { box-shadow: 0 0 0 rgba(201,151,74,0); } }
+.diag .timeline .phase { transition: border-color .6s ease, transform .7s cubic-bezier(.2,.7,.2,1), opacity .7s ease; }
+.diag .timeline .phase.on { border-color: rgba(201,151,74,.6); }
+@media (prefers-reduced-motion: reduce) { .js .rv:not(.lit) #areas .abody b::after { transform: none; } .js .rv:not(.lit) p.quote { transform: none; } .js .rv.lit p.quote { animation: none; } }
+/* visual emphasis + motion (2026-11-10) */
+.js .rv.pre { transform: translateY(44px); }
+.rv { transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+.areas .area { position: relative; overflow: hidden; transition: transform .7s cubic-bezier(.2,.7,.2,1), opacity .7s ease, border-color .25s ease, box-shadow .25s ease; }
+.areas .area::before { content: ""; position: absolute; top: 0; inset-inline: 0; height: 3px; background: var(--gold-grad); transform-origin: right; transition: transform .8s cubic-bezier(.2,.7,.2,1) .35s; }
+.areas .area:hover { transform: translateY(-4px); border-color: rgba(201,151,74,.7); box-shadow: 0 14px 28px -16px rgba(201,151,74,.5); }
+.phase { transition: transform .7s cubic-bezier(.2,.7,.2,1), opacity .7s ease; }
+.js .rv.pre .areas .area, .js .rv.pre .phase, .js .rv.pre .score div { opacity: 0; transform: translateY(30px) scale(.97); }
+.js .rv.pre .areas .area::before { transform: scaleX(0); }
+.areas .area:nth-child(2), .phase:nth-child(2), .score div:nth-child(2) { transition-delay: .1s; }
+.areas .area:nth-child(3), .phase:nth-child(3), .score div:nth-child(3) { transition-delay: .2s; }
+.areas .area:nth-child(4) { transition-delay: .3s; }
+.areas .area:nth-child(5) { transition-delay: .4s; }
+.areas .area:nth-child(6) { transition-delay: .5s; }
+.areas .area:hover { transition-delay: 0s; }
+.pnum { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--gold-grad); color: var(--cta-text); font-weight: 900; font-size: 18px; }
+.score { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 6px 0 4px; }
+.score div { display: grid; gap: 4px; text-align: center; background: var(--bg-alt); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 10px; transition: transform .7s cubic-bezier(.2,.7,.2,1), opacity .7s ease; }
+.score b { font-size: clamp(30px, 5vw, 44px); font-weight: 900; line-height: 1.1; background: linear-gradient(135deg, #EBCB85, #A27138); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.score span { font-size: 14px; color: var(--text-2); }
+@media (max-width: 560px) { .score { gap: 8px; } .score div { padding: 14px 6px; } .score span { font-size: 12.5px; } }
+@media (prefers-reduced-motion: reduce) { .js .rv.pre .areas .area, .js .rv.pre .phase, .js .rv.pre .score div { opacity: 1; transform: none; } .js .rv.pre .areas .area::before { transform: none; } .areas .area:hover { transform: none; } }
 /* privacy + accessibility (2026-11-09) */
 .skip{position:absolute;top:-60px;inset-inline-start:16px;z-index:50;background:var(--cta);color:var(--cta-text);font-weight:700;padding:10px 16px;border-radius:10px;text-decoration:none}
 .skip:focus{top:12px}
@@ -399,6 +492,7 @@ footer a{color:inherit}
 </style>
 </head>
 <body>
+  <div class="sprog" aria-hidden="true"><span id="sprog"></span></div>
 <a class="skip" href="#main">דלגו לתוכן</a>
 <header class="top">
   <div class="wrap">
@@ -416,8 +510,12 @@ footer a{color:inherit}
         <h1><span class="pre">אחרי שנים של עבודה בתחום הניהול והייעוץ, אני משיק את תכל'ס</span>סדר בכל העסק. <span class="gold">מתחילים ממה שהכי בוער אצלכם.</span></h1>
         <div class="txt">
           <p class="lead">ייעוץ וליווי לבעלי עסקים שרוצים לפתח את העסק ולהצמיח אותו — עם הסתכלות על השיווק, המכירות, הכסף, הניהול וגם על האדם שמחזיק את הכול.</p>
-          <p>לפעמים חסרים לקוחות. לפעמים עובדים הרבה ומרוויחים מעט. לפעמים הכול תלוי בכם, ולפעמים יש כל כך הרבה משימות ורעיונות שקשה לבחור במה להתחיל.</p>
-          <p>בתכל'ס מסתכלים יחד על התמונה הרחבה, בוחרים במה לטפל קודם ומתקדמים צעד אחר צעד.</p>
+          <ul class="pains">
+            <li>לפעמים <b>חסרים לקוחות.</b></li>
+            <li>לפעמים <b>עובדים הרבה ומרוויחים מעט.</b></li>
+            <li>לפעמים <b>הכול תלוי בכם,</b></li>
+            <li>ולפעמים יש <b>כל כך הרבה משימות ורעיונות</b> שקשה לבחור במה להתחיל.</li>
+          </ul>
         </div>
       </div>
       <div class="side">
@@ -434,11 +532,17 @@ footer a{color:inherit}
   </section>
 
   <!-- 2. who leads the business -->
-  <section>
+  <section class="band">
     <div class="wrap read stack rv">
       <h2>אתם יודעים לעשות את העבודה. <span class="gold">אבל מי עוזר לכם להוביל את העסק?</span></h2>
       <p>אתם נותנים שירות, משווקים, מוכרים, גובים, מקבלים החלטות ומטפלים במה שדחוף.</p>
-      <p>ובתוך כל זה צריך גם לחשוב קדימה: מה כדאי לפתח? מה צריך לשנות? אילו תהליכים אפשר לייעל או להפוך לאוטומטיים? ואיפה נכון להשקיע את הזמן והכסף?</p>
+      <p>ובתוך כל זה צריך גם לחשוב קדימה:</p>
+      <ul class="qs">
+        <li>מה כדאי לפתח?</li>
+        <li>מה צריך לשנות?</li>
+        <li>אילו תהליכים אפשר לייעל או להפוך לאוטומטיים?</li>
+        <li>ואיפה נכון להשקיע את הזמן והכסף?</li>
+      </ul>
       <p>גם כשיש הרבה ידע ורצון, קשה לראות את התמונה כשנמצאים בתוך העבודה היומיומית.</p>
       <p class="quote">כאן תכל'ס נכנסת: <span class="gold">מישהו שיושב איתכם על העסק, מחבר בין החלקים ועוזר להפוך החלטות לעבודה מעשית.</span></p>
     </div>
@@ -465,37 +569,33 @@ footer a{color:inherit}
   <section>
     <div class="wrap read stack rv">
       <h2>איך נראה הליווי בתכל'ס?</h2>
-      <p>הליווי מחבר בין חשיבה, קבלת החלטות ועבודה על העסק בפועל.</p>
-      <p>המטרה היא שתדעו במה להתמקד, תקבלו החלטות ותתקדמו בצורה מסודרת משבוע לשבוע.</p>
+      <p>הליווי מחבר בין <b class="hl">חשיבה, קבלת החלטות ועבודה על העסק בפועל.</b></p>
       <p>בכל שלב בוחנים מה קורה, מגדירים יעד ועובדים על מה שיקדם אותו: הצעת שירות, תמחור, תהליך מכירה, תוכנית שיווק, מערכת ניהול או חלוקת תפקידים.</p>
       <div class="phases three">
-        <div class="phase"><h3>פגישת ייעוץ שבועית</h3><p>זמן קבוע לעצור, לחשוב, לקבל החלטות ולבנות יחד את מה שצריך.</p></div>
-        <div class="phase"><h3>שיחת מעקב שבועית</h3><p>בודקים מה התקדם, איפה נתקעתם ומה צריך להתאים לקראת ההמשך.</p></div>
-        <div class="phase"><h3>תוכנית עבודה שמתעדכנת עם ההתקדמות</h3><p>משימות ברורות, סדרי עדיפויות ומעקב אחר הביצוע — בהתאם למה שקורה בעסק.</p></div>
+        <div class="phase"><span class="pnum">1</span><h3>פגישת ייעוץ שבועית</h3><p>זמן קבוע לעצור, לחשוב, לקבל החלטות ולבנות יחד את מה שצריך.</p></div>
+        <div class="phase"><span class="pnum">2</span><h3>שיחת מעקב שבועית</h3><p>בודקים מה התקדם, איפה נתקעתם ומה צריך להתאים לקראת ההמשך.</p></div>
+        <div class="phase"><span class="pnum">3</span><h3>תוכנית עבודה שמתעדכנת עם ההתקדמות</h3><p>משימות ברורות, סדרי עדיפויות ומעקב אחר הביצוע — בהתאם למה שקורה בעסק.</p></div>
       </div>
-      <p>אני מביא הסתכלות רחבה, ניסיון ניהולי וכלים לעבודה עם אנשים. אתם מביאים את ההיכרות עם העסק ואת העשייה בין הפגישות.</p>
       <p class="quote" style="font-size:clamp(20px,3vw,26px)">אני מלווה, ואתם מיישמים. <span class="gold">בונים יחד, בודקים מה עובד ומתקדמים בהתאם.</span></p>
       <div class="cta-row"><a class="btn" href="#form">בואו נדבר על העסק שלכם <span class="ar" aria-hidden="true">←</span></a><span class="small">מתחילים בשיחה קצרה לבדיקת התאמה.</span></div>
     </div>
   </section>
 
   <!-- 5. about -->
-  <section>
+  <section class="band">
     <div class="wrap read rv">
       <div class="about">
          <div class="stack">
           <h2>נעים להכיר, אברהם גוטפרב</h2>
           <p class="role">יועץ עסקי וארגוני ומאמן עסקי.</p>
-          <p>אחרי שנים של עבודה בתחום הניהול והייעוץ, אני משיק את תכל'ס.</p>
           <ul class="exp">
             <li><strong>ניהלתי מסגרת בבריאות הנפש עם קרוב ל־40 עובדים.</strong> סידרתי את התקציב ואת המעקב אחרי ההוצאות, כתבתי נהלים לצוות, הכנסתי דיווח יומי ובניתי תוכנית עבודה לכל דייר.</li>
             <li><strong>ניהלתי משרד של מכללה עם קרוב ל־200 תלמידים במחזור.</strong> בנינו רשימת תפוצה של יותר מ־20,000 איש, הפקנו וובינרים עם מעל 1,000 משתתפים, שדרגנו את האתר וסידרנו את הרישום והגבייה.</li>
             <li><strong>ניהלתי מכון טיפולי עם קרוב ל־20 מטפלים ו־300 מטופלים.</strong> הגדרנו תפקידים, כתבנו נהלים, בנינו חבילות ותמחור, תהליך מכירה ומערכת לניהול פניות.</li>
             <li>ייעצתי לעסקים בתחומים שונים.</li>
           </ul>
-          <p>לצד הניהול והייעוץ, אני גם מאמן עסקי. לכן בעבודה איתי מסתכלים לא רק על העסק, אלא גם עליכם: על העומס, על קבלת ההחלטות ועל הביטחון להוביל.</p>
-          <p>בכל מקום חיברתי בין האנשים, המספרים ותהליכי העבודה: להבין מה צריך להשתנות, לבנות דרך פעולה ולהוביל אותה בשטח.</p>
-          <p><strong>את הניסיון הזה אני מביא לתכל'ס — כדי לעזור לכם לעשות סדר, לפתח את העסק ולהתקדם עם כיוון ברור.</strong></p>
+          <p><b class="hl">לצד הניהול והייעוץ, אני גם מאמן עסקי.</b> לכן בעבודה איתי מסתכלים לא רק על העסק, אלא גם עליכם: על העומס, על קבלת ההחלטות ועל הביטחון להוביל.</p>
+          <p><strong>בכל מקום חיברתי בין האנשים, המספרים ותהליכי העבודה — ואת הניסיון הזה אני מביא לתכל'ס.</strong></p>
         </div>
       </div>
     </div>
@@ -503,32 +603,33 @@ footer a{color:inherit}
 
   <!-- 7. diagnosis -->
   <section>
-    <div class="wrap read stack rv">
+    <div class="wrap read stack rv diag">
       <h2>ומאיפה מתחילים? <span class="gold">מאבחון תכל'ס</span></h2>
       <p>לפני שמחליטים על מה לעבוד, צריך להבין את המצב.</p>
-      <p>האבחון הוא תהליך ממוקד: שאלון דיגיטלי ושתי פגישות. בונים תמונת מצב של העסק ושלכם כבעלי העסק, מזהים את הנושאים המרכזיים ובוחרים כיוון להמשך.</p>
-      <div class="phases three">
+      <div class="timeline">
         <div class="phase">
           <span class="badge">לפני הפגישות</span>
-          <h3>שאלון דיגיטלי</h3>
+          <h3>שאלון דיגיטלי</h3><div class="ptext">
           <p>שאלון על העסק, שממלאים מהטלפון או מהמחשב בזמן שנוח לכם. ההתקדמות נשמרת, ואפשר לחזור ולהשלים.</p>
           <p>כך מגיעים לפגישה הראשונה עם תמונה ראשונית, והזמן יחד הולך לעבודה עצמה.</p>
+          </div>
         </div>
         <div class="phase">
           <span class="badge">פגישה ראשונה</span>
-          <h3>תמונת מצב</h3>
+          <h3>תמונת מצב</h3><div class="ptext">
           <p>עוברים יחד על העסק: מה עובד, מה קשה, לאן אתם רוצים להגיע ומה עומד בדרך.</p>
           <p>מסתכלים על התחומים העסקיים וגם על הזמן, העומס, ההחלטות והיכולת שלכם לקדם שינוי.</p>
+          </div>
         </div>
         <div class="phase">
           <span class="badge">פגישה שנייה</span>
-          <h3>כיוון ותוכנית עבודה</h3>
+          <h3>כיוון ותוכנית עבודה</h3><div class="ptext">
           <p>עוברים יחד על הממצאים ובונים תוכנית עבודה לתקופה הקרובה: באילו תחומים בעסק כדאי להתמקד, מה דורש טיפול עכשיו ומה אפשר לשים בצד להמשך. מתוך הרעיונות והכיוונים שעולים, בוחרים פרויקטים ומשימות לפי סדר עדיפויות ומגדירים צעדים מעשיים שמתאימים למצב העסק כרגע.</p>
+          </div>
         </div>
       </div>
       <p class="goal"><strong>בסיום תקבלו תוכנית כתובה: מה מקדמים, באיזה סדר, אילו צעדים נדרשים ועד מתי.</strong></p>
-      <p>התוכנית משמשת בסיס להמשך העבודה. אפשר ליישם אותה באופן עצמאי, ואפשר להמשיך איתי לליווי.</p>
-      <p><strong>אין חובה להמשיך לליווי לאחר האבחון.</strong></p>
+      <p><strong>אפשר ליישם את התוכנית לבד, או להמשיך איתי לליווי. אין חובה.</strong></p>
     </div>
   </section>
 
@@ -590,6 +691,19 @@ footer a{color:inherit}
               </div>
             </div>
             <div class="bx-lap-base"></div>
+          </div>
+          <div class="bx-mob">
+            <div class="bx-dev">
+              <div class="bx-tabs"><span class="on">התוכנית</span><span>היום</span><span>השבוע</span><span>החודש</span></div>
+              <div class="bx-later"><p><span>החזון</span>עסק שמתנהל ברוגע ומפרנס בכבוד</p><p><span>מטרת 90 יום</span>8 לקוחות חדשים · 15,000 ש״ח בחודש</p></div>
+              <div class="bx-area">מכירות ותמחור <em>יעד: 3/8</em></div>
+              <div class="bx-proj">אבן דרך · חודש 2: מחירון חדש</div>
+              <div class="bx-task sub done"><i>✓</i><div><strong>3 חבילות שירות</strong><small>בוצע ביום ב׳</small></div></div>
+              <div class="bx-task sub"><i></i><div><strong>נוהל מפנייה ועד סגירה</strong><small>מתוכנן להיום</small></div></div>
+              <div class="bx-later frz-m"><span>❄ הוקפא לבינתיים</span>גיוס עובד · דף נחיתה</div>
+              <div class="bx-prog"><span style="width:38%"></span></div>
+              <small class="bx-foot">שבוע 5 מתוך 13 בתוכנית</small>
+            </div>
           </div>
         </div>
       </div>
@@ -695,6 +809,34 @@ footer a{color:inherit}
       if (r.top > innerHeight) { el.classList.add("pre"); io.observe(el); }
     });
   }
+
+  // scroll-linked: top progress bar, timeline fill, section dividers, lit emphasis
+  (function () {
+    var calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var bar = document.getElementById("sprog");
+    var tl = document.querySelector(".timeline");
+    var steps = tl ? tl.querySelectorAll(".phase") : [];
+    var ticking = false;
+    function frame() {
+      ticking = false;
+      var max = document.documentElement.scrollHeight - innerHeight;
+      if (bar) bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, scrollY / max) : 0) + ")";
+      if (tl && !calm) {
+        var r = tl.getBoundingClientRect(), mid = innerHeight * 0.6;
+        var f = Math.max(0, Math.min(1, (mid - r.top) / r.height));
+        tl.style.setProperty("--fill", (f * 100).toFixed(1) + "%");
+        steps.forEach(function (st) { st.classList.toggle("on", st.getBoundingClientRect().top < mid); });
+      }
+    }
+    addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+    addEventListener("resize", frame); frame();
+    if (calm || !("IntersectionObserver" in window)) { document.querySelectorAll(".rv").forEach(function (e) { e.classList.add("lit"); }); return; }
+    var secs = document.querySelectorAll("section + section");
+    var so = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.remove("unseen"); so.unobserve(e.target); } }); }, { rootMargin: "0px 0px -15% 0px" });
+    secs.forEach(function (sec) { if (sec.getBoundingClientRect().top > innerHeight * 0.85) { sec.classList.add("unseen"); so.observe(sec); } });
+    var lo = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("lit"); lo.unobserve(e.target); } }); }, { rootMargin: "0px 0px -35% 0px" });
+    document.querySelectorAll(".rv").forEach(function (e) { lo.observe(e); });
+  })();
 
   // sticky cta: show after hero, hide near the form
   var sticky = document.getElementById("sticky");
