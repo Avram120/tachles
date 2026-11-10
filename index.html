@@ -778,6 +778,22 @@ footer a{color:inherit}
   // Where form submissions go. Filled in when the Google Sheet is connected.
   var ENDPOINT = "https://script.google.com/macros/s/AKfycbyfNqdF4XrlUemWKVc1dCUyYaRAJHCGYlocfxmfi8ynfTGb0HX-zDVBTXCJJVT_FTpltg/exec";
 
+  // visit counter: one row per visit (once per browser session) in the sheet tab "כניסות לדף".
+  // Use ?src=NAME in shared links to see where visitors came from.
+  (function () {
+    try {
+      var q = new URLSearchParams(location.search);
+      var src = (q.get("src") || q.get("utm_source") || "").slice(0, 60);
+      if (sessionStorage.getItem("tk-visit")) return;
+      sessionStorage.setItem("tk-visit", "1");
+      var ref = ""; try { ref = document.referrer ? new URL(document.referrer).hostname : ""; } catch (e) {}
+      if (ref === location.hostname) ref = "";
+      var device = matchMedia("(max-width: 720px)").matches ? "טלפון" : "מחשב";
+      fetch(ENDPOINT, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ form: "visit", src: src, page: location.pathname, device: device, ref: ref }) });
+    } catch (e) {}
+  })();
+
   // Meta pixel. Stays off until an ID is filled in. Then also update the cookies section in privacy.html.
   var PIXEL_ID = "1565358042013907";
 
