@@ -173,6 +173,14 @@ strong { font-weight: 700; color: #fff; }
 .bx-prog { height: 8px; background: #E5D9C2; border-radius: 99px; overflow: hidden; }
 .bx-prog span { display: block; height: 100%; background: linear-gradient(90deg, #C9974A, #EBCB85); }
 .bx-foot { color: #7a7266; font-size: 12px; text-align: center; }
+.bx-tabs { display: flex; gap: 4px; background: #EFE6D3; border-radius: 10px; padding: 3px; font-size: 12px; font-weight: 700; color: #7a7266; }
+.bx-tabs span { flex: 1; text-align: center; padding: 5px 0; border-radius: 8px; }
+.bx-tabs .on { background: #fff; color: #8A5E2D; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.bx-later p { margin: 0 0 4px; }
+.bx-area { display: flex; justify-content: space-between; align-items: center; font-weight: 900; color: #161615; font-size: 14px; }
+.bx-area em { font-style: normal; font-size: 11px; font-weight: 800; color: #fff; background: #A27138; border-radius: 99px; padding: 2px 8px; }
+.bx-proj { font-size: 12px; font-weight: 800; color: #8A5E2D; border-inline-start: 3px solid #C9974A; padding-inline-start: 8px; }
+.bx-dev .bx-task.sub { margin-inline-start: 12px; }
 .bx-page { background: #fff; border-radius: 12px; padding: 14px; display: grid; gap: 8px; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
 .bx-ln { height: 9px; border-radius: 5px; background: #E5D9C2; }
 .bx-ln.w60 { width: 60%; } .bx-ln.w70 { width: 70%; } .bx-ln.w80 { width: 80%; } .bx-ln.w85 { width: 85%; } .bx-ln.w90 { width: 90%; }
@@ -492,7 +500,7 @@ footer a{color:inherit}
         <div class="phase">
           <span class="badge">פגישה שנייה</span>
           <h3>כיוון ותוכנית עבודה</h3>
-          <p>עוברים על הממצאים, בוחרים סדרי עדיפויות ובונים תוכנית פעולה ל־90 יום.</p>
+          <p>עוברים יחד על הממצאים ובונים תוכנית עבודה לתקופה הקרובה: באילו תחומים בעסק כדאי להתמקד, מה דורש טיפול עכשיו ומה אפשר לשים בצד להמשך. מתוך הרעיונות והכיוונים שעולים, בוחרים פרויקטים ומשימות לפי סדר עדיפויות ומגדירים צעדים מעשיים שמתאימים למצב העסק כרגע.</p>
         </div>
       </div>
       <p class="goal"><strong>בסיום תקבלו תוכנית כתובה: מה מקדמים, באיזה סדר, אילו צעדים נדרשים ועד מתי.</strong></p>
@@ -506,86 +514,33 @@ footer a{color:inherit}
     <div class="wrap stack rv">
       <div class="bx-head">
         <span class="bx-kicker">מתנה לנרשמים בהשקה</span>
-        <h2>כלולים במחיר ההשקה: <span class="gold">שלושה כלים להמשך העבודה</span></h2>
+        <h2>כלולים במחיר ההשקה: <span class="gold">מערכת תכל׳ס ליישום ומעקב</span></h2>
       </div>
       <div class="bx-feature">
         <div class="bx-copy">
-          <p class="bx-lead">פחות עומס בראש. <span class="gold">יותר התקדמות בעסק.</span></p>
-          <p>בונוס להשקה: גישה ל״תכל׳ס השבוע״ — כלי דיגיטלי שיעזור לכם להפוך את תוכנית העבודה לצעדים שבועיים.</p>
-          <p>מכניסים את המשימות והרעיונות שמעסיקים אתכם, עונים על כמה שאלות קצרות ומגדירים:</p>
+          <p class="bx-lead">מההחלטות באבחון — <span class="gold">להתקדמות בעסק.</span></p>
+          <p>התוכנית שבניתם באבחון עולה למערכת דיגיטלית אישית, ומחכה לכם שם מסודרת:</p>
           <ul class="bx-list">
-            <li><b>1</b>שלוש משימות מרכזיות לשבוע הקרוב.</li>
-            <li><b>2</b>צעד ראשון ומועד לביצוע בכל משימה.</li>
-            <li><b>3</b>מה אפשר לדחות כדי להתמקד במה שחשוב עכשיו.</li>
+            <li><b>1</b>החזון, המטרות והיעד ל־90 יום — וגם מה הקפאנו ולמה.</li>
+            <li><b>2</b>בכל תחום שנבחר: מטרה, יעד, אבני דרך ומשימות.</li>
+            <li><b>3</b>החסמים והמשאבים, עם ההמלצות לכל אחד מהם.</li>
           </ul>
-          <p>במהלך השבוע מסמנים מה בוצע, ובשבוע הבא מעדכנים וממשיכים להתקדם.</p>
-          <p class="bx-strong">כדי שתוכנית העבודה שלכם תיכנס גם ליומן.</p>
-          <span class="bx-val">שווי 600 ש"ח · כלול במחיר ההשקה.</span>
+          <p>במעקב היומי, השבועי והחודשי רואים מה עושים עכשיו, מסמנים מה בוצע — ורואים איך כל משימה מקדמת את היעד.</p>
+          <p class="bx-strong">כדי שהתוכנית לא תישאר על הנייר.</p>
+          <span class="bx-val">גישה לשלושה חודשים · שווי 1,200 ש"ח · כלול במחיר ההשקה.</span>
         </div>
         <div class="bx-mock" aria-hidden="true">
           <div class="bx-dev">
-            <div class="bx-dev-top"><span>תכל׳ס השבוע</span><small>שבוע 1</small></div>
-            <div class="bx-task done"><i>✓</i><div><strong>לסגור מחירון חדש</strong><small>צעד ראשון: לרשום 3 חבילות · עד יום ב׳</small></div></div>
-            <div class="bx-task"><i></i><div><strong>לחזור ל־5 פניות פתוחות</strong><small>צעד ראשון: רשימת שמות · עד יום ג׳</small></div></div>
-            <div class="bx-task"><i></i><div><strong>לכתוב נוהל קבלת לקוח</strong><small>צעד ראשון: 5 שלבים בדף · עד יום ה׳</small></div></div>
-            <div class="bx-later"><span>נדחה לשבוע הבא</span>אתר חדש · קורס דיגיטלי</div>
-            <div class="bx-prog"><span style="width:34%"></span></div>
-            <small class="bx-foot">1 מתוך 3 בוצעו השבוע</small>
+            <div class="bx-tabs"><span class="on">התוכנית</span><span>היום</span><span>השבוע</span><span>החודש</span></div>
+            <div class="bx-later"><p><span>החזון</span>עסק שמתנהל ברוגע ומפרנס בכבוד</p><p><span>תמונת ההצלחה</span>יומן מלא, בלי לרדוף אחרי לקוחות</p></div>
+            <div class="bx-area">מכירות ותמחור <em>יעד: 8 לקוחות חדשים</em></div>
+            <div class="bx-proj">אבן דרך · חודש 1: מחירון חדש</div>
+            <div class="bx-task sub done"><i>✓</i><div><strong>לרשום 3 חבילות שירות</strong><small>בוצע ביום ב׳</small></div></div>
+            <div class="bx-task sub"><i></i><div><strong>לקבוע מחיר לכל חבילה</strong><small>מתוכנן להיום</small></div></div>
+            <div class="bx-prog"><span style="width:38%"></span></div>
+            <small class="bx-foot">שבוע 5 מתוך 13 בתוכנית</small>
           </div>
         </div>
-      </div>
-      <div class="bx-feature flip">
-        <div class="bx-copy">
-          <p class="bx-lead">צ&#39;קליסט: <span class="gold">10 נהלים בסיסיים</span></p>
-          <p>עשרה נהלים לבחירה ולהתאמה לעסק שלכם, כדי להגדיר איך העבודה צריכה להתבצע.</p>
-          <span class="bx-val">שווי 250 ש"ח · כלול במחיר ההשקה.</span>
-        </div>
-        <div class="bx-mock" aria-hidden="true">
-          <div class="bx-clip">
-            <div class="bx-clip-top"></div>
-            <div class="bx-paper">
-              <div class="bx-paper-h">10 נהלים בסיסיים</div>
-              <div class="bx-pl on"><i>✓</i>קבלת לקוח חדש</div>
-              <div class="bx-pl on"><i>✓</i>מדיניות ביטולים</div>
-              <div class="bx-pl on"><i>✓</i>חזרה לפנייה תוך 24 שעות</div>
-              <div class="bx-pl"><i></i>גבייה ותשלומים</div>
-              <div class="bx-pl"><i></i>חלוקת תפקידים בצוות</div>
-              <div class="bx-pl dim"><i></i>ועוד 5 נהלים…</div>
-            </div>
-            <div class="bx-pen"></div>
-          </div>
-        </div>
-      </div>
-      <div class="bx-feature">
-        <div class="bx-copy">
-          <p class="bx-lead">בדיקת מסרים <span class="gold">אישית</span></p>
-          <p>מעבר על הפרופיל או על דף העסק שלכם, עם הערות ממוקדות לחידוד המסר וההצעה.</p>
-          <span class="bx-val">שווי 500 ש"ח · כלול במחיר ההשקה.</span>
-        </div>
-        <div class="bx-mock" aria-hidden="true">
-          <div class="bx-lap">
-            <div class="bx-lap-screen">
-              <div class="bx-lap-bar"><i></i><i></i><i></i><span>העסק שלכם</span></div>
-              <div class="bx-lap-page">
-                <div class="bx-ln w70 hl"></div>
-                <div class="bx-ln w90"></div><div class="bx-ln w80"></div>
-                <div class="bx-ln w60 hl"></div><div class="bx-ln w85"></div>
-                <div class="bx-btn hl">צרו קשר</div>
-              </div>
-              <div class="bx-mark m1">מה הלקוח מקבל?</div>
-              <div class="bx-mark m2">למה דווקא אתם?</div>
-              <div class="bx-mark m3">קריאה ברורה יותר</div>
-              <div class="bx-lens"></div>
-            </div>
-            <div class="bx-lap-base"></div>
-          </div>
-        </div>
-      </div>
-      <div class="bx-stack">
-        <div class="bx-row"><span>תכל׳ס השבוע</span><span>600 ש"ח</span></div>
-        <div class="bx-row"><span>צ&#39;קליסט: 10 נהלים בסיסיים</span><span>250 ש"ח</span></div>
-        <div class="bx-row"><span>בדיקת מסרים אישית</span><span>500 ש"ח</span></div>
-        <div class="bx-row tot"><span>שווי הבונוסים</span><span><s>1,350 ש"ח</s> <b class="gold">כלולים במחיר ההשקה</b></span></div>
       </div>
     </div>
   </section>
@@ -595,7 +550,7 @@ footer a{color:inherit}
     <div class="wrap rv">
       <div class="pricebox">
         <h2 style="font-size:clamp(24px,3.6vw,32px)">לרגל ההשקה: אבחון תכל'ס</h2>
-        <p><strong>שאלון דיגיטלי, שתי פגישות בזום, תוכנית עבודה כתובה ל־90 יום ושלושה בונוסים בשווי 1,350 ש"ח.</strong></p>
+        <p><strong>שאלון דיגיטלי, שתי פגישות בזום, תוכנית עבודה כתובה ל־90 יום, וגישה לשלושה חודשים למערכת תכל׳ס ליישום ומעקב.</strong></p>
         <div class="price"><span class="now gold">500 ש"ח</span><span class="was">3,000 ש"ח</span></div>
         <p class="muted">ל־10 העסקים הראשונים בלבד, בתמורה למשוב ולשילוב העבודה בתיק העבודות שלי.</p>
         <a class="btn" href="#form">בואו נדבר על העסק שלכם <span class="ar" aria-hidden="true">←</span></a>
