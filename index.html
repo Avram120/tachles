@@ -181,6 +181,29 @@ strong { font-weight: 700; color: #fff; }
 .bx-area em { font-style: normal; font-size: 11px; font-weight: 800; color: #fff; background: #A27138; border-radius: 99px; padding: 2px 8px; }
 .bx-proj { font-size: 12px; font-weight: 800; color: #8A5E2D; border-inline-start: 3px solid #C9974A; padding-inline-start: 8px; }
 .bx-dev .bx-task.sub { margin-inline-start: 12px; }
+.bx-feature.wide { grid-template-columns: minmax(0, 1fr); }
+.bx-feature.wide .bx-mock { order: 2; }
+.bx-feature.wide .bx-lap { max-width: 760px; transform: none; }
+.bx-dash { background: #F5F0E6; color: #161615; padding: 14px; display: grid; gap: 10px; font-size: 13px; line-height: 1.35; border-radius: 0 0 6px 6px; }
+.bx-dash-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.bx-dash-top b { color: #8A5E2D; font-size: 15px; font-weight: 900; }
+.bx-dash .bx-tabs { flex: 0 1 300px; }
+.bx-goal { background: #fff; border-radius: 10px; padding: 10px 12px; display: grid; gap: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+.bx-goal span { color: #8A5E2D; font-weight: 800; }
+.bx-goal small { color: #7a7266; font-size: 12px; }
+.bx-cols { display: grid; grid-template-columns: 1fr 1fr .8fr; gap: 8px; }
+.bx-col { background: #fff; border-radius: 10px; padding: 10px; display: grid; gap: 6px; align-content: start; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+.bx-col h4 { margin: 0; font-size: 13px; font-weight: 900; }
+.bx-col .t { color: #7a7266; font-size: 12px; }
+.bx-col .r { display: flex; gap: 6px; align-items: center; font-size: 12px; }
+.bx-col .r i { flex: none; width: 14px; height: 14px; border-radius: 4px; border: 2px solid #A27138; font-style: normal; font-size: 10px; display: grid; place-items: center; color: #fff; }
+.bx-col .r.ok i { background: #A27138; }
+.bx-col .r.ok { color: #7a7266; text-decoration: line-through; }
+.bx-col.frz { background: #EAF0F2; }
+.bx-col.frz h4 { color: #3d5a66; }
+.bx-col.frz p { margin: 0; font-size: 12px; }
+.bx-col.frz p small { display: block; color: #5f7680; }
+@media (max-width: 620px) { .bx-cols { grid-template-columns: minmax(0, 1fr); } .bx-feature.wide .bx-mock { order: 2; } }
 .bx-page { background: #fff; border-radius: 12px; padding: 14px; display: grid; gap: 8px; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
 .bx-ln { height: 9px; border-radius: 5px; background: #E5D9C2; }
 .bx-ln.w60 { width: 60%; } .bx-ln.w70 { width: 70%; } .bx-ln.w80 { width: 80%; } .bx-ln.w85 { width: 85%; } .bx-ln.w90 { width: 90%; }
@@ -516,7 +539,7 @@ footer a{color:inherit}
         <span class="bx-kicker">מתנה לנרשמים בהשקה</span>
         <h2>כלולים במחיר ההשקה: <span class="gold">מערכת תכל׳ס ליישום ומעקב</span></h2>
       </div>
-      <div class="bx-feature">
+      <div class="bx-feature wide">
         <div class="bx-copy">
           <p class="bx-lead">מההחלטות באבחון — <span class="gold">להתקדמות בעסק.</span></p>
           <p>התוכנית שבניתם באבחון עולה למערכת דיגיטלית אישית, ומחכה לכם שם מסודרת:</p>
@@ -530,15 +553,43 @@ footer a{color:inherit}
           <span class="bx-val">גישה לשלושה חודשים · שווי 1,200 ש"ח · כלול במחיר ההשקה.</span>
         </div>
         <div class="bx-mock" aria-hidden="true">
-          <div class="bx-dev">
-            <div class="bx-tabs"><span class="on">התוכנית</span><span>היום</span><span>השבוע</span><span>החודש</span></div>
-            <div class="bx-later"><p><span>החזון</span>עסק שמתנהל ברוגע ומפרנס בכבוד</p><p><span>תמונת ההצלחה</span>יומן מלא, בלי לרדוף אחרי לקוחות</p></div>
-            <div class="bx-area">מכירות ותמחור <em>יעד: 8 לקוחות חדשים</em></div>
-            <div class="bx-proj">אבן דרך · חודש 1: מחירון חדש</div>
-            <div class="bx-task sub done"><i>✓</i><div><strong>לרשום 3 חבילות שירות</strong><small>בוצע ביום ב׳</small></div></div>
-            <div class="bx-task sub"><i></i><div><strong>לקבוע מחיר לכל חבילה</strong><small>מתוכנן להיום</small></div></div>
-            <div class="bx-prog"><span style="width:38%"></span></div>
-            <small class="bx-foot">שבוע 5 מתוך 13 בתוכנית</small>
+          <div class="bx-lap">
+            <div class="bx-lap-screen">
+              <div class="bx-lap-bar"><i></i><i></i><i></i><span>תכל׳ס · התוכנית שלי</span></div>
+              <div class="bx-dash">
+                <div class="bx-dash-top"><b>התוכנית שלי</b><div class="bx-tabs"><span class="on">התוכנית</span><span>היום</span><span>השבוע</span><span>החודש</span></div></div>
+                <div class="bx-goal">
+                  <div><span>החזון:</span> עסק שמתנהל ברוגע ומפרנס בכבוד</div>
+                  <div><span>מטרת 90 יום:</span> 8 לקוחות חדשים · 15,000 ש״ח בחודש</div>
+                  <div class="bx-prog"><span style="width:38%"></span></div>
+                  <small>שבוע 5 מתוך 13</small>
+                </div>
+                <div class="bx-cols">
+                  <div class="bx-col">
+                    <h4>שיווק ולקוחות</h4>
+                    <div class="t">יעד: 5 שותפים מפנים · 2/5</div>
+                    <div class="bx-prog"><span style="width:40%"></span></div>
+                    <div class="bx-proj">אבן דרך · חודש 2: 20 אנשי מפתח</div>
+                    <div class="r ok"><i>✓</i>רשימת 100 מתעניינים</div>
+                    <div class="r"><i></i>פנייה ל־5 מפנים</div>
+                  </div>
+                  <div class="bx-col">
+                    <h4>מכירות ותמחור</h4>
+                    <div class="t">יעד: 8 לקוחות חדשים · 3/8</div>
+                    <div class="bx-prog"><span style="width:38%"></span></div>
+                    <div class="bx-proj">אבן דרך · חודש 2: מחירון חדש</div>
+                    <div class="r ok"><i>✓</i>3 חבילות שירות</div>
+                    <div class="r"><i></i>נוהל מפנייה ועד סגירה</div>
+                  </div>
+                  <div class="bx-col frz">
+                    <h4>❄ הוקפא לבינתיים</h4>
+                    <p>גיוס עובד<small>חוזרים לזה בהכנסה של 20,000 ש״ח</small></p>
+                    <p>דף נחיתה<small>מתמקדים בשיתופי פעולה</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bx-lap-base"></div>
           </div>
         </div>
       </div>
