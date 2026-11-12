@@ -111,7 +111,7 @@ function first() { return ((A.name || FIRST || "").split(" ")[0]) || ""; }
 
 function bookingBox() {
   return '<div class="box"><div class="box-h">הפגישה הבאה</div><p>אם עוד לא קבענו את הפגישה השנייה, בוחרים כאן זמן נוח. הקישור לפגישה מגיע במייל.</p>' +
-    '<a class="link-btn" href="' + BOOKING + '" target="_blank" rel="noopener">לבחירת זמן לפגישה ←</a></div>';
+    '<a class="link-btn" href="book.html' + (FIRST ? '?n=' + encodeURIComponent(FIRST) : '') + '" target="_blank" rel="noopener">לבחירת זמן לפגישה ←</a></div>';
 }
 function videoBox() {
   var wa = "https://wa.me/" + WA + "?text=" + encodeURIComponent("היי אברהם, מצרף סרטון המלצה");
