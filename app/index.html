@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>מערכת תכל'ס</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css?v=15">
+</head>
+<body>
+<header class="top"><img src="logo.png" alt="תכל'ס"><span class="who"><a href="pros.html">אנשי מקצוע</a> · <span id="who"></span> · <a href="#" id="out">יציאה</a></span></header>
+<main class="wrap"><div class="head"><h2>הלקוחות שלי</h2><button class="btn" id="add">+ לקוח חדש</button></div>
+<form class="newc hidden" id="newc">
+  <label>שם הלקוח<input name="name" required autocomplete="off"></label>
+  <label>שם העסק<input name="business" autocomplete="off"></label>
+  <label>מייל<input name="email" type="email" autocomplete="off" dir="ltr"></label>
+  <label>טלפון<input name="phone" type="tel" autocomplete="off" dir="ltr"></label>
+  <div class="row"><button class="btn" type="submit">פתיחת מפה</button><button class="link" type="button" id="cancel">ביטול</button></div>
+  <p class="err hidden" id="newErr"></p>
+</form><div class="list" id="list"><p class="empty">טוען…</p></div></main>
+<script type="module">
+import { requireAdmin, listBusinesses, signOut, STAGES, addClient } from "./js/db.js?v=15";
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const when = d => d ? new Date(d).toLocaleString("he-IL", { day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit" }) : "עוד לא נשמר";
+const me = await requireAdmin();
+document.getElementById("who").textContent = me.email;
+document.getElementById("out").onclick = e => { e.preventDefault(); signOut(); };
+const list = document.getElementById("list");
+const form = document.getElementById("newc"), err = document.getElementById("newErr");
+document.getElementById("add").onclick = () => { form.classList.remove("hidden"); form.name.focus(); };
+document.getElementById("cancel").onclick = () => form.classList.add("hidden");
+form.onsubmit = async (e) => {
+  e.preventDefault(); err.classList.add("hidden");
+  const name = form.name.value.trim(); if (!name) return;
+  form.querySelector("[type=submit]").disabled = true;
+  try { const id = await addClient(name, form.business.value.trim(), form.email.value.trim(), form.phone.value.trim()); location.href = "map.html?b=" + id; }
+  catch (x) { err.textContent = "לא הצלחתי ליצור את הלקוח. בדוק את החיבור ונסה שוב."; err.classList.remove("hidden"); form.querySelector("[type=submit]").disabled = false; }
+};
+try {
+  const rows = await listBusinesses();
+  list.innerHTML = rows.length ? rows.map(b => `
+    <a class="client" href="map.html?b=${b.id}">
+      <span><span class="n">${esc(b.name)}</span><br><span class="b">${esc(b.business)}</span>
+        ${b.phone || b.email ? `<br><span class="contact">${b.phone ? `<span dir="ltr">${esc(b.phone)}</span>` : ""}${b.phone && b.email ? " · " : ""}${b.email ? `<span dir="ltr">${esc(b.email)}</span>` : ""}</span>` : ""}</span>
+      <span style="text-align:left"><span class="chip">${STAGES[b.stage] || b.stage}</span><br><span class="when">${when(b.updated_at)}</span></span>
+    </a>`).join("") : `<p class="empty">עדיין אין לקוחות במערכת.</p>`;
+} catch (e) {
+  list.innerHTML = `<p class="empty">לא הצלחתי לטעון את הרשימה. נסה לרענן.</p>`;
+  console.error(e);
+}
+</script>
+</body>
+</html>

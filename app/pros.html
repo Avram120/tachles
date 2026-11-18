@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>אנשי מקצוע – תכל'ס</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css?v=15">
+<style>
+.pros{width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pros th{text-align:start;font-size:14px;color:var(--muted);font-weight:500;padding:10px 8px;border-bottom:1px solid var(--line)}
+.pros td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.pros tr:last-child td{border-bottom:0}
+.pros input{font:inherit;font-size:15px;width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.pros .act{white-space:nowrap;display:flex;gap:10px;align-items:center}
+.pros .ok{color:#2F7D4F;font-size:13px}
+.confirm{position:fixed;inset:0;background:rgba(22,22,21,.35);display:grid;place-items:center;z-index:50}
+.confirm>div{background:var(--paper);border-radius:14px;padding:22px;max-width:380px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.confirm p{margin:0 0 16px}.confirm .row{display:flex;gap:10px;justify-content:flex-end}
+.sm{padding:8px 16px;font-size:15px}
+@media (max-width:760px){.pros thead{display:none}.pros tr{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px;border-bottom:1px solid var(--line)}.pros td{border:0;padding:0}.pros .act{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<header class="top"><img src="logo.png" alt="תכל'ס"><span class="who"><a href="./">← לקוחות</a> · <span id="who"></span></span></header>
+<main class="wrap"><div class="head"><h2>אנשי מקצוע</h2><button class="btn" id="add">+ איש מקצוע</button></div>
+<p class="empty" style="margin-top:-8px">רשימה פנימית – לא מוצגת ללקוחות. משימה שבחרה איש מקצוע שומרת עותק של השם והטלפון, גם אם הוא יימחק מכאן.</p>
+<p class="err hidden" id="err"></p>
+<div id="box"><p class="empty">טוען…</p></div></main>
+<script type="module">
+import { requireAdmin, listPros, savePro, deletePro } from "./js/db.js?v=15";
+const FIELDS = [["name", "שם"], ["field", "תחום"], ["phone", "טלפון"], ["email", "מייל"], ["note", "הערה"]];
+const me = await requireAdmin();
+document.getElementById("who").textContent = me.email;
+const box = document.getElementById("box"), err = document.getElementById("err");
+const el = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag); Object.assign(e, attrs); e.append(...kids.filter(k => k != null)); return e; };
+const fail = (t, x) => { err.textContent = t; err.classList.remove("hidden"); if (x) console.error(x); };
+let pros = [];
+
+function ask(text, yes, onYes) {
+  const c = el("div", { className: "confirm" }, el("div", {}, el("p", { textContent: text }),
+    el("div", { className: "row" }, el("button", { className: "link", textContent: "ביטול", onclick: () => c.remove() }),
+      el("button", { className: "btn sm", textContent: yes, onclick: () => { c.remove(); onYes(); } }))));
+  document.body.append(c);
+}
+
+function row(p) {
+  const ins = {};
+  const tds = FIELDS.map(([k, n]) => {
+    const i = el("input", { value: p[k] || "", placeholder: n, dir: k === "phone" || k === "email" ? "ltr" : "auto" });
+    if (k === "name") i.required = true;
+    i.oninput = () => { p[k] = i.value; }; // unsaved typing survives a redraw
+    ins[k] = i; return el("td", {}, i);
+  });
+  const ok = el("span", { className: "ok" });
+  const save = el("button", { className: "btn sm", textContent: p.id ? "שמירה" : "הוספה", onclick: async () => {
+    err.classList.add("hidden");
+    const data = Object.fromEntries(FIELDS.map(([k]) => [k, ins[k].value.trim()]));
+    if (!data.name) { ins.name.focus(); return fail("חסר שם."); }
+    save.disabled = true;
+    try {
+      const saved = await savePro(p.id ? { id: p.id, ...data } : data);
+      const i = pros.findIndex(x => x.id === saved.id);
+      if (i >= 0) pros[i] = saved; else { pros = pros.filter(x => x !== p); pros.push(saved); }
+      draw(); flash(saved.id);
+    } catch (x) { fail("לא הצלחתי לשמור. בדוק את החיבור ונסה שוב.", x); save.disabled = false; }
+  } });
+  const del = el("button", { className: "link", textContent: p.id ? "מחיקה" : "ביטול", onclick: () => {
+    if (!p.id) { pros = pros.filter(x => x !== p); return draw(); }
+    ask("למחוק את \"" + (p.name || "") + "\" מהרשימה? משימות שכבר בחרו בו ישמרו את השם.", "כן, למחוק", async () => {
+      try { await deletePro(p.id); pros = pros.filter(x => x.id !== p.id); draw(); }
+      catch (x) { fail("לא הצלחתי למחוק. נסה שוב.", x); }
+    });
+  } });
+  const tr = el("tr", {}, ...tds, el("td", { className: "act" }, save, del, ok));
+  tr.dataset.id = p.id || "";
+  ins.name.addEventListener("keydown", e => { if (e.key === "Enter") save.click(); });
+  return tr;
+}
+function flash(id) { const s = box.querySelector(`tr[data-id="${id}"] .ok`); if (s) { s.textContent = "נשמר ✓"; setTimeout(() => s.textContent = "", 2000); } }
+
+function draw() {
+  box.innerHTML = "";
+  if (!pros.length) return box.append(el("p", { className: "empty", textContent: "עדיין אין אנשי מקצוע ברשימה." }));
+  box.append(el("table", { className: "pros" },
+    el("thead", {}, el("tr", {}, ...FIELDS.map(([, n]) => el("th", { textContent: n })), el("th"))),
+    el("tbody", {}, ...pros.map(row))));
+}
+
+document.getElementById("add").onclick = () => {
+  if (pros.some(p => !p.id)) return;
+  pros.push({ name: "", field: "", phone: "", email: "", note: "" }); draw();
+  box.querySelector('tr[data-id=""] input').focus();
+};
+try { pros = await listPros(); draw(); }
+catch (x) { box.innerHTML = ""; fail("לא הצלחתי לטעון את הרשימה. נסה לרענן.", x); }
+</script>
+</body>
+</html>

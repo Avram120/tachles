@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.superpowers/
+
+# real client data used by tests (never commit)
+tests/js/fixtures/eli-*.json

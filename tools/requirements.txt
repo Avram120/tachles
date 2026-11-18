@@ -1,0 +1,5 @@
+pytest
+psycopg[binary]
+keyring
+requests
+cryptography

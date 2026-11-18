@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מפת אבחון – תכל'ס</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&family=Frank+Ruhl+Libre:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#F5F0E6; --paper:#FBF8F2; --bronze:#8A5E2D; --charcoal:#161615; --gold:#C9974A; --gold-l:#F2C76E;
+  --muted:#6B6458; --line:#E3D8C3; --low:#B5523B; --mid:#C9974A; --high:#5E7D4F; --unk:#A8A196;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--charcoal);font-family:Heebo,Arial,sans-serif;font-size:17px;line-height:1.55}
+h1,h2,h3{font-family:"Frank Ruhl Libre",Heebo,serif;color:var(--bronze);margin:0}
+button{font-family:inherit;cursor:pointer}
+textarea,input{font-family:inherit;font-size:16px;color:var(--charcoal);border:1px solid var(--line);border-radius:8px;background:#fff;padding:8px 10px;width:100%}
+textarea{min-height:52px;resize:vertical}
+textarea:focus,input:focus,[contenteditable]:focus{outline:2px solid var(--gold-l);border-color:var(--gold)}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:10;background:var(--ivory);border-bottom:2px solid var(--gold);display:flex;align-items:center;gap:18px;padding:10px 24px}
+.top img{height:62px;margin:-8px 0}
+.top .client{font-weight:700;font-size:19px}
+.top .client small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.tabs{display:flex;gap:4px;margin-inline-start:12px}
+.tab{border:none;background:transparent;padding:8px 14px;border-radius:8px;font-size:16px;color:var(--muted)}
+.tab.on{background:#fff;color:var(--bronze);font-weight:700;box-shadow:0 1px 0 var(--gold)}
+.spacer{flex:1}
+.meet{display:flex;border:1px solid var(--gold);border-radius:20px;overflow:hidden}
+.meet button{border:none;background:#fff;padding:5px 12px;font-size:14px}
+.meet button.on{background:var(--bronze);color:#fff}
+.tool{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;font-size:14px;color:var(--charcoal)}
+.tool.on{border-color:var(--bronze);color:var(--bronze);font-weight:700}
+.saved{font-size:12px;color:var(--muted);min-width:70px}
+.cloud{font-size:13px;color:var(--muted);white-space:nowrap}.cloud.bad{color:#B5523B;font-weight:700}.cloud button{margin-inline-start:6px}
+.qedit{background:none;border:0;cursor:pointer;color:var(--muted);font-size:13px;padding:0 4px}.qedit:hover{color:var(--bronze)}
+label[contenteditable=true]{outline:1px dashed var(--gold);background:#fff;padding:2px 4px;border-radius:6px}
+#toList{text-decoration:none}
+.more{position:relative}.menu{position:absolute;top:110%;inset-inline-end:0;background:var(--paper);border:1px solid var(--line);border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.08);padding:6px;display:grid;min-width:180px;z-index:20}.menu button{background:none;border:0;text-align:start;padding:8px 10px;border-radius:6px;font:inherit;font-size:14px;cursor:pointer}.menu button:hover{background:var(--ivory)}
+.confirm{position:fixed;inset:0;background:rgba(22,22,21,.35);display:grid;place-items:center;z-index:50}.confirm div{background:var(--paper);border-radius:14px;padding:22px;max-width:380px;box-shadow:0 10px 30px rgba(0,0,0,.2)}.confirm p{margin:0 0 16px}.confirm .row{display:flex;gap:10px;justify-content:flex-end}
+
+main{max-width:1180px;margin:0 auto;padding:26px 24px 80px}
+.lead{color:var(--muted);margin:6px 0 22px}
+
+/* map */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;position:relative;cursor:pointer;transition:transform .15s,box-shadow .15s;display:flex;gap:16px;align-items:center}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(138,94,45,.12)}
+.card h3{font-size:21px;margin-bottom:4px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.card .x{position:absolute;top:8px;left:10px;border:none;background:none;color:var(--unk);font-size:18px;padding:2px 6px}
+.card .x:hover{color:var(--low)}
+.card .hint{font-size:12px;color:var(--low);margin-top:6px}
+.ring{flex:0 0 78px;height:78px;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;font-family:"Frank Ruhl Libre",serif}
+.removed{margin-top:22px;color:var(--muted);font-size:14px}
+.removed button{border:1px dashed var(--line);background:none;border-radius:16px;padding:3px 12px;margin-inline-start:6px;color:var(--muted)}
+.legend{display:flex;gap:18px;font-size:13px;color:var(--muted);margin-top:18px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:5px}
+
+/* domain */
+.back{border:none;background:none;color:var(--bronze);font-size:15px;padding:0;margin-bottom:10px}
+.dhead{display:flex;align-items:center;gap:18px;margin-bottom:6px}
+.dhead h2{font-size:30px}
+.scorebox{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
+.scorebox button{width:30px;height:30px;border-radius:50%;border:1px solid var(--gold);background:#fff;font-size:18px;line-height:1}
+.line-edit{font-size:18px;margin:4px 0 22px;padding:4px 6px;border-radius:6px}
+.flow{display:flex;gap:0;margin:8px 0 26px;flex-wrap:nowrap}
+.stage{flex:1;position:relative;padding:16px 26px 14px 16px;color:#fff;cursor:pointer;min-height:96px;clip-path:polygon(0 0,calc(100% - 0px) 0,100% 50%,calc(100% - 0px) 100%,0 100%,14px 50%);margin-inline-start:-6px}
+.flow .stage{clip-path:polygon(100% 0,14px 0,0 50%,14px 100%,100% 100%,calc(100% - 14px) 50%)}
+.flow .stage:first-child{clip-path:polygon(100% 0,14px 0,0 50%,14px 100%,100% 100%);margin-inline-start:0}
+.stage b{display:block;font-size:16px}
+.stage small{font-size:12px;opacity:.9}
+.stage textarea{margin-top:8px;min-height:38px;font-size:13px;background:rgba(255,255,255,.92)}
+.st-ok{background:var(--high)}.st-weak{background:var(--mid)}.st-missing{background:var(--low)}.st-unknown{background:var(--unk)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.box h3{font-size:19px;margin-bottom:10px}
+.known li{margin-bottom:6px}
+.known [contenteditable]{padding:2px 4px;border-radius:4px}
+.q{margin-bottom:14px}
+.q label{display:block;font-weight:500;margin-bottom:4px}
+.q .tag{font-size:11px;color:var(--bronze);background:var(--ivory);border-radius:10px;padding:1px 8px;margin-inline-start:6px}
+.pairs .row{display:grid;grid-template-columns:1fr 1fr 30px;gap:8px;margin-bottom:8px}
+.add{border:1px dashed var(--gold);background:none;border-radius:8px;padding:4px 12px;color:var(--bronze);font-size:14px}
+.del{border:none;background:none;color:var(--unk);font-size:16px}
+.mine{background:#FFF8E6;border:1px solid var(--gold-l);border-radius:12px;padding:12px;margin-top:14px}
+.mine label{font-size:13px;color:var(--bronze);font-weight:700;display:block;margin-bottom:4px}
+.mine textarea{background:#FFFDF6}
+.reason{font-size:13px;color:var(--muted);background:var(--ivory);padding:8px 10px;border-radius:8px;margin:-12px 0 18px}
+
+/* layers */
+body:not(.show-q) .layer-q{display:none !important}
+body:not(.show-v) .layer-v{display:none !important}
+
+/* vision & summary */
+.vgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:22px}
+.big{font-size:18px}
+.dpick{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.dpick button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 14px;font-size:15px}
+.dpick button.on{background:var(--bronze);color:#fff;border-color:var(--bronze)}
+.active-dom{border-inline-start:4px solid var(--gold);padding-inline-start:14px;margin-bottom:22px}
+.ms{display:grid;grid-template-columns:90px 1fr 150px;gap:8px;align-items:center;margin-bottom:6px;font-size:14px}
+.frozen .row{display:grid;grid-template-columns:1fr 1fr 1fr 30px;gap:8px;margin-bottom:8px}
+.note{font-size:13px;color:var(--muted)}
+.rgroup{margin-bottom:12px}.rgroup b{color:var(--bronze)}.rgroup ul{margin:4px 0 0}
+.addcard,.addq{display:flex;gap:8px;align-items:center;margin-top:16px}
+.addcard input{max-width:420px;border-style:dashed}
+.addq input{flex:1}
+.addcard .add,.addq .add{white-space:nowrap}
+.hidden{display:none}
+@media (max-width:900px){.grid{grid-template-columns:1fr 1fr}.cols,.vgrid{grid-template-columns:1fr}.flow{flex-wrap:wrap}}
+.raw{margin:12px 0 18px}.raw>summary{cursor:pointer;color:var(--bronze);font-weight:700;padding:8px 0}.raw[open]>summary{margin-bottom:10px}
+.kinds{display:flex;gap:6px;margin:4px 0 8px}.kinds button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 12px;font:inherit;font-size:14px;cursor:pointer}.kinds button.on{background:var(--charcoal);color:var(--ivory);border-color:var(--charcoal)}.kfields{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center}
+.jtop{margin:-4px 0 16px}.jgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:start}.jcard h3{font-size:18px;margin-bottom:10px}.jstep{border-top:1px solid var(--line);padding:10px 0}.jhead{display:flex;align-items:center;gap:8px;margin-bottom:6px}.jhead b{flex:1;font-size:15px;padding:2px 4px;border-radius:4px}.jchip{border:0;border-radius:999px;color:#fff;padding:3px 12px;font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}.jstep input{font-size:14px;padding:6px 8px}.jqs{margin-top:8px}.jqs .q label{font-size:14px}.jqs textarea{font-size:14px}@media (max-width:1200px){.jgrid{grid-template-columns:1fr 1fr}}@media (max-width:700px){.jgrid{grid-template-columns:1fr}}
+.phead{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:20px}.prog{font-weight:700;color:var(--bronze);margin:4px 0}.msbox{margin:8px 0}.msbox>summary{cursor:pointer;color:var(--bronze);font-weight:700;padding:4px 0}.msbox .ms{grid-template-columns:80px 1fr 150px auto auto}.recs{display:grid;gap:12px;margin:12px 0}.rec{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--paper)}.rhead{display:flex;gap:8px;align-items:center}.rhead input{font-weight:700}.rhead .kinds{margin:0;flex:none}.rwhy,.rmeta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px;font-size:14px}.rwhy>input:not(.sm){flex:1 1 220px}.rwhy .sm{flex:0 1 150px}.rwhy input,.rmeta input,.rmeta select{font-size:14px;padding:6px 8px}.rmeta select{width:auto;max-width:260px}.rmeta input{flex:1 1 200px}.rtag{display:inline-flex;align-items:center;gap:4px;background:var(--ivory);border:1px solid var(--gold-l);border-radius:999px;padding:2px 10px;font-size:13px}.tasks{display:grid;gap:6px;margin:10px 0 6px}.task{display:grid;grid-template-columns:2fr 1.5fr 1.6fr auto auto auto auto;gap:6px;align-items:center;font-size:14px}.task input,.task select{font-size:14px;padding:6px 8px}.task .pro{display:grid;gap:4px}.task .due{display:flex;gap:4px;align-items:center;white-space:nowrap}.task.st-done>input{text-decoration:line-through;color:var(--muted)}select{font-family:inherit;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--charcoal)}.ideas>summary{cursor:pointer}.ideas>summary h3{display:inline}.igrp{margin-top:12px}.igrp h4{margin:0 0 6px;color:var(--bronze)}.idea{display:grid;grid-template-columns:2fr 2fr 1.5fr auto auto;gap:6px;align-items:center;margin-bottom:6px;font-size:14px}.idea input{font-size:14px;padding:6px 8px}.idea .rtag{grid-column:1/-1;justify-self:start}.iadd{display:flex;gap:10px;margin-top:12px}.pmodal{position:fixed;inset:0;background:rgba(22,22,21,.35);display:grid;place-items:center;z-index:50}.pmodal>div{background:var(--paper);border-radius:14px;padding:22px;width:min(560px,92vw);max-height:80vh;overflow:auto;box-shadow:0 10px 30px rgba(0,0,0,.2)}.pmodal .row{display:flex;justify-content:flex-end;margin-top:14px}.pmodal .q{margin-bottom:10px}.pmodal select{width:100%;padding:8px}.rgrp h4{margin:12px 0 6px;color:var(--bronze)}.rpick{display:block;width:100%;text-align:start;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;margin-bottom:4px;font:inherit;font-size:14px;cursor:pointer}.rpick:hover{border-color:var(--gold)}@media (max-width:900px){.phead{grid-template-columns:1fr}.task,.idea{grid-template-columns:1fr 1fr}}
+.dil .q{margin-top:8px}.dil.done .rhead input{color:var(--muted)}.decided{margin-top:20px}.decided>summary{cursor:pointer;color:var(--bronze);font-weight:700}.pnotes{display:grid;gap:10px;max-width:820px}.pnote{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--paper)}.pnote textarea{font-size:15px}.pnote .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}.pnote .when{color:var(--muted);font-size:13px;margin-inline-end:auto}.nbadge{display:inline-block;min-width:20px;margin-inline-start:6px;padding:0 6px;border-radius:999px;background:var(--bronze);color:#fff;font-size:12px;line-height:20px;text-align:center;font-weight:700}.notefab{position:fixed;bottom:20px;inset-inline-start:20px;z-index:40;border:0;border-radius:999px;background:var(--charcoal);color:var(--ivory);padding:10px 18px;font:inherit;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.2);cursor:pointer}.notefab:hover{background:var(--bronze)}#app{padding-bottom:80px}.notebar{position:fixed;bottom:72px;inset-inline-start:20px;z-index:45;display:flex;gap:6px;align-items:center;background:var(--paper);border:1px solid var(--gold);border-radius:12px;padding:8px;width:min(520px,calc(100vw - 40px));box-shadow:0 8px 24px rgba(0,0,0,.18)}.notebar input{flex:1;font-size:15px;padding:8px 10px}.notebar .nhint{color:var(--muted);font-size:12px;white-space:nowrap}.jtop .nhint{color:var(--bronze)}.confirm .row{background:none;padding:0;box-shadow:none;border-radius:0;max-width:none}
+</style>
+</head>
+<body class="show-q">
+<header class="top">
+  <a href="./" class="tool" id="toList" title="חזרה לרשימת הלקוחות">← לקוחות</a>
+  <img id="logo" alt="תכל'ס">
+  <div class="client"><span id="cName"></span><small id="cSub"></small></div>
+  <nav class="tabs">
+    <button class="tab" data-view="map">מפת העסק</button>
+    <button class="tab" data-view="journey">מסע הלקוח</button>
+    <button class="tab" data-view="vision">חזון ומטרות</button>
+    <button class="tab" data-view="summary">התוכנית</button>
+    <button class="tab" data-view="dilemmas">דילמות</button>
+    <button class="tab" data-view="notes">פתקים</button>
+    <button class="tab" data-view="recap">סיכום הפגישה</button>
+  </nav>
+  <div class="spacer"></div>
+  <div class="meet"><button data-m="1">פגישה 1</button><button data-m="2">פגישה 2</button></div>
+  <button class="tool" id="tQ" title="מקש Q">שאלות</button>
+  <button class="tool" id="tV" title="מקש V">מה אני חושב</button>
+  <div class="more"><button class="tool" id="bMore" title="עוד">⋯</button>
+    <div class="menu hidden" id="menu"><button id="bSave">הורד גיבוי למחשב</button><button id="bLoad">טען מגיבוי…</button></div></div>
+  <input type="file" id="fLoad" accept=".json" class="hidden">
+  <span class="saved" id="savedMsg"></span><span class="cloud" id="cloudMsg"></span>
+</header>
+<main id="app"></main>
+
+<script type="text/x-map" id="mapsrc">
+const LOGO = "logo.png";
+const CLIENT = window.__CLIENT;
+
+const DOMAINS = [
+ {id:"marketing", name:"שיווק ולקוחות", stages:[],
+  qs:["מי הלקוח שהכי כיף לך לעבוד איתו – ומה היה המצב שלו כשהגיע?","מה עשית בשנה האחרונה כדי שיפנו אליך – ומה מזה הביא לקוח?","אתה משווק גם בחודשים מלאים, או רק כשהיומן מתחיל להתרוקן?"]},
+ {id:"sales", name:"מכירות ותמחור", stages:[],
+  qs:["איך נקבע המחיר הנוכחי? מתי ולמה?","אם המחיר היה עולה ב־20% מחר – כמה לקוחות היו עוזבים?"]},
+ {id:"product", name:"פיתוח העסק, מוצרים ותוכן", stages:["מה מוכרים היום","מה מבקשים ממני","במה אני הכי טוב","מוצר מרכזי ונלווים"],
+  qs:["תמנה את כל מה שאתה מוכר היום – גם מה שניתן \"בחינם, כחלק מהשירות\".","על מה לקוחות הכי מודים לך?","איזה שירות היית מוותר עליו מחר אם היית יכול?","מה לקוח צריך לפני שהוא מגיע אליך, ומה אחרי?","אם היה לך רק מוצר אחד – מה הוא?","כשיש לך רעיון לשירות חדש – איך אתה בודק שיקנו אותו, לפני שאתה בונה?","מה השתנה בתחום שלך בשנתיים האחרונות – ומה שינית בעסק בעקבות זה?"]},
+ {id:"money", name:"כסף, ניהול ומערכות", stages:["כסף נכנס","כסף יוצא","מה נשאר","מעקב ומספרים","רזרבה והשקעה"],
+  qs:["כמה נכנס בחודש שעבר, וכמה מזה הגיע הביתה?","איזה שירות מכניס הכי הרבה – ואיזה הכי רווחי לשעה?","איך אתה יודע בסוף החודש מה היה?","באילו מערכות אתה משתמש – ומה עדיין בראש או בפתקים?"]},
+ {id:"team", name:"עובדים, תפקידים ונהלים", stages:["מי עושה מה","מה רק אני","מה אפשר להעביר","איך מלמדים","איך בודקים"],
+  qs:["מה כל אחד בצוות עושה בשבוע רגיל? מי מחליט מה?","מה ההסכם עם כל אחד: שכר חודשי, לפי שעה או לפי לקוח/תיק? כמה זה עולה לך בחודש?","כמה שעות כל אחד עובד, ואיך נקבעות השעות – קבוע או לפי עומס?","איך זה עובד בפועל: מי מעביר לו עבודה, איך הוא מדווח, ומתי משלמים?","מה הדבר האחרון שהעברת – ולמה זה חזר אליך (או לא)?","איך עובד חדש לומד את העבודה היום?","איך אתה יודע שמשהו בוצע, בלי לבדוק בעצמך?"]},
+ {id:"owner", name:"אתם כבעלי העסק", stages:["הזמן שלי","מיקוד ועדיפויות","החלטות","ביטחון ומחיר","גבולות ומנוחה"],
+  qs:["איך נראה יום עבודה רגיל שלך, מהבוקר?","מה דחית כבר כמה חודשים, ולמה?","איזו החלטה עומדת אצלך פתוחה הכי הרבה זמן?","מתי הרגשת בפעם האחרונה שאתה \"על ההגה\" של העסק?","מה תעשה עם 10 שעות פנויות בשבוע, אם יתפנו?"]}
+];
+const VISION_QS = ["בעוד 3 שנים – איזה עסק יש לך? מה אנשים אומרים עליו?", "למי בדיוק אתה רוצה לתת מענה? מי לא?", "למה זה חשוב לך – מה זה יאפשר לך ולבית?", "כמה הכנסה בחודש תגיד \"זה עובד\"? עם כמה לקוחות, בכמה שעות?", "מה אתה לא מוכן לעשות יותר?", "בעוד 90 יום – מה צריך לקרות כדי שתגיד \"התקדמנו\"? איך נמדוד?", "מה הכי מפחיד אותך בשינוי שעולה כאן?", "מי סביבך צריך להיות שותף להחלטות האלה?", "אם מחר מישהו היה רוצה לקנות את העסק – מה בדיוק הוא היה קונה? מה היה נשאר בלעדיך?"];
+const ST_ORDER = ["unknown","ok","weak","missing"];
+const ST_NAME = {ok:"עובד",weak:"חלש",missing:"חסר",unknown:"לא ידוע"};
+
+/* ---------- state ---------- */
+const C = CLIENT || {client:{name:"לקוח לדוגמה",business:"",date:""},domains:[],prefill:{blockers:[],resources:[]}};
+const KEY = "tachles-map:" + window.__BID;
+function fresh(){
+  const s = {version:1, client:C.client, meeting:1, view:"map", removed:[], domains:{}, vision:{answers:{},vision:"",bigGoal:"",goal90:"",myView:""},
+    summary:{active:[], frozen:[], blockers:[], resources:[], myView:""}, savedAt:null};
+  for(const d of DOMAINS){
+    const c = (C.domains||[]).find(x=>x.id===d.id) || {};
+    s.domains[d.id] = {score:c.score||3, baseScore:c.score||3, reason:c.reason||"", line:c.line||"", known:(c.known||[]).slice(),
+      stages:PlanModel.prefillStages(d.id, d.stages, c.stages),
+      extraQs:(c.extraQs||[]).slice(), answers:{}, notes:"", myView:"", blockers:[], resources:[], suggestRemove:!!c.suggestRemove};
+    if(c.suggestRemove) s.removed.push(d.id);
+  }
+  s.summary.blockers = ((C.prefill||{}).blockers||[]).map(b=>({text:b.text,rec:b.rec||""}));
+  s.summary.resources = ((C.prefill||{}).resources||[]).map(b=>({text:b.text,rec:b.rec||""}));
+  return s;
+}
+let S;
+S = window.__STATE || null;
+try{ const L = JSON.parse(localStorage.getItem(KEY)); if(L && L.version===1 && (!S || (L.localAt||"") > (S.localAt||""))) { S = L; window.__LOCAL_NEWER = true; } }catch(e){}
+if(!S || S.version!==1) S = fresh();
+PlanModel.migrate(S);
+if(!S.custom) S.custom = [];
+if(!S.recap) S.recap = {};
+let current = null; // open domain id
+function ALL(){ return [...DOMAINS, ...(S.custom||[])] }
+function addDomain(name){
+  name=(name||"").trim(); if(!name) return;
+  const id="c"+Date.now();
+  const stages=["איפה זה עומד היום","מה עובד","מה חסר","מה הצעד הבא","איך נמדוד"];
+  S.custom.push({id, name, stages, qs:[], custom:true});
+  S.domains[id]={score:3, baseScore:null, reason:"", line:"", known:[], stages:stages.map(()=>({state:"unknown",note:""})),
+    extraQs:[], answers:{}, notes:"", myView:"", blockers:[], resources:[], suggestRemove:false};
+  touch(); render();
+}
+
+let saveT;
+function touch(){
+  clearTimeout(saveT);
+  S.localAt = new Date().toISOString(); window.__sync.change(S);
+}
+function msg(t){ const m=document.getElementById("savedMsg"); m.textContent=t; clearTimeout(m._t); m._t=setTimeout(()=>m.textContent="",2500) }
+
+/* ---------- helpers ---------- */
+function qText(D,k,orig){ return (D.qEdits&&D.qEdits[k]) || orig }
+const $ = (sel,root=document)=>root.querySelector(sel);
+function h(tag, attrs={}, ...kids){
+  const el=document.createElement(tag);
+  for(const [k,v] of Object.entries(attrs||{})){
+    if(k==="class") el.className=v; else if(k.startsWith("on")) el.addEventListener(k.slice(2),v);
+    else if(k==="html") el.innerHTML=v; else if(v!==false && v!=null) el.setAttribute(k,v===true?"":v);
+  }
+  for(const k of kids.flat()){ if(k==null||k===false) continue; el.append(k.nodeType?k:document.createTextNode(k)) }
+  return el;
+}
+function ta(obj, key, ph, rows){ const t=h("textarea",{placeholder:ph||"",rows:rows||2}); t.value=obj[key]||""; t.addEventListener("input",()=>{obj[key]=t.value;touch()}); return t }
+function inp(obj, key, ph, type){ const t=h("input",{placeholder:ph||"",type:type||"text"}); t.value=obj[key]||""; t.addEventListener("input",()=>{obj[key]=t.value;touch()}); return t }
+function mine(obj, key, label){ return h("div",{class:"mine layer-v"}, h("label",{},label||"מה אני חושב"), ta(obj,key,"ההערה שלי – לא מוצג ללקוח",2)) }
+function scoreColor(v){ return v<=2?"var(--low)":v===3?"var(--mid)":"var(--high)" }
+function ring(v){
+  const r=32, c=2*Math.PI*r, f=c*(v/5);
+  return h("div",{class:"ring",html:`<svg width="78" height="78"><circle cx="39" cy="39" r="${r}" fill="none" stroke="#EFE6D4" stroke-width="8"/><circle cx="39" cy="39" r="${r}" fill="none" stroke="${scoreColor(v)}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${f} ${c}"/></svg><b style="color:${scoreColor(v)}">${v}</b>`});
+}
+function freeText(D,kind){ const k=kind+"Text"; if(D[k]===undefined){ D[k]=(D[kind]||[]).filter(b=>b&&b.text).map(b=>b.text+(b.rec?" – "+b.rec:"")).join("\n") } return D }
+const KINDS={count:"נספר",steps:"שלבים",feel:"תחושה"};
+function goalBox(a){
+  a.kind=a.kind||"count";
+  const sel=h("div",{class:"kinds"}, Object.entries(KINDS).map(([k,n])=>h("button",{class:a.kind===k?"on":"",onclick:()=>{a.kind=k;touch();render()}},n)));
+  const f = a.kind==="count" ? [h("label",{},"היום"),inp(a,"start","למשל 4"),h("label",{},"יעד"),inp(a,"target","למשל 10"),h("label",{},"מה סופרים"),inp(a,"unit","למשל פניות בחודש")]
+          : a.kind==="feel" ? [h("label",{},"השאלה"),inp(a,"unit","למשל: כמה אתה מרגיש על ההגה?"),h("label",{},"דירוג היום (1–10)"),inp(a,"start","","number")]
+          : [h("p",{class:"note"},"נמדד לפי אבני הדרך, ואם אין – לפי המשימות שבוצעו")];
+  return h("div",{class:"q"}, h("label",{},"איך מודדים"), sel, h("div",{class:"kfields"}, f));
+}
+function goalLine(a){ const k=a.kind||"count";
+  if(k==="count") return [a.start&&"היום: "+a.start, a.target&&"יעד: "+a.target, a.unit&&"("+a.unit+")"].filter(Boolean).join(" · ");
+  if(k==="feel") return "תחושה"+(a.unit?" – "+a.unit:"")+(a.start?" · היום "+a.start+"/10":"");
+  return "לפי אבני הדרך, ואם אין – לפי המשימות שבוצעו"; }
+function pairs(list, ph1, ph2){
+  const wrap=h("div",{class:"pairs"});
+  const draw=()=>{ wrap.innerHTML="";
+    list.forEach((p,i)=>wrap.append(h("div",{class:"row"}, inp(p,"text",ph1), inp(p,"rec",ph2), h("button",{class:"del",title:"מחק",onclick:()=>{list.splice(i,1);touch();draw()}},"✕"))));
+    wrap.append(h("button",{class:"add",onclick:()=>{list.push({text:"",rec:""});touch();draw()}},"+ הוספה"));
+  }; draw(); return wrap;
+}
+function endOfMonth(n){ const d=new Date(); const e=new Date(d.getFullYear(), d.getMonth()+n+1, 0); return e.getFullYear()+"-"+String(e.getMonth()+1).padStart(2,"0")+"-"+String(e.getDate()).padStart(2,"0") }
+
+/* ---------- views ---------- */
+function render(){
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on", b.dataset.view===S.view));
+  document.querySelectorAll(".meet button").forEach(b=>b.classList.toggle("on", +b.dataset.m===S.meeting));
+  document.getElementById("tQ").classList.toggle("on", document.body.classList.contains("show-q"));
+  document.getElementById("tV").classList.toggle("on", document.body.classList.contains("show-v"));
+  const app=document.getElementById("app"); app.innerHTML="";
+  if(S.view==="map") app.append(current? viewDomain(current) : viewMap());
+  else if(S.view==="vision") app.append(viewVision());
+  else if(S.view==="recap") app.append(viewRecap());
+  else if(S.view==="journey") app.append(viewJourney());
+  else if(S.view==="dilemmas") app.append(viewDilemmas());
+  else if(S.view==="notes") app.append(viewNotes());
+  else app.append(viewPlan());
+  if(typeof noteButton==="function") noteButton();
+  window.scrollTo(0,0);
+}
+
+function viewMap(){
+  const live = ALL().filter(d=>!S.removed.includes(d.id));
+  const grid = h("div",{class:"grid"}, live.map(d=>{
+    const D=S.domains[d.id];
+    return h("div",{class:"card",onclick:()=>{current=d.id;render()}},
+      ring(D.score),
+      h("div",{}, h("h3",{},d.name), h("p",{},D.line||"—"), D.suggestRemove?h("div",{class:"hint"},"כנראה לא רלוונטי כרגע"):null),
+      h("button",{class:"x",title:"הורד מהמפה",onclick:e=>{e.stopPropagation();S.removed.push(d.id);touch();render()}},"✕"));
+  }));
+  const rem = S.removed.length? h("div",{class:"removed"},"הוסרו מהמפה:", S.removed.map(id=>h("button",{onclick:()=>{S.removed=S.removed.filter(x=>x!==id);touch();render()}}, ALL().find(d=>d.id===id).name+" ↺"))) : null;
+  return h("section",{},
+    h("h1",{},"מפת העסק"),
+    h("p",{class:"lead"}, "ציון בסיס לכל תחום לפי השאלון – נקודת פתיחה לשיחה. לחיצה על תחום פותחת אותו."),
+    grid, addCard(), rem,
+    h("div",{class:"legend"}, h("span",{},h("i",{style:"background:var(--low)"}),"1–2 דורש תשומת לב"), h("span",{},h("i",{style:"background:var(--mid)"}),"3 חלקי"), h("span",{},h("i",{style:"background:var(--high)"}),"4–5 עובד")));
+}
+
+function addCard(){
+  const box=h("div",{class:"addcard"});
+  const i=h("input",{placeholder:"תחום נוסף – למשל: שותפות, מעבר למקום חדש, גיוס כספים"});
+  const go=()=>addDomain(i.value);
+  i.addEventListener("keydown",e=>{ if(e.key==="Enter") go() });
+  box.append(i, h("button",{class:"add",onclick:go},"+ הוספת תחום"));
+  return box;
+}
+function addQ(D){
+  const i=h("input",{placeholder:"שאלה נוספת"});
+  const go=()=>{ const q=i.value.trim(); if(!q) return; D.extraQs.push(q); touch(); render() };
+  i.addEventListener("keydown",e=>{ if(e.key==="Enter") go() });
+  return h("div",{class:"addq"}, i, h("button",{class:"add",onclick:go},"+ שאלה"));
+}
+function viewDomain(id){
+  const d=ALL().find(x=>x.id===id), D=S.domains[id];
+  const flow = !d.stages.length ? null : h("div",{class:"flow"}, d.stages.map((name,i)=>{
+    D.stages=D.stages||[]; const st=D.stages[i]||(D.stages[i]={state:"unknown",note:""});
+    const el=h("div",{class:"stage st-"+st.state, title:"לחיצה מחליפה מצב"},
+      d.custom? (()=>{ const b=h("b",{contenteditable:"true",title:"אפשר לשנות את שם השלב"},name);
+          b.addEventListener("click",e=>e.stopPropagation()); b.addEventListener("input",()=>{d.stages[i]=b.textContent;touch()}); return b })()
+        : h("b",{},name),
+      h("small",{},ST_NAME[st.state]));
+    const note=h("textarea",{class:"layer-q",placeholder:"מה קורה כאן אצלך?",rows:1}); note.value=st.note||"";
+    note.addEventListener("click",e=>e.stopPropagation()); note.addEventListener("input",()=>{st.note=note.value;touch()});
+    el.append(note);
+    el.addEventListener("click",()=>{ st.state=ST_ORDER[(ST_ORDER.indexOf(st.state)+1)%ST_ORDER.length]; touch(); render() });
+    return el;
+  }));
+  const line=h("div",{class:"line-edit",contenteditable:"true"}, D.line||""); line.addEventListener("input",()=>{D.line=line.textContent;touch()});
+  const known=h("ul",{class:"known"}, D.known.map((k,i)=>{ const li=h("li",{}, h("span",{contenteditable:"true"},k)); li.firstChild.addEventListener("input",e=>{D.known[i]=e.target.textContent;touch()}); return li }));
+  const addK=h("button",{class:"add",onclick:()=>{D.known.push("…");touch();render()}},"+ שורה");
+  const allQs=[...D.extraQs.map((q,i)=>({k:"x"+i,q,extra:true})), ...d.qs.map(q=>({k:"b:"+q,q}))];
+  const qs=h("div",{}, allQs.map(o=>{ const t=h("textarea",{rows:2,placeholder:"תשובה"}); t.value=D.answers[o.k]||""; t.addEventListener("input",()=>{D.answers[o.k]=t.value;touch()});
+    const lab=h("label",{}, qText(D,o.k,o.q));
+    lab.addEventListener("input",()=>{ D.qEdits=D.qEdits||{}; D.qEdits[o.k]=lab.textContent.trim()||o.q; touch() });
+    lab.addEventListener("blur",()=>{ lab.contentEditable="false" });
+    const ed=h("button",{class:"qedit",title:"לדייק את נוסח השאלה",onclick:()=>{ lab.contentEditable="true"; lab.focus() }},"✎ דיוק");
+    return h("div",{class:"q"}, h("div",{}, lab, o.extra?h("span",{class:"tag"},"ממוקדת"):null, ed), t) }));
+  return h("section",{},
+    h("button",{class:"back",onclick:()=>{current=null;render()}},"→ חזרה למפה"),
+    h("div",{class:"dhead"}, ring(D.score), h("h2",{},d.name),
+      h("div",{class:"scorebox layer-q"}, h("button",{onclick:()=>{D.score=Math.min(5,D.score+1);touch();render()}},"+"), h("button",{onclick:()=>{D.score=Math.max(1,D.score-1);touch();render()}},"−"), (D.baseScore?`מהשאלון: ${D.baseScore}`:"תחום שהוספת"))),
+    line,
+    D.reason? h("div",{class:"reason layer-v"},"נימוק הציון: "+D.reason):null,
+    flow? h("h3",{style:"margin-bottom:8px"}, ["money","team","owner"].includes(id)?"בדיקות":"התהליך") : null,
+    flow,
+    h("div",{class:"cols"},
+      h("div",{class:"box"}, h("h3",{},"מה כבר ידוע"), known, addK,
+        h("div",{style:"margin-top:16px"}, h("h3",{},"חסמים בתחום"), ta(freeText(D,"blockers"),"blockersText","מה עוצר אותו בתחום הזה? כתיבה חופשית",4)),
+        h("div",{style:"margin-top:12px"}, h("h3",{},"משאבים בתחום"), ta(freeText(D,"resources"),"resourcesText","על מה אפשר להישען? כתיבה חופשית",4)),
+        mine(D,"myView")),
+      h("div",{class:"box layer-q"}, h("h3",{},"שאלות"), qs, addQ(D), h("div",{class:"q",style:"margin-top:14px"}, h("label",{},"הערות חופשיות"), ta(D,"notes","",3)))));
+}
+
+function viewVision(){
+  const V=S.vision;
+  V.extraQs=V.extraQs||[]; V.qEdits=V.qEdits||{};
+  const vq=[...VISION_QS.map((q,i)=>({k:i,q})), ...V.extraQs.map((q,i)=>({k:"x"+i,q,extra:true}))];
+  const qs=[...vq.map(o=>{ const t=h("textarea",{rows:2,placeholder:"תשובה"}); t.value=V.answers[o.k]||""; t.addEventListener("input",()=>{V.answers[o.k]=t.value;touch()});
+    const lab=h("label",{}, V.qEdits[o.k]||o.q);
+    lab.addEventListener("input",()=>{ V.qEdits[o.k]=lab.textContent.trim()||o.q; touch() }); lab.addEventListener("blur",()=>{ lab.contentEditable="false" });
+    const ed=h("button",{class:"qedit",title:"לדייק את נוסח השאלה",onclick:()=>{ lab.contentEditable="true"; lab.focus() }},"✎ דיוק");
+    return h("div",{class:"q"}, h("div",{}, lab, o.extra?h("span",{class:"tag"},"נוספה"):null, ed), t) }), addQ(V)];
+  return h("section",{},
+    h("h1",{},"חזון, מטרות ויעדים"), h("p",{class:"lead"},"מהתמונה – לכיוון. קודם שואלים, אחר כך מנסחים יחד."),
+    h("div",{class:"vgrid"},
+      h("div",{class:"box layer-q"}, h("h3",{},"שאלות"), qs),
+      h("div",{class:"box"},
+        h("div",{class:"q"}, h("label",{},"החזון – איזה עסק, באיזה תחום, למי"), ta(V,"vision","",3)),
+        h("div",{class:"q"}, h("label",{},"מטרה גדולה (מספר + זמן)"), ta(V,"bigGoal","לדוגמה: 40 אלף בחודש תוך שנה, עד 35 שעות שבועיות",2)),
+        h("div",{class:"q"}, h("label",{},"מטרת 90 יום (תוצאה מדידה)"), ta(V,"goal90","",2)),
+        mine(V,"myView"))));
+}
+
+/* ---------- save / load ---------- */
+/* ---------- meeting recap ---------- */
+function recapOf(m){ if(!S.recap[m]) S.recap[m]={agreed:"",tasks:[],next:""}; return S.recap[m] }
+function recapSections(){
+  PlanModel.migrate(S);
+  const out=[], live=ALL().filter(d=>!S.removed.includes(d.id));
+  const nm=ids=>ids.join(" · ");
+  if(S.meeting===1){
+    const items=live.map(d=>{ const D=S.domains[d.id];
+      const by=s=>d.stages.filter((_,i)=>((D.stages||[])[i]||{}).state===s);
+      const ch = D.baseScore && D.score!==D.baseScore ? ` (בשאלון: ${D.baseScore})` : "";
+      const lines=[`${d.name} – ${D.score}/5${ch}`, D.line];
+      if(by("ok").length) lines.push("עובד: "+nm(by("ok")));
+      if(by("weak").length) lines.push("דורש חיזוק: "+nm(by("weak")));
+      if(by("missing").length) lines.push("חסר: "+nm(by("missing")));
+      d.stages.forEach((s,i)=>{ const x=(D.stages||[])[i]; if(x&&x.note&&x.note.trim()) lines.push(`${s}: ${x.note.trim()}`) });
+      const qs=[...D.extraQs, ...(d.qs||[])], keys=[...D.extraQs.map((_,i)=>"x"+i), ...(d.qs||[]).map(q=>"b:"+q)];
+      keys.forEach((k,i)=>{ const a=(D.answers[k]||"").trim(); if(a) lines.push(`${qText(D,k,qs[i])} → ${a}`) });
+      if(D.notes&&D.notes.trim()) lines.push("הערות: "+D.notes.trim());
+      if((freeText(D,"blockers").blockersText||"").trim()) lines.push("חסמים: "+D.blockersText.trim());
+      if((freeText(D,"resources").resourcesText||"").trim()) lines.push("משאבים: "+D.resourcesText.trim());
+      const arr=lines.filter(Boolean); arr.my=D.myView; return arr });
+    out.push({title:"התמונה שעלתה – תחום אחר תחום", groups:items});
+  }
+  const jr=PlanModel.recapJourney(S); if(jr) out.push(jr);
+  const V=S.vision;
+  const vis=[V.vision&&"חזון: "+V.vision, V.bigGoal&&"מטרה גדולה: "+V.bigGoal, V.goal90&&"מטרת 90 יום: "+V.goal90].filter(Boolean);
+  [...VISION_QS.map((q,i)=>[i,q]), ...(V.extraQs||[]).map((q,i)=>["x"+i,q])].forEach(([k,q])=>{ const a=(V.answers[k]||"").trim(); if(a) vis.push(`${(V.qEdits&&V.qEdits[k])||q} → ${a}`) });
+  if(vis.length||V.myView) out.push({title:"חזון ומטרות", items:vis, my:V.myView});
+  const Sm=S.summary;
+  if(Sm.active.length){
+    out.push({title:"התחומים שבחרנו ל־90 יום", groups:Sm.active.map(a=>{ const d=ALL().find(x=>x.id===a.domainId);
+      const arr2=[d.name, a.goal&&"מטרה: "+a.goal, goalLine(a)&&"מדידה: "+goalLine(a), ...(a.milestones||[]).filter(m=>m&&m.title).map((m,i)=>`אבן דרך ${i+1} (${m.date}): ${m.title}`)].filter(Boolean); arr2.my=a.myView; return arr2 }), my:Sm.myView});
+    const fr=live.filter(d=>!Sm.active.some(a=>a.domainId===d.id)).map(d=>d.name);
+    const frl=fr.length?["לא בטיפול עכשיו: "+nm(fr)]:[];
+    if(frl.length) out.push({title:"מה הקפאנו", items:frl});
+  }
+  out.push(...PlanModel.recapPlan(S, id=>(ALL().find(x=>x.id===id)||{}).name||id));
+  return out;
+}
+function recapText(){
+  const R=recapOf(S.meeting), L=[`סיכום פגישה ${S.meeting} – ${C.client.name}${C.client.business?" | "+C.client.business:""}`, new Date().toLocaleDateString("he-IL"), ""];
+  for(const s of recapSections()){ L.push(s.title); if(s.items) s.items.forEach(x=>L.push("• "+x)); if(s.groups) s.groups.forEach(g=>{ L.push("▪ "+g[0]); g.slice(1).forEach(x=>L.push("   – "+x)) }); L.push("") }
+  if(R.agreed.trim()){ L.push("מה סיכמנו"); L.push(R.agreed.trim()); L.push("") }
+  const t=R.tasks.filter(x=>x.text); if(t.length){ L.push("משימות עד הפגישה הבאה"); t.forEach(x=>L.push(`• ${x.text}${x.who?" – "+x.who:""}${x.date?" – עד "+x.date:""}`)); L.push("") }
+  if(R.next.trim()) L.push("הפגישה הבאה: "+R.next.trim());
+  return L.join("\n");
+}
+function myBox(t){ return t&&t.trim()? h("div",{class:"mine layer-v"}, h("label",{},"מה אני חושב (לא מועתק)"), h("div",{},t.trim())) : null }
+function viewRecap(){
+  const R=recapOf(S.meeting);
+  const secs=recapSections().map(s=>h("div",{class:"box",style:"margin-bottom:16px"}, h("h3",{},s.title),
+    s.items? h("ul",{}, s.items.map(x=>h("li",{},x))) : null,
+    s.groups? s.groups.map(g=>h("div",{class:"rgroup"}, h("b",{},g[0]), h("ul",{}, g.slice(1).map(x=>h("li",{},x))), myBox(g.my))) : null,
+    myBox(s.my)));
+  const tasks=h("div",{class:"frozen"}); const drawT=()=>{ tasks.innerHTML="";
+    R.tasks.forEach((t,i)=>tasks.append(h("div",{class:"row"}, inp(t,"text","משימה"), inp(t,"who","מי"), inp(t,"date","","date"), h("button",{class:"del",onclick:()=>{R.tasks.splice(i,1);touch();drawT()}},"✕"))));
+    tasks.append(h("button",{class:"add",onclick:()=>{R.tasks.push({text:"",who:"",date:""});touch();drawT()}},"+ משימה")) }; drawT();
+  return h("section",{},
+    h("h1",{},`סיכום פגישה ${S.meeting}`),
+    h("p",{class:"lead"},"בסוף הפגישה ממלאים יחד את מה שסיכמנו. התמונה המלאה מקופלת – היא נשארת בשבילך ובשבילי, ולא מוצגת ללקוח."),
+    secs.length? h("details",{class:"raw"}, h("summary",{},"התמונה המלאה מהפגישה (בשבילך – לפתוח בלחיצה)"), secs) : h("p",{class:"note"},"עדיין לא נכתב כלום בפגישה הזו."),
+    h("div",{class:"box"}, h("h3",{},"מה סיכמנו"), ta(R,"agreed","ההחלטות שלנו מהפגישה",3),
+      h("h3",{style:"margin-top:16px"},"משימות עד הפגישה הבאה"), tasks,
+      h("h3",{style:"margin-top:16px"},"הפגישה הבאה"), inp(R,"next","תאריך ושעה")),
+    h("div",{style:"margin-top:16px;display:flex;gap:10px"},
+      h("button",{class:"tool on",onclick:async()=>{ try{ await navigator.clipboard.writeText(recapText()); msg("הסיכום הועתק ✓") }catch(e){ msg("ההעתקה נכשלה") } }},"העתק סיכום")));
+}
+
+function exportData(){
+  return {...S, savedAt:new Date().toISOString(), recapText:(S.recapTextSaved=Object.assign(S.recapTextSaved||{}, {[S.meeting]:recapText()})),
+    plan:PlanModel.exportPlan(PlanModel.migrate(S), id=>(ALL().find(x=>x.id===id)||{}).name||id)};
+}
+async function save(){
+  const data=JSON.stringify(exportData(),null,2);
+  const name=`אבחון - ${C.client.name} - ${new Date().toISOString().slice(0,10)}.json`;
+  try{
+    if(window.showSaveFilePicker){
+      const fh=await showSaveFilePicker({suggestedName:name, id:"tachles-map", types:[{description:"JSON",accept:{"application/json":[".json"]}}]});
+      const w=await fh.createWritable(); await w.write(data); await w.close(); msg("נשמר לקובץ ✓"); return;
+    }
+  }catch(e){ if(e.name==="AbortError") return; }
+  const a=h("a",{href:URL.createObjectURL(new Blob([data],{type:"application/json"})),download:name}); document.body.append(a); a.click(); a.remove(); msg("ירד לתיקיית ההורדות");
+}
+document.getElementById("bSave").onclick=save;
+document.getElementById("bLoad").onclick=()=>document.getElementById("fLoad").click();
+document.getElementById("fLoad").onchange=async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{ const d=JSON.parse(await f.text()); if(!d.domains||!d.vision) throw 0; delete d.plan; S=d; S.version=1; PlanModel.migrate(S); touch(); current=null; render(); msg("נטען ✓") }
+  catch(_){ msg("הקובץ לא תקין") }
+  e.target.value="";
+};
+
+/* ---------- chrome ---------- */
+document.getElementById("logo").src=LOGO;
+document.getElementById("cName").textContent=C.client.name+(C.client.business?" · "+C.client.business:"");
+document.getElementById("cSub").textContent="מפת אבחון"+(C.client.date?" · שאלון "+C.client.date:"");
+document.title="מפת אבחון – "+C.client.name;
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{S.view=b.dataset.view;current=null;touch();render()});
+document.querySelectorAll(".meet button").forEach(b=>b.onclick=()=>{S.meeting=+b.dataset.m; S.view=S.meeting===1?"map":"vision"; current=null; touch(); render()});
+function toggle(cls){ document.body.classList.toggle(cls); render() }
+document.getElementById("tQ").onclick=()=>toggle("show-q");
+document.getElementById("tV").onclick=()=>toggle("show-v");
+document.addEventListener("keydown",e=>{
+  if(e.target.matches("textarea,input,[contenteditable]")) return;
+  if(e.key==="q"||e.key==="Q"||e.key==="/") toggle("show-q");
+  if(e.key==="v"||e.key==="V"||e.key==="ה") toggle("show-v");
+  if(e.key==="Escape" && current){ current=null; render() }
+});
+render();
+</script>
+<script src="./js/plan-model.js?v=15"></script><script src="./js/plan-ui.js?v=15"></script>
+
+<script type="module">
+import { requireAdmin, loadDiagnosis, saveDiagnosis, signIn, listPros, listRules } from "./js/db.js?v=15";
+import { createSync, pickStart } from "./js/sync.js?v=15";
+const bid = new URLSearchParams(location.search).get("b");
+const app = document.getElementById("app"), cloud = document.getElementById("cloudMsg");
+const me = await requireAdmin();
+// admin-only lists for the plan (professionals, master rules): once, fail-soft – the map opens without them
+window.__PROS = []; window.__RULES = [];
+if (!me.offline) {
+  const got = () => dispatchEvent(new Event("tachles:lists"));
+  listPros().then((d) => { window.__PROS = d || []; got(); }).catch((e) => console.warn("professionals list not loaded", e));
+  listRules().then((d) => { window.__RULES = d || []; got(); }).catch((e) => console.warn("rules list not loaded", e));
+}
+const STATUS = { saving: ["שומר…", 0], saved: ["נשמר בענן ✓", 0], offline: ["לא נשמר בענן – מנסה שוב", 1],
+                 conflict: ["המפה עודכנה במקום אחר – רענן", 1], auth: ["צריך להתחבר מחדש", 1], forbidden: ["אין הרשאה לשמור – פנה לClaude", 1] };
+const btn = (t, f) => Object.assign(document.createElement("button"), { className: "tool", textContent: t, onclick: f });
+function show(s) {
+  const [t, bad] = STATUS[s] || [s, 0];
+  cloud.className = "cloud" + (bad ? " bad" : ""); cloud.textContent = t;
+  if (s === "conflict") cloud.append(btn("רענן", () => location.reload()));
+  if (s === "auth") cloud.append(btn("התחברות", () => signIn()));
+}
+const stop = (html) => { app.innerHTML = `<p style="padding:24px">${html} <a href="./">לרשימת הלקוחות</a></p>`; throw new Error(html); };
+if (!bid) stop("לא נבחר לקוח.");
+const KEY = "tachles-map:" + bid;
+let local = null; try { local = JSON.parse(localStorage.getItem(KEY)); } catch (_) {}
+let row = null;
+if (!me.offline) {
+  try { row = await loadDiagnosis(bid); }
+  catch (e) { if (e.code !== "network") stop("לא מצאתי את הלקוח הזה."); }
+}
+if (!row && !local) stop("אין חיבור לאינטרנט, ואין במחשב הזה עותק שמור של המפה.");
+const pick = pickStart(row, local);
+window.__BID = bid; window.__STATE = pick.state;
+window.__CLIENT = row ? row.prefill : (pick.state && pick.state.__prefill) || { client: pick.state?.client || { name: "" }, domains: [], prefill: {} };
+window.__sync = createSync({ localKey: KEY, onStatus: show, remoteSave: (state, version) => saveDiagnosis(bid, state, version) });
+window.__sync.setVersion(row ? row.version : (local && local.v) || 0);
+const s = document.createElement("script"); s.textContent = document.getElementById("mapsrc").textContent; document.body.append(s);
+if (pick.backup) {
+  const name = "tachles-map-backup:" + bid + ":" + new Date().toISOString();
+  try { localStorage.setItem(name, JSON.stringify(pick.backup)); } catch (_) {}
+  show("saved");
+  cloud.append(btn("יש במחשב הזה עותק שלא נשמר בענן – הורד", () => {
+    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(new Blob([JSON.stringify(pick.backup, null, 2)], { type: "application/json" })), download: "עותק מקומי - " + (S.client?.name || "מפה") + ".json" });
+    document.body.append(a); a.click(); a.remove();
+  }));
+} else if (!row) show("offline");
+else show(row.state ? "saved" : "saving");
+if (row && !row.state) { S.__prefill = row.prefill; window.__sync.change(S); }
+else if (pick.push) window.__sync.change(S);
+else if (row) { S.__prefill = row.prefill; try { localStorage.setItem(KEY, JSON.stringify({ v: row.version, state: S })); } catch (_) {} }
+// same map open in another tab of this browser → warn both
+const ch = new BroadcastChannel(KEY);
+ch.onmessage = (e) => { if (e.data === "hello") ch.postMessage("here"); if (e.data === "hello" || e.data === "here") { cloud.className = "cloud bad"; cloud.textContent = "המפה פתוחה גם בלשונית אחרת – עבוד רק באחת"; } };
+ch.postMessage("hello");
+// "⋯" menu + confirm before loading a backup file (current state kept as a local backup first)
+const menu = document.getElementById("menu");
+document.getElementById("bMore").onclick = (e) => { e.stopPropagation(); menu.classList.toggle("hidden"); };
+document.addEventListener("click", () => menu.classList.add("hidden"));
+function ask(text, yes, onYes) {
+  const box = document.createElement("div"); box.className = "confirm";
+  box.innerHTML = `<div><p></p><div class="row"><button class="tool" data-a="no">ביטול</button><button class="tool on" data-a="yes"></button></div></div>`;
+  box.querySelector("p").textContent = text; box.querySelector("[data-a=yes]").textContent = yes;
+  box.onclick = (e) => { const a = e.target.dataset.a; if (a) { box.remove(); if (a === "yes") onYes(); } };
+  document.body.append(box);
+}
+document.getElementById("bLoad").onclick = () => ask("טעינה מגיבוי תחליף את כל מה שיש במפה עכשיו. המצב הנוכחי יישמר במחשב לפני ההחלפה. להמשיך?",
+  "כן, לבחור קובץ", () => document.getElementById("fLoad").click());
+document.getElementById("fLoad").addEventListener("change", () => {
+  try { localStorage.setItem("tachles-map-backup:" + bid + ":" + new Date().toISOString(), JSON.stringify(S)); } catch (_) {}
+}, true);
+addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") window.__sync.flush(); });
+addEventListener("beforeunload", (e) => { if (window.__sync.hasPending()) { e.preventDefault(); e.returnValue = ""; } });
+</script>
+</body>
+</html>
