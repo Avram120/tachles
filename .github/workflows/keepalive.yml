@@ -1,0 +1,17 @@
+name: keep Supabase awake
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+permissions:
+  actions: write
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the database API (RLS returns an empty list; the request keeps the project active)
+        run: curl -fsS "${{ secrets.SUPABASE_URL }}/rest/v1/businesses?select=id&limit=1" -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" -o /dev/null -w "%{http_code}\n"
+      - name: Keep this schedule from being auto-disabled after 60 days without commits
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/keepalive.yml/enable"
